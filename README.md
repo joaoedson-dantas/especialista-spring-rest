@@ -13,7 +13,7 @@ Esse modelo representa o problema que será resolvido durante o curso.
 ---
 ### Tecnologias Abordadas
 
-* **Linguagem:** Java 11
+* **Linguagem:** Java 12
 * **Frameworks:** Spring Boot 3, Spring Security, Spring Data JPA
 * **Persistência:** JPA, Hibernate, Flyway
 * **Ferramentas:** Maven, Docker, Postman
@@ -31,3 +31,9 @@ Esse modelo representa o problema que será resolvido durante o curso.
 | **03** | Introdução ao JPA e Hibernate | ⏳ Pendente |
 | **04** | REST com Spring | ⏳ Pendente |
 | **05** | ... | ⏳ Pendente |
+
+___
+
+### Anotações e Projetos Práticos
+* [Módulo 02: Spring e Injeção de Dependências ](./02-Spring-e-Injecao-de-Dependencias/anotacoes.md)
+
