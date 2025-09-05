@@ -35,5 +35,5 @@ Esse modelo representa o problema que será resolvido durante o curso.
 ___
 
 ### Anotações e Projetos Práticos
-* [Módulo 02: Spring e Injeção de Dependências ](./02-Spring-e-Injecao-de-Dependencias/anotacoes.md)
+* [Módulo 02: Spring e Injeção de Dependências ](./anotações/02-spring-e-injecao-de-dependencia/anotacoes.md)
 

@@ -22,4 +22,60 @@ doc: https://spring.io/projects/
     </dependency>
 ```
 
+## 2.6. Conhecendo o Maven e o pom.xml de um projeto Spring Boot
+
+Maven é uma ferramenta de gerenciamento de projetos e compilação que utiliza um arquivo pom.xml para definir dependências e a estrutura do projeto.
+
+Estrutura de pastas padronizada pelo maven: 
+
+
+- src/main/java -> Código Fonte da aplicação 
+- src/main/resources -> Arquivos de propriedades, configurações, html, images e etc.
+- pom.xml -> Project Object Model, é onde ficam as configurações do Maven no projeto. 
+- HELP.md -> Arquivo a qual podemos colocar uma introdução sobre o projeto 
+- mvmw.cmd -> é a sigla para **Maven Wrapper**, que é um script que permite executar um projeto Maven sem a necessidade de ter o maven instalado globalmente no seu computador. cmd -> Windows
+- mvnw -> em sistemas Unix/Linux/macOS
+  - Para usar, basta abrir o terminal e executar o comando no Wrapper
+  - ```BashF\  
+        ./mvnw package
+    ```
+    
+Após gerar a build utilizando o comando `./mvnw package`, vai ser gerado o pacote compilado na pasta `target`, passando assim a ser possível a execução do projeto utilizando a JRE.
+
+```Bash
+    java -jar target/algafood-api-0.0.1-SNAPSHOT.jar
+```
+
+## 2.7. Criando uma Controller com Spring MVC
+
+`@Controller ` -> Ao usar essa anotação, é informado para o Spring que a classe anotada é responsável por receber requisições web.
+
+## 2.9. O que é injeção de dependência
+
+Para ser possível compreender melhor a **injeção de dependência** é necessário entender o que seria a **Inversão de controle**; é uma aplicação concreta da **Inversão de controle (IoC)**.
+
+**O que é inversão de controle?**
+
+É um princípio da programação orientada a objetos, onde se afirma que as dependências **devem ser invertidas**. No caso, seria o 'D' dos princípios **SOLID**. 
+
+**Dependa de abstrações e não de implementações concretas.**
+
+Ao invés de uma classe depender diretamente de outras classes ele deve depender de uma abstração
+que defina um contrato.
+
+Os módulos de alto nível **não dependam** diretamente dos detalhes de implementação de módulos de **baixo nível**.
+
+Em outras palavras, os módulos devem depender de conceitos, ou seja, abstrações (_Interfaces_), independentemente de como essas _interfaces_ funcionam. 
+
+| **Importante**: Inversão de dependência é um princípio (Conceito) e a Injeção de dependência é um 
+padrão de projeto (‘Design’ Pattern).
+
+**O que é a injeção de dependência?**
+
+É a implementação concreta da Inversão de dependência. Ela permite que as dependências sejam injetadas numa classe por meio de construtores, métodos ou propriedades ao invés de serem criadas internamente na classe. Isso torna o código mais flexível e permite que diferentes implementações das dependências sejam injetadas no mesmo código sem que ele precise ser alterado. 
+
+Ou seja, ao invés da classe depender diretamente de outra classe, a dependência é injetada na classe por meio de constructor, métodos ou propriedades. 
+
+
+
 
