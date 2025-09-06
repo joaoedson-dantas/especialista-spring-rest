@@ -76,6 +76,13 @@ padrão de projeto (‘Design’ Pattern).
 
 Ou seja, ao invés da classe depender diretamente de outra classe, a dependência é injetada na classe por meio de constructor, métodos ou propriedades. 
 
+## 2.10. Conhecendo o IoC Container do Spring 
 
+Uma das funcionalidades mais importantes de todo o ecossistema Spring, é o **Spring IoC Container** que é exatamente 
+a implementação de Injeção de dependência do ‘Framework’ também é conhecido como Spring Context.
 
+Dessa forma, a responsabilidade de instânciar, configurar e de injetar as dependências é desse container.
 
+**O que é um Bean?**
+
+É o nome dado por objetos gerenciados pelo container do spring.
