@@ -115,3 +115,11 @@ obs: Dentro do IoC Container, por padrão o bean será nomeado como
 - atributo/variável de instância -> `@Autowired private Notificador notificador;`. Mesmo que o atributo seja privado, o ‘framework’ consegue atribuir nele.
 
 O ideal é usar via construtor, pois deixa muito claro quais são as dependências obrigatórias daquela classe.
+
+## 2.15. Dependência Opcional com @Autowired
+
+Por padrão, as dependências são obrigatórias, mas podemos informar que a mesma
+pode ser opcional 
+
+@Autowired(required = false) -> Informa para o Spring que não uma dependência obrigatória.
+
