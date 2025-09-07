@@ -104,3 +104,14 @@ não seria o spring que iria criar, seria o desenvolvedor.
 obs: Dentro do IoC Container, por padrão o bean será nomeado como 
 "NotificadorEmail", que é exatamente o nome do método de definição do Bean.
 
+## 2.14. Conhecendo os ponto de injeção e a anotação @Autowired
+
+É onde podemos injetar os objetos dentro dos beans.
+
+@Autowired -> Informamos para o Spring qual ponto de injeção ele vai usar.
+
+- construtor: `public AtivacaoClienteService(Notificador notificador) { ... }`
+- setter: Por um método de atribuição `@Autowired public void seNotificador(Notificador notificador) { ... }`
+- atributo/variável de instância -> `@Autowired private Notificador notificador;`. Mesmo que o atributo seja privado, o ‘framework’ consegue atribuir nele.
+
+O ideal é usar via construtor, pois deixa muito claro quais são as dependências obrigatórias daquela classe.

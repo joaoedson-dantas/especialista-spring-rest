@@ -5,9 +5,9 @@ import com.algaworks.algafood.di.service.AtivacaoClienteService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration // Também é um componente do Spring, mas tem o objetivo de definir beans
+// @Configuration // Também é um componente do Spring, mas tem o objetivo de definir beans
 public class ServiceConfig {
-    @Bean
+    //@Bean
     public AtivacaoClienteService ativacaoClienteService(NotificadorEmail notificadorEmail) {
         // Aqui vai retornar um Bean já gerenciado pelo spring, pois o método chamado está anotado com @Bean
 
