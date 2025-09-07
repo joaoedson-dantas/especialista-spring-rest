@@ -92,3 +92,15 @@ Dessa forma, a responsabilidade de instânciar, configurar e de injetar as depen
 
 Na inicialização da aplicação o Spring vai escanear (ComponentScan) as classes do projeto que são componentes spring, vai 
 instânciar e vai jogar dentro do seu container. 
+
+## 2.13. Usando o @Configuration e @Bean para definir beans
+
+Existem alguns momentos em que a construção (instanciação do bean) requerem alguma configuração personalizada, dessa forma 
+não seria o spring que iria criar, seria o desenvolvedor.
+
+**@configuration**: É também um componente Spring, mas com um objetivo de servir para definições de beans.
+**@Bean**: Indica que o método anotado vai instânciar, configurar e inicializar um novo objeto que será gerenciado pelo container Spring.
+
+obs: Dentro do IoC Container, por padrão o bean será nomeado como 
+"NotificadorEmail", que é exatamente o nome do método de definição do Bean.
+
