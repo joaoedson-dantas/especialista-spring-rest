@@ -48,7 +48,7 @@ Após gerar a build utilizando o comando `./mvnw package`, vai ser gerado o paco
 
 ## 2.7. Criando uma Controller com Spring MVC
 
-`@Controller ` -> Ao usar essa anotação, é informado para o Spring que a classe anotada é responsável por receber requisições web.
+`@Controller ` -> Ao usar essa anotação, é informado para o Spring que a classe anotada é responsável por receber e responder requisições web.
 
 ## 2.9. O que é injeção de dependência
 
@@ -86,3 +86,9 @@ Dessa forma, a responsabilidade de instânciar, configurar e de injetar as depen
 **O que é um Bean?**
 
 É o nome dado por objetos gerenciados pelo container do spring.
+
+**@component** Ao usar essa anotação, informamos que essa classe será um componente(bean) e deverá ser gerenciado pelo
+‘framework’. É uma das formas de definir um Bean do Spring. 
+
+Na inicialização da aplicação o Spring vai escanear (ComponentScan) as classes do projeto que são componentes spring, vai 
+instânciar e vai jogar dentro do seu container. 
