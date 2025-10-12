@@ -12,7 +12,7 @@ import java.util.List;
 public class AtivacaoClienteService {
 
     @Autowired
-    private List<Notificador> notificadores;
+    private Notificador notificador;
 
     // Injetando um NotificadorEmail via construtor: Que vai receber como parâmetro um objeto a qual o tipo
     // seja gerenciado pelo spring;
@@ -29,10 +29,8 @@ public class AtivacaoClienteService {
     public void ativar(Cliente cliente) {
         cliente.ativar();
 
-        if (!CollectionUtils.isEmpty(notificadores)) {
-            for (Notificador notificador : notificadores) {
+        if (notificador != null) {
                 notificador.notificar(cliente, "Seu cadastro no sistema está ativo!");
-            }
         } else {
             System.out.println("Não existe notificador, mas cliente foi ativado");
         }

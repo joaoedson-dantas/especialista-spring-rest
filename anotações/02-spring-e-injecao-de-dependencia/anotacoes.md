@@ -147,4 +147,17 @@ para solucionar esse problema precisamos fazer uma desambiguação.
 1. Consumidor aceitar múltiplos beans: Já que existe mais de um bean no container do Spring, o consumidor pode passar a receber uma lista de beans. 
 - Exemplo: `@Autowired private List<Notificador> notificador`.
 
+## 2.17. Desambiguação de beans com o @Primary
 
+Action: Consider marking one of the beans as @Primary
+
+Dentro da definição do Bean, no caso, o NotificadorSms e o NotificadorEmail informar para o Spring que esse bean 
+vai ter uma maior prioridade utilizando anotação @Primary
+
+Exemplo: 
+
+```java
+    @Component // Informa que essa classe vai ser um componente Spring (bean) onde vai passar a ser gerenciado pelo Framework
+    @Primary // Informa que esse bean vai ter prioridade e vai ser utilizado para fazer desambiguação
+    public class NotificadorSMS implements Notificador {}
+```
