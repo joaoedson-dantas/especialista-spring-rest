@@ -1,8 +1,7 @@
 package com.algaworks.algafood.di.notificacao;
 
 import com.algaworks.algafood.di.modelo.Cliente;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 // @Component // Informa que essa classe vai ser um componente Spring (bean) onde vai passar a ser gerenciado pelo Framework
@@ -25,6 +24,7 @@ public class NotificadorEmail implements Notificador {
             mensagem.toUpperCase();
         }
 
+        System.out.println("Notificador de Email REAL - prod");
         System.out.printf("Notificando %s através do e-mail %s: usando SMTP %s %s\n",
                 cliente.getNome(), cliente.getEmail(), this.hostServidorSmtp, mensagem);
     }

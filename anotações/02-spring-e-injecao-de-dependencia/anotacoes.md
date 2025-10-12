@@ -192,5 +192,39 @@ public @interface TipoDoNotificador {
     NivelUrgencia value(); // value -> Valor padrão quando não é passado o valor para anotação
 }
 ```
+## 2.20. Mudando o comportamento da aplicação com o Spring Profile
 
+Spring Profiles é uma forma de separar componentes da aplicação, que **serão disponibilizados em certos ambientes.**
 
+É quando temos uma mesma aplicação, mas queremos que essa aplicação se comporte diferente dependendo 
+do ambiente que ela está executando. 
+
+## Como informamos o Profile?
+
+Via parâmetro na inicialização da aplicação. 
+
+Ex: banco de dados, em produção e desenvolvimento.
+
+Primeiro fazemos utilizamos uma anotação @Profile, para informar para o Spring que o componente anotado
+vai ser registrado no container do spring apenas se estiver rodando no ambiente de prod
+
+```java
+    @Profile("prod")
+    public class NotificadorEmail implements Notificador {}
+```
+
+Ou seja, se não estivendo executando no ambiente de produção, o Bean nem chega a ser instânciado, ele 
+fica desconhecido pelo container do Spring.
+
+Após realizar as anotação, é necessário passar para o Spring qual o profile que vai ser utilizado.
+
+### Como passar um profile na hora de iniciar uma aplicação?
+
+No arquivo de configuração.
+
+`spring.profiles.active=prod`
+
+**Para passar o profile por linha de comando, faça:**
+```Bash
+    java -jar projeto.jar - Dspring.profiles.active=prod
+```
