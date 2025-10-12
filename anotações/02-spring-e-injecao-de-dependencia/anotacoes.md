@@ -123,3 +123,28 @@ pode ser opcional
 
 @Autowired(required = false) -> Informa para o Spring que não uma dependência obrigatória.
 
+## 2.16. Ambiguidade de beans e injeção de lista de beans
+
+Quando existem dois beans do mesmo tipo, o Spring precisa saber qual desses beans vai ser injetado. 
+
+No exemplo, criamos dois notificadores, o NotificadorEmail e NotificadoSms. 
+
+Exemplo de error: 
+
+```bash
+Field notificador in com.algaworks.algafood.di.service.AtivacaoClienteService required a single bean, but 2 were found:
+	- notificadorSMS: defined in file [/home/joaoedson/dev/java/algaworks/especialista-spring-rest/algafood-api-di/target/classes/com/algaworks/algafood/di/notificacao/NotificadorSMS.class]
+	- notificadorEmail: defined by method 'notificadorEmail' in class path resource [com/algaworks/algafood/di/NotificacaoConfig.class]
+```
+
+Observe que, **_required a single bean, but 2 were found:_**
+
+Esse é um clássico problema de ambiguidade, de imprecisão, o container do Spring não consegue definir qual que precisa ser injetado
+para solucionar esse problema precisamos fazer uma desambiguação.
+
+### Formas de desambiguação
+
+1. Consumidor aceitar múltiplos beans: Já que existe mais de um bean no container do Spring, o consumidor pode passar a receber uma lista de beans. 
+- Exemplo: `@Autowired private List<Notificador> notificador`.
+
+

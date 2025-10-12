@@ -1,6 +1,6 @@
 # Especialista Spring REST - Algaworks
 
-Este repositório documenta meu progresso e os projetos práticos desenvolvidos durante o curso.
+Este repositório documenta o meu progresso e os projetos práticos desenvolvidos durante o curso.
 Aqui você encontrará código-fonte, exemplos e anotações.
 
 ---

@@ -1,0 +1,15 @@
+package com.algaworks.algafood.di.notificacao;
+
+import com.algaworks.algafood.di.modelo.Cliente;
+import org.springframework.stereotype.Component;
+
+@Component
+// Informa que essa classe vai ser um componente Spring (bean) onde vai passar a ser gerenciado pelo Framework
+public class NotificadorSMS implements Notificador {
+
+    @Override
+    public void notificar(Cliente cliente, String mensagem) {
+        System.out.printf("Notificando %s via SMS através do telefone %s: %s\n",
+                cliente.getNome(), cliente.getTelefone(), mensagem);
+    }
+}

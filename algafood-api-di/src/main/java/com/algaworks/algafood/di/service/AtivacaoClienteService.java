@@ -4,12 +4,15 @@ import com.algaworks.algafood.di.modelo.Cliente;
 import com.algaworks.algafood.di.notificacao.Notificador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 @Component
 public class AtivacaoClienteService {
 
-    @Autowired(required = false)//
-    private Notificador notificador;
+    @Autowired
+    private List<Notificador> notificadores;
 
     // Injetando um NotificadorEmail via construtor: Que vai receber como parâmetro um objeto a qual o tipo
     // seja gerenciado pelo spring;
@@ -26,8 +29,10 @@ public class AtivacaoClienteService {
     public void ativar(Cliente cliente) {
         cliente.ativar();
 
-        if (notificador != null) {
-            notificador.notificar(cliente, "Seu cadastro no sistema está ativo!");
+        if (!CollectionUtils.isEmpty(notificadores)) {
+            for (Notificador notificador : notificadores) {
+                notificador.notificar(cliente, "Seu cadastro no sistema está ativo!");
+            }
         } else {
             System.out.println("Não existe notificador, mas cliente foi ativado");
         }
