@@ -228,3 +228,46 @@ No arquivo de configuração.
 ```Bash
     java -jar projeto.jar - Dspring.profiles.active=prod
 ```
+
+## 2.21. Criando métodos de callback do ciclo de vida dos beans
+
+Todos os `beans` do spring tem um cíclo de vida.
+
+Ciclo de vida são as fazes desde a existência desse bean, ou seja, surgimento da sua instância, 
+até onde ele deixa de existir no container.
+
+Em resumo, esse ciclo de vida aparece em três fases: 
+
+1. Inicialização do Bean
+2. Fase de utilização do bean 
+3. Fase de destruição
+
+Nos cíclos de vida, podemos implementar métodos de callback em cada fase do cíclo. 
+
+**callback:** São métodos declarados, chamados pelo próprio container quando passa por alguma fase 
+do cíclo de vida. 
+
+**Como faze?**
+
+1. Via métodos
+```java
+   @PostConstruct // Ele vai executar esse método após ser chamado o construtor e após realizar todas as injeções
+   public void init() {
+   System.out.println("INIT" + notificador);
+   }
+
+   @PreDestroy // É chamado quando o bean deixa de existir, ele é chamado um pouco antes.
+   public void destroy() {
+   System.out.println("DESTROY");
+   }
+```
+
+2. Chamando via definição do Bean
+
+```java
+    
+    @Bean(initMethod = "init", destroyMethod = "destroy")
+    public AtivacaoClienteService ativacaoClienteService() {
+        return new AtivacaoClienteService();
+    }
+```

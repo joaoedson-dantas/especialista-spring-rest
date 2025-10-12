@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.List;
 
 @Component
@@ -38,4 +40,15 @@ public class AtivacaoClienteService {
             System.out.println("Não existe notificador, mas cliente foi ativado");
         }
     }
+
+    // @PostConstruct // Ele vai executar esse método após ser chamado o construtor e após realizar todas as injeções
+    public void init() {
+        System.out.println("INIT" + notificador);
+    }
+
+    // @PreDestroy // É chamado quando o bean deixa de existir, ele é chamado um pouco antes.
+    public void destroy() {
+        System.out.println("DESTROY");
+    }
 }
+
