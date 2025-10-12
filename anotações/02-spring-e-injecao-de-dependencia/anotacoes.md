@@ -172,3 +172,25 @@ Essa anotação serve para qualificar o componente do spring e nessa qualificaç
 Aqui, basicamente informamos para o Spring utilizar um Bean que tem um qualificador chamado sms.
 
 O qualificador, é ideal colocar como nível de prioridade. Como URGENTE ou NORMAL, por exemplo. 
+
+
+## 2.19. Desambiguação de beans com anotações customizada
+
+Um problema de utilizar o @Qualifier é que ele recebe um `String`, e uma `String` não é testada em tempo de compilação 
+somente de execução. 
+
+Com isso, podemos criar uma anotação de forma customizada e, nessa anotação, é necessário anotar 
+com @Qualifier para que ele psossa 'herdar' a função. 
+
+```java
+@Qualifier 
+@Retention(RetentionPolicy.RUNTIME) // Informa quanto tempo essa anotação (TipoDoNotificador) deve permanecer onde ela foi usada
+// Runtime -> Informa que ela pode ser lida em tempo de execução
+public @interface TipoDoNotificador {
+
+    // Essa anotação vai receber como parâmetro o nível de urgência
+    NivelUrgencia value(); // value -> Valor padrão quando não é passado o valor para anotação
+}
+```
+
+

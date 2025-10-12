@@ -6,7 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 // @Component // Informa que essa classe vai ser um componente Spring (bean) onde vai passar a ser gerenciado pelo Framework
-@Qualifier("normal")
+// @Qualifier("normal")
+@TipoDoNotificador(NivelUrgencia.NORMAL)
 public class NotificadorEmail implements Notificador {
 
     // Propriedades que servem como configuração do NotificadorEmail
