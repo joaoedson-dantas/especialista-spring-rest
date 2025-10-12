@@ -1,10 +1,12 @@
 package com.algaworks.algafood.di.notificacao;
 
 import com.algaworks.algafood.di.modelo.Cliente;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 // @Component // Informa que essa classe vai ser um componente Spring (bean) onde vai passar a ser gerenciado pelo Framework
+@Qualifier("normal")
 public class NotificadorEmail implements Notificador {
 
     // Propriedades que servem como configuração do NotificadorEmail

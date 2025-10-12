@@ -3,6 +3,7 @@ package com.algaworks.algafood.di.service;
 import com.algaworks.algafood.di.modelo.Cliente;
 import com.algaworks.algafood.di.notificacao.Notificador;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class AtivacaoClienteService {
 
     @Autowired
+    @Qualifier("normal")
     private Notificador notificador;
 
     // Injetando um NotificadorEmail via construtor: Que vai receber como parâmetro um objeto a qual o tipo

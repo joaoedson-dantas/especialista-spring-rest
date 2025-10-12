@@ -161,3 +161,14 @@ Exemplo:
     @Primary // Informa que esse bean vai ter prioridade e vai ser utilizado para fazer desambiguação
     public class NotificadorSMS implements Notificador {}
 ```
+
+## 2.18. Desambiguação de beans com o @Qualifier
+
+Action: or using @Qualifier to identify the bean that should be consumed
+
+Essa anotação serve para qualificar o componente do spring e nessa qualificação, colocamos um identificador,
+`@Qualifier("sms")`, após isso, onde injetamos o Notificador, é possível usar a anotação @Qulifier("seuIdentificador")
+
+Aqui, basicamente informamos para o Spring utilizar um Bean que tem um qualificador chamado sms.
+
+O qualificador, é ideal colocar como nível de prioridade. Como URGENTE ou NORMAL, por exemplo. 
