@@ -271,3 +271,59 @@ do cíclo de vida.
         return new AtivacaoClienteService();
     }
 ```
+
+## 2.22. Publicando e consumindo eventos customizados
+
+Existe um padrão de projeto chamado **Observer** e esse padrão serve para deixar o 
+acoplamento mais baixo entre as classes e manter outros objetos informados.
+
+O Spring implementa esse padrão, chamado _EventHandler_. 
+
+Vai ser emitido um evento para a determinada ação, e vai existir 'ouvintes', ou seja, 
+consumidores interessados nesse evento. 
+
+Exemplo: 
+
+```java
+
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+
+    public void ativar(Cliente cliente) {
+        cliente.ativar();
+        
+        // Aqui vamos apenas dizer para o container que o cliente está ativo neste momento.
+        // [antes] -> Notificava gerando um forte acoplamento
+        // notificador.notificar(cliente, "O seu cadastro no sistema está ativo!"); 
+        
+        // [depois] -> Apenas dizer para o container que o cliente já está ativo 
+        // Emitir um sinal, um evento.
+        applicationEventPublisher.publishEvent(new ClienteAtivadoEvent()); // passa como parâmetro o evento criado
+    }
+```
+
+1. **Implementando o evento**
+Aqui basta criar a classe que represente o evento 
+`public class ClienteAtivadoEvent {}`
+2. **Publicar o Evento**
+O Spring fornece um objeto que permite publicar eventos
+`applicationEventPublisher.publishEvent(new ClienteAtivadoEvent(cliente));`
+3. **Implementar o ouvinte ou listener**
+```java
+@Component
+public class NotificacaoService {
+
+    @TipoDoNotificador(NivelUrgencia.NORMAL)
+    @Autowired
+    private Notificador notificador;
+
+    @EventListener // Informo para o Spring que esse método é um ouvinte de um evento
+    public void clienteAtivadoListener(ClienteAtivadoEvent event) {
+        System.out.println("Cliente " + event.getCliente().getNome() + " agora está ativo");
+        this.notificador.notificar(event.getCliente(), "Seu cadastro no sistema está ativo!");
+    }
+
+}
+```
+
+
