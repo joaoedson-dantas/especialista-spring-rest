@@ -486,5 +486,15 @@ Em produção, essa é uma boa prática.
 **Passando a informação do Profile via IDE** 
 `-Dspring.profiles.active=local`
 
+## 2.28. Ativando o Spring Profile por linha de comando e variável de ambiente
 
+No ambiente de produção, não teremos o auxílio da IDE para definir o profile que está a ser utilizado. 
+Por conta disto, deveremos ativar e definir o Spring Profile através da linha de comando e variável de ambiente.
 
+1. Gere o Jar da aplicação: 
+   - `mvn package` e `java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar`
+2. Passando como parâmetro o Profile de produção (Passando via flag -- )
+   - `java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --spring.profiles.active=production`
+3. Definir uma variável de ambiente
+    - **win** `$env:SPRING_PROFILES_ACTIVE=production`
+    - **linux** `export SPRING_PROFILES_ACTIVE=production`
