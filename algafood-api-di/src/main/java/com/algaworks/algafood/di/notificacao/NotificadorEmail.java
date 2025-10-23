@@ -1,6 +1,7 @@
 package com.algaworks.algafood.di.notificacao;
 
 import com.algaworks.algafood.di.modelo.Cliente;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +9,11 @@ import org.springframework.stereotype.Component;
 // @Qualifier("normal")
 @TipoDoNotificador(NivelUrgencia.NORMAL)
 public class NotificadorEmail implements Notificador {
+
+    @Value("${notificador.email.host-servidor}")
+    private String host;
+    @Value("${notificador.email.porta-servidor}")
+    private Integer porta;
 
     // Propriedades que servem como configuração do NotificadorEmail
     private boolean caixaAlta;
@@ -20,6 +26,9 @@ public class NotificadorEmail implements Notificador {
 
     @Override
     public void notificar(Cliente cliente, String mensagem) {
+        System.out.println("HOST: " + host);
+        System.out.println("PORTA: " + porta);
+
         if (caixaAlta) {
             mensagem.toUpperCase();
         }

@@ -369,3 +369,33 @@ Sim, é possível substituir propriedades via linha de comando e variáveis de a
   - Para visualizar: `echo $SERVER_PORT` | `$env:SERVER_PORT`
   - Para apagar a variável: `Remove-Item Env:SERVER_PORT`
 Na hora de executar o JAR novamente, ele vai pegar automaticamente a variável de ambiente.
+
+## 2.25. Criando e acessando propriedades customizadas com @Value
+
+Podemos criar uma propriedade nossa dentro do `application.properties`.
+
+Exemplo: 
+
+```application.properties
+    notificador.email.host-servidor=smtp.algafood.com.br
+    notificador.email.porta-servidor=25
+```
+
+**Como usar?**
+
+É necessário fazer entre o valor da propriedade de configuração, com uma propriedade de classe. Fazemos isso através de
+uma injeção de valor, usando a anotação @Value
+
+**@Value** -> Fazemos uma injeção do valor usando uma _expression_ do Spring, que funciona dessa forma 
+`{$nome.da.propriedade}`
+
+```java
+    import org.springframework.beans.factory.annotation.Value;
+    
+    public class NotificadorEmail implements Notificador {
+        @Value("${notificador.email.host-servidor}")
+        private String host;
+        @Value("${notificador.email.porta-servidor}")
+        private String porta;
+    }
+```
