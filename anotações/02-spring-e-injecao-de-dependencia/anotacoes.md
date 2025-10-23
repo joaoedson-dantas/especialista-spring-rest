@@ -26,8 +26,7 @@ doc: https://spring.io/projects/
 
 Maven é uma ferramenta de gerenciamento de projetos e compilação que utiliza um arquivo pom.xml para definir dependências e a estrutura do projeto.
 
-Estrutura de pastas padronizada pelo maven: 
-
+Estrutura de pastas padronizada pelo maven:
 
 - src/main/java -> Código Fonte da aplicação 
 - src/main/resources -> Arquivos de propriedades, configurações, html, images e etc.
@@ -348,3 +347,25 @@ Algumas propriedades:
 
 - spring.profiles.active=prod
 - server.port=8081
+
+## 2.24. Substituindo propriedades via linha de comando e variáveis de ambiente
+
+Após gerar o arquivo compilado **JAR**, ele é configurado de acordo as propriedades passadas, 
+no exemplo, é `server.port=8081`
+
+`java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar` -> Vai iniciar na porta 8081, conforme configurado. 
+
+**É possível mudar essa configuração?**
+
+Sim, é possível substituir propriedades via linha de comando e variáveis de ambiente.
+
+- **Linha de comando**: 
+  - Passando parâmetros com a flag `--`+ [chave]=[valor]
+  - `java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --server.port=8080`
+
+- **Definindo uma variável de ambiente**
+  - Primeiro deve criar a variável: `export SERVER_PORT=8083` | deve ser tudo em maiúsculo e ao invés de "." usar "_"
+  - No sistema Windows PowerShell pode-se utilizar: `$env:SERVER_PORT = "8083"`
+  - Para visualizar: `echo $SERVER_PORT` | `$env:SERVER_PORT`
+  - Para apagar a variável: `Remove-Item Env:SERVER_PORT`
+Na hora de executar o JAR novamente, ele vai pegar automaticamente a variável de ambiente.
