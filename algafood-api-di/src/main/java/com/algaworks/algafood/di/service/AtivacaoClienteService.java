@@ -20,7 +20,6 @@ public class AtivacaoClienteService {
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    @TipoDoNotificador(NivelUrgencia.URGENTE)
     private Notificador notificador;
 
     // Injetando um NotificadorEmail via construtor: Que vai receber como parâmetro um objeto a qual o tipo

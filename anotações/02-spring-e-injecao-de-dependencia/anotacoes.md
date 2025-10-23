@@ -455,3 +455,36 @@ Após a definição, não precisamos mais injetar os valores de forma individual
         private NotificadorProperties properties;
     }
 ```
+
+## 2.27. Alterando configuração do projeto dependendo do ambiente (com Spring Profiles)
+
+Usando o Spring Profiles para "'chaviar'" configurações dependendo do ambiente que estiver a ser utilizado.
+
+Podemos ter ambientes como: `desenvolvimento`, `teste`, `homologacao`, `producao`
+
+Vamos ter um arquivo de configuração específico para cada ambiente.
+
+**Basta criar arquivos properties para cada ambiente**
+
+Obs: Não deixa de ter o application.properties, pois ele funciona como um arquivo de propriedades padrão, mas podemos
+ter arquivos específicos por ambiente. 
+
+para vincular ao ambiente coloque o flag `application-nomeDoSpringProfile`, exemplo: `application-development.properties`,
+nessa caso, seria um arquivo de configuração para o ambiente de desenvolvimento. 
+
+- As propriedades padrões sempre ficam no `application.properties`
+- Se não definir nenhum profile, ele vai pegar o ‘default’
+
+Para fazer a ativação do Spring Profile, definimos no arquivo `application.properties`
+  - `spring.profiles.active=develompment`
+  - `spring.profiles.active=production`
+
+Obs: Nesses arquivos não devemos colocar informações sensíveis como usuário e senha de um banco de dados, uma senha 
+de um provedor de e-mail, etc. Essas configurações podem ser passadas por variável de ambiente e também por linha de comando.
+Em produção, essa é uma boa prática. 
+
+**Passando a informação do Profile via IDE** 
+`-Dspring.profiles.active=local`
+
+
+
