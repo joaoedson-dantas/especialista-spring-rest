@@ -399,3 +399,59 @@ uma injeção de valor, usando a anotação @Value
         private String porta;
     }
 ```
+
+## 2.26. Acessando propriedades com @ConfigurationProperties
+
+Quando um projeto começa a crescer e se tem muitas propriedades customizadas, **pode ficar complexo repetir a mesma 
+injeção de valor em classes diferentes.** 
+
+Para organizar isso melhor, podemos criar uma **classe que representa as configurações.**
+
+Nesse caso, ao invés de injetar as propriedades valor por valor passaríamos a injetar um objeto dessa classe que 
+representa as propriedades. 
+
+Para isso funcionar, a classe precisa ser um componente do Spring, @Component, e para fazer o vínculo, utilizamos a 
+anotação `@ConfigurationProperties("prefixo-das-configuracoes")`. 
+
+Exemplo: 
+```java
+    /*
+     *   Classe responsável por representar as configurações do grupo de notificações
+     * */
+    @Component
+    @ConfigurationProperties("notificador.email") // Informamos para o Spring que essa classe representa um arquivo de configuração de propriedades
+    public class NotificadorProperties {
+    
+        private String hostServidor;
+        private Integer portaServidor = 25; // É possível passar uma porta padrão, caso não tenha o application.properties
+    
+        public String getHostServidor() {
+            return hostServidor;
+        }
+    
+        public void setHostServidor(String hostServidor) {
+            this.hostServidor = hostServidor;
+        }
+    
+        public Integer getPortaServidor() {
+            return portaServidor;
+        }
+    
+        public void setPortaServidor(Integer portaServidor) {
+            this.portaServidor = portaServidor;
+        }
+    }
+```
+
+**Como usar?**
+
+Após a definição, não precisamos mais injetar os valores de forma individual, podemos fazer apenas uma injeção com 
+`@Autowired` anotada sobre a classe de configuração, como ela vai ser um Bean do Spring, ele vai conseguir fazer essa injeção
+
+```java
+    @Component
+    public class NotificadorEmail implements Notificador {
+        @Autowired
+        private NotificadorProperties properties;
+    }
+```
