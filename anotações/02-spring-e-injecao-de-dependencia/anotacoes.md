@@ -326,4 +326,25 @@ public class NotificacaoService {
 }
 ```
 
+## 2.23. Configurando projetos Spring Boot com o application.properties
 
+Uma boa prática quando desenvolvemos qualquer tipo de projeto em qualquer linguagem ou plataforma é não colocar 
+configurações **_HARD CODED_** dentro do código-fonte. 
+
+Exemplo: 
+- IP do banco de dados 
+- SMTP de um servidor de email;
+- chaves de acesso e etc.
+
+É necessário externalizar isso para um arquivo de configurações. Projetos Spring Boot, já vem com o arquivo 
+`application.properties`, esse é o arquivo padrão de configuração. 
+
+Nesse arquivo, podemos colocar uma [chave]=[valor]
+
+**Algumas configurações que já existem no Spring Boot**
+https://docs.spring.io/spring-boot/appendix/application-properties/index.html
+
+Algumas propriedades:
+
+- spring.profiles.active=prod
+- server.port=8081
