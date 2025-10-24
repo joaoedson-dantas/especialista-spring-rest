@@ -27,8 +27,8 @@ Esse modelo representa o problema que será resolvido durante o curso.
  Módulo | Título | Status |
 |---|---|---|
 | **01** | Introdução | ✅ Concluído |
-| **02** | Spring e Injeção de Dependências | Em Progresso |
-| **03** | Introdução ao JPA e Hibernate | ⏳ Pendente |
+| **02** | Spring e Injeção de Dependências | ✅ Concluído |
+| **03** | Introdução ao JPA e Hibernate | Em Progresso |
 | **04** | REST com Spring | ⏳ Pendente |
 | **05** | ... | ⏳ Pendente |
 
@@ -36,4 +36,5 @@ ___
 
 ### Anotações e Projetos Práticos
 * [Módulo 02: Spring e Injeção de Dependências ](./anotações/02-spring-e-injecao-de-dependencia/anotacoes.md)
+* [Módulo 03: Introdução ao JPA e Hibernate ](./anotações/02-spring-e-injecao-de-dependencia/anotacoes.md)
 
