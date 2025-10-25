@@ -12,10 +12,10 @@ import java.util.Objects;
 @Table(name = "tab_cozinhas")
 public class Cozinha {
 
-    @Id // Informa que esse atributo vai representar o identificador da entidade (chave primária
+    @Id // Informa que esse atributo vai representar o identificador da entidade (chave primária)
     private Long id;
 
-    @Column(name = "nom_cozinha")
+    @Column(name = "nom_cozinha", length = 30)
     private String nome;
 
     public Long getId() {

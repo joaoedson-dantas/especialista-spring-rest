@@ -153,3 +153,9 @@ public class Cozinha {
 }
 ```
 
+## 3.5. Criando as tabelas do banco a partir das entidades
+
+Conseguimos gerar as tabelas do banco de dados de forma automática a partir do mapeamento.
+Obs: Usar essa forma só para estudos e em ambientes de desenvolvimento. Não é o recomendado em prod.
+
+Em resumo é só fazer o mapeamento e rodar o projeto. 
