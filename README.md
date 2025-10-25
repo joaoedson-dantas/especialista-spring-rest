@@ -36,5 +36,5 @@ ___
 
 ### Anotações e Projetos Práticos
 * [Módulo 02: Spring e Injeção de Dependências ](./anotações/02-spring-e-injecao-de-dependencia/anotacoes.md)
-* [Módulo 03: Introdução ao JPA e Hibernate ](./anotações/02-spring-e-injecao-de-dependencia/anotacoes.md)
+* [Módulo 03: Introdução ao JPA e Hibernate ](./anotações/03-introducao-ao-jpa-e-hibernate/anotacoes.md)
 
