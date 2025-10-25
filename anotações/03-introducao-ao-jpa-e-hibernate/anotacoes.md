@@ -73,12 +73,47 @@ Ou seja, o JPA <u>define a forma de mapeamento objeto-relacional</u>, possui API
 e linguagem de consulta como a JPQL.
 
 > JPA é uma especificação JEE, não é um produto, JPA não funciona sozinha, é uma especificação, 
-e uma especificação descreve como algo deve funcionar, não é o produto final. 
-
+e uma especificação descreve como algo deve funcionar, não é o produto final.
 
 ### O que é Hibernate?
 
 É uma **implementação da especificação JPA**, é o produto.
 
 JPA descreve como vai funcionar a solução e o hibernate implementa a solução conforme as regras definidas pela JPA.
+
+## 3.3. Adicionando JPA e configurando o Data source
+
+Para adicionar no projeto a JPA, precisamos adicionar o seu starter, o **Spring Data JPA**
+
+
+doc: https://spring.io/projects/spring-data-jpa, já vai adicionar todo o pacote, incluindo a implementação do _hibernate_
+
+1. Adicionando o starter JPA ao projeto no POM.XML
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+```
+Ao adicionar essa dependência, é necessário também configurar a conexão com o banco de dados. 
+
+### Configurando a conexão com o banco de dados.
+
+1. Adicionar a URL de conexão, pois é por ela que o Driver JDBC vai interpretar o código e conectar no banco de dados.
+
+```application.properties
+// Na doc de Mysql, após o ponto de interogação "?" podemos passar propriedades 
+spring.datasource.url=jdbc:mysql//localhost:3306/algafood?createDatabaseIfNotExist=true
+```
+
+2. Adicionar do Driver do MySQL.
+
+```xml
+<dependency>
+    <groupId>com.mysql</groupId>
+    <artifactId>mysql-connector-j</artifactId>
+    <scope>runtime</scope>
+</dependency>
+```
 
