@@ -116,4 +116,40 @@ spring.datasource.url=jdbc:mysql//localhost:3306/algafood?createDatabaseIfNotExi
     <scope>runtime</scope>
 </dependency>
 ```
+## 3.4. Mapeando entidades com JPA
+
+Para fazermos o mapeamento-objeto-relacional precisamos cria uma classe Java e fazer uma tabela 
+com o banco de dados. 
+
+**Existem duas formas de fazer:**
+
+1. Primeiro criar as tabelas e depois criar as entidades, fazendo o mapeamento de acordo com já criado no banco de dados. 
+2. Inverter a lógica, criar primeiro as entidades e depois faz o mapeamento com as tabelas no banco de dados.
+
+**Estrutura de pastas**
+- domain: Classes do domínio do negócio, tudo que é relacionado a regra de negócio, onde fica a solução do problema de negócio.
+- model ou entity: São as entidades, onde vai ficar o módelo de domínio.
+
+Exemplo de mapeamento: 
+
+```java
+// javax.persistence -> Vem da especificação da JPA
+import javax.persistence;
+
+// Essa classe cozinha vai representar uma tabela no banco de dados chamada cozinha
+@Entity // Representa uma entidade e uma tabela (Por padrão o nome da tabela é o nome da classe)
+@Table(name = "tab_cozinhas")
+public class Cozinha {
+
+    @Id // Informa que esse atributo vai representar o identificador da entidade (chave primária
+    private Long id;
+
+    @Column(name = "nom_cozinha")
+    private String nome;
+
+    public Long getId() {
+        return id;
+    }
+}
+```
 
