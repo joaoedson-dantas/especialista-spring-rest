@@ -243,3 +243,14 @@ public Cozinha adicionar(Cozinha cozinha) {
     return manager.merge(cozinha);
 }
 ```
+
+## 3.10. Buscando um objeto pelo id no banco de dados
+
+Basta chamar a instância do EntityManager chamando o método `find`, passando como parâmetro o tipo da entidade 
+o primaryKey.
+
+```java
+public Cozinha buscar(Long id) {
+    return manager.find(Cozinha.class, id);
+}
+```

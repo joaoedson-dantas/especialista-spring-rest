@@ -25,6 +25,10 @@ public class CadastroCozinha {
         return query.getResultList();
     }
 
+    public Cozinha buscar(Long id) {
+        return manager.find(Cozinha.class, id);
+    }
+
     @Transactional
     public Cozinha adicionar(Cozinha cozinha) {
         // merge (Significa "fundir", ou seja, colocar a entidade dentro do contexto de persistência)
