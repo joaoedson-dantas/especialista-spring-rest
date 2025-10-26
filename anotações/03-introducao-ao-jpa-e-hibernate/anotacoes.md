@@ -180,7 +180,6 @@ Basta criar o arquivo dentro de src/main/resource, o arquivo deve ser exatamente
 O **EntityManager** é como se fosse o coração do JPA, é a principal interface usada para **interagir com o banco de dados**. 
 Ele gerencia um contexto de persistência, que é basicamente uma "memória" de quais as entidades estão a ser rastreadas no momento.
 
-
 - Criar 
 - Buscar
 - Atualizar
@@ -219,3 +218,28 @@ por conta disso não precisamos do `SELECT *`;
 
 Para visualizar o sql que está a ser gerado pelo hibernate, pode se ativar através do `application.properties`
 a propriedade `spring.jpa.show-sql=true`
+
+## 3.9. Adicionado um objeto ao banco de dados
+
+Para realizar a inclusão de objeto usando o EntityManager, é necessário acionar o método **merge**.
+
+**merge:** (Significa "fundir", ou seja, colocar a entidade dentro do contexto de persistência), esse método 
+vai retornar a instância do objeto persistido.
+
+```java
+public Cozinha adicionar(Cozinha cozinha) {
+    return manager.merge(cozinha);
+}
+```
+
+**@Transactional** -> Quando estamos a fazer uma modificação no contexto de persistência, no caso no banco de dados, precisamos de uma transação. 
+Utilizamos a anotação @Transactional;
+
+```java
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional // o método anotado vai ser executado numa transação
+public Cozinha adicionar(Cozinha cozinha) {
+    return manager.merge(cozinha);
+}
+```
