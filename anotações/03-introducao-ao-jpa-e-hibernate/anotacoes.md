@@ -174,3 +174,48 @@ Aqui estamos a informar que estamos a passar a responsabilidade de gerar o valor
 Podemos criar um arquivo sql para carregar com dados nas tabelas, para quando iniciar a aplicação tem dados para trabalhar. 
 
 Basta criar o arquivo dentro de src/main/resource, o arquivo deve ser exatamente com o nome (**import.sql**)
+
+## 3.8. Consultando objetos do banco de dados
+
+O **EntityManager** é como se fosse o coração do JPA, é a principal interface usada para **interagir com o banco de dados**. 
+Ele gerencia um contexto de persistência, que é basicamente uma "memória" de quais as entidades estão a ser rastreadas no momento.
+
+
+- Criar 
+- Buscar
+- Atualizar
+- remover 
+
+Essas operações são em cima de objetos que represetam registro na do banco de dados. 
+
+**Como usar?**
+
+Primeiro, é necessário realizar a injeção de uma instância do EntityManager, para isso, utilizamos a anotação
+**@PersistenceContext**.
+
+**@PersistenceContext**: Anotação responsável por injetar o EntityManager (Que Já vem com o Spring Data JPA), é forma 
+padrão de injeção definida pela própria JPA.
+
+```java
+@Component
+public class CadastroCozinha {
+
+    @PersistenceContext
+    private EntityManager manager;
+
+    public List<Cozinha> listar() {
+        // Aqui estamos apenas criando a consulta
+        TypedQuery<Cozinha> query = manager.createQuery("from Cozinha", Cozinha.class);
+
+        // com o query criada, é possível executar a consulta
+        return query.getResultList();
+    }
+
+}
+```
+
+Obs: A linguagem utilizada para criação da TypedQuery e pelo EntityManager é a JPQL e não SQL, 
+por conta disso não precisamos do `SELECT *`;
+
+Para visualizar o sql que está a ser gerado pelo hibernate, pode se ativar através do `application.properties`
+a propriedade `spring.jpa.show-sql=true`
