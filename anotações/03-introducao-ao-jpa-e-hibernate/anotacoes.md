@@ -168,3 +168,9 @@ toda a vez que se for inserir um novo registro deveremos especificar qual id vai
 ### @GeneratedValue(strategy = GenerationType.IDENTITY) // Definindo a geração do valor para ID utilizando a estratégia de IDENTITY
 
 Aqui estamos a informar que estamos a passar a responsabilidade de gerar o valor do identificador para provedor de persistência.
+
+## 3.7. Importando dados de teste com import.sql
+
+Podemos criar um arquivo sql para carregar com dados nas tabelas, para quando iniciar a aplicação tem dados para trabalhar. 
+
+Basta criar o arquivo dentro de src/main/resource, o arquivo deve ser exatamente com o nome (**import.sql**)
