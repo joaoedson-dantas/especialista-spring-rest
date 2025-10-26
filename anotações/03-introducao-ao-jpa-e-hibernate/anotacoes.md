@@ -159,3 +159,12 @@ Conseguimos gerar as tabelas do banco de dados de forma automática a partir do 
 Obs: Usar essa forma só para estudos e em ambientes de desenvolvimento. Não é o recomendado em prod.
 
 Em resumo é só fazer o mapeamento e rodar o projeto. 
+
+## 3.6. Mapeando o id da entidade para autoincremento
+
+É quando queremos deixar a responsabilidade para o próprio banco de dados incrementar o id. (1,2,3..), se não tiver,
+toda a vez que se for inserir um novo registro deveremos especificar qual id vai ser utilizado.
+
+### @GeneratedValue(strategy = GenerationType.IDENTITY) // Definindo a geração do valor para ID utilizando a estratégia de IDENTITY
+
+Aqui estamos a informar que estamos a passar a responsabilidade de gerar o valor do identificador para provedor de persistência.
