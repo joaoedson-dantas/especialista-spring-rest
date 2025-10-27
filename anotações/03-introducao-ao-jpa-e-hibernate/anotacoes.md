@@ -312,5 +312,28 @@ public void remover(Cozinha cozinha) { // 1 - Estado de transient
 }
 ```
 
+## 3.13. Conhecendo o padrão Aggregate do DDD
+
+### O que é DDD? 
+
+É uma abordagem de desenvolvimento de Software, que nos ajuda a criar software de alta qualidade, com foco no domínio.
+
+### O que é o Aggregate? 
+
+É um padrão do DDD. É um grupo de objetos de domínio que podem ser tratados como uma única unidade.
+
+Artigo para aprofundamento: https://martinfowler.com/bliki/DDD_Aggregate.html
+
+Um exemplo seria uma classe `Pedido` e a classe `ItemPedido` podem ser consideradas como uma unidade única, no caso seria
+PEDIDO, ou seja, **o agregrado vai agrupar duas entidades, a entidade Pedido e a ItemPedido**.
+
+O objetivo principal é deixar claro, que sempre que formos mexer em um `ItemPedido` precisamos modificar o mesmo através
+do seu Aggregate Root, no caso, seria atraés do `Pedido`;
+
+**Aggregate Root: ** É a raiz do Agregrado. (PAI); qualquer referência de fora do Aggregrado deve ir apenas para o `Aggregate Root`. Esse ainda 
+pode garantir a integridade de um agregrado como um todo. 
+
+- Um repository por agregrado. 
+
 
 
