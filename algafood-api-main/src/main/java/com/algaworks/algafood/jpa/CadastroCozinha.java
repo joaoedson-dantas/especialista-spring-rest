@@ -30,7 +30,7 @@ public class CadastroCozinha {
     }
 
     @Transactional
-    public Cozinha adicionar(Cozinha cozinha) {
+    public Cozinha salvar(Cozinha cozinha) {
         // merge (Significa "fundir", ou seja, colocar a entidade dentro do contexto de persistência)
         return manager.merge(cozinha); // Vai retornar a instância do objeto persistido
     }

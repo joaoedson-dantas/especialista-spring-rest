@@ -254,3 +254,28 @@ public Cozinha buscar(Long id) {
     return manager.find(Cozinha.class, id);
 }
 ```
+
+## 3.11. Atualizando um objeto no banco de dados
+
+É basicamente chamar o método `merge` do EntityManager passando o id da entidade, dessa forma, ele vai entender 
+que eu desejo atualizar o registro. 
+
+```java
+    public static void main(String[] args) {
+    ConfigurableApplicationContext context = new SpringApplicationBuilder(AlgafoodApiApplication.class)
+            .web(WebApplicationType.NONE)
+            .run(args);
+
+    CadastroCozinha cadastroCozinha = context.getBean(CadastroCozinha.class);
+
+    Cozinha cozinha = new Cozinha();
+
+    cozinha.setId(1L);
+    cozinha.setNome("Brasileira");
+    cadastroCozinha.adicionar(cozinha);
+
+
+    System.out.printf("%d - %s\n", cozinha.getId(), cozinha.getNome());
+}
+```
+
