@@ -336,4 +336,76 @@ pode garantir a integridade de um agregrado como um todo.
 - Um repository por agregrado. 
 
 
+## 3.14. Conhecendo e implementando o padrão Repository
+
+Mas um padrão do DDD, ele adiciona uma camada de abstração para acesso a dados. Ele imita uma coleção, de forma que 
+quem usa o repositório não precisa saber qual mecânismo de persistência está sendo usado por esse repositório.
+
+**Onde colocar esse repositório no projeto?** 
+
+A ‘interface’ de um repositório é uma abstração do acesso a dados, ou seja, é algo do negócio, da camada de domain. 
+
+Como se trata de uma ‘interface’ que imita uma coleção, não falamos em implementação, e sim em negócio. 
+
+**O que uma cozinha tem que ter?**
+
+- Listar Cozinhas;
+- Buscar uma Cozinha;
+- Salvar uma Cozinha;
+- Remover uma Cozinha;
+
+Exemplo: 
+
+```java
+public interface CozinhaRepository {
+    List<Cozinha> listar();
+    Cozinha buscar(Long id);
+    Cozinha salvar(Cozinha cozinha);
+    void remover(Cozinha cozinha);
+}
+```
+
+Como é uma ‘interface’ do domínio, não deve ter detalhes técnicos é agnóstico a mecanismos de persistências. Se vai ser em um banco de dados, arquivo XML e etc.. Isso aqui nesse momento não vai importar. 
+
+### Implementação do repository
+
+package de infrastructure -> repository. 
+
+Não deve ser dentro de domain, pois trata-se de uma classe de implementação técnica de como 
+fazer acesso ao banco de dados, não tem nada a ver com o négócio da aplicação. 
+
+```java
+@Component
+public class CozinhaRepositoruImpl implements CozinhaRepository {
+
+    @PersistenceContext
+    private EntityManager manager;
+
+    @Override
+    public List<Cozinha> listar() {
+        return manager.createQuery("from Cozinha", Cozinha.class)
+                .getResultList();
+    }
+
+    @Override
+    public Cozinha buscar(Long id) {
+        return manager.find(Cozinha.class, id);
+    }
+
+    @Transactional
+    @Override
+    public Cozinha salvar(Cozinha cozinha) {
+        return manager.merge(cozinha);
+    }
+
+    @Transactional
+    @Override
+    public void remover(Cozinha cozinha) {
+        cozinha = buscar(cozinha.getId());
+        manager.remove(cozinha);
+    }
+}
+```
+Em resumo, o mais importante é que não se cria um repositório por tabela/entidade e sim por aggregado, a partir do root.
+
 

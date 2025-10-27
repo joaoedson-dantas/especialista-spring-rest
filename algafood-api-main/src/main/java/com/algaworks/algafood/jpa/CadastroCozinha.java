@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Component
+// @Component
 public class CadastroCozinha {
 
     // Anotação responsável por injetar o EntityManager (Que Já vem com o Spring Data JPA)
