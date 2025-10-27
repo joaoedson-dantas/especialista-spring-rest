@@ -330,7 +330,7 @@ PEDIDO, ou seja, **o agregrado vai agrupar duas entidades, a entidade Pedido e a
 O objetivo principal é deixar claro, que sempre que formos mexer em um `ItemPedido` precisamos modificar o mesmo através
 do seu Aggregate Root, no caso, seria atraés do `Pedido`;
 
-**Aggregate Root: ** É a raiz do Agregrado. (PAI); qualquer referência de fora do Aggregrado deve ir apenas para o `Aggregate Root`. Esse ainda 
+**Aggregate Root:** É a raiz do Agregrado. (PAI); qualquer referência de fora do Aggregrado deve ir apenas para o `Aggregate Root`. Esse ainda 
 pode garantir a integridade de um agregrado como um todo. 
 
 - Um repository por agregrado. 
@@ -406,6 +406,20 @@ public class CozinhaRepositoruImpl implements CozinhaRepository {
     }
 }
 ```
-Em resumo, o mais importante é que não se cria um repositório por tabela/entidade e sim por aggregado, a partir do root.
+Em resumo, o mais importante é **que não se cria um repositório por tabela/entidade e sim por aggregado**, a partir do root.
 
+## 3.15. Conhecendo e usando o Lombok
 
+**Project Lombok** É uma biblioteca Java, com foco em produtividade e redução de código boilerplate, usando anotações próprias.
+
+Para utilizar, basta adicionar a dependência ao POM.XML 
+
+```markdown
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <optional>true</optional>
+</dependency>
+```
+
+Após isso é só realizar anotações nas classes, como `@Getter, @Setter, @Data etc.`
