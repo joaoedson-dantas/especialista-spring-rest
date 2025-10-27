@@ -34,6 +34,14 @@ public class CadastroCozinha {
         // merge (Significa "fundir", ou seja, colocar a entidade dentro do contexto de persistência)
         return manager.merge(cozinha); // Vai retornar a instância do objeto persistido
     }
+
+    @Transactional
+    public void remover(Cozinha cozinha) { // 1 - Estado de transient
+        // 2 -> Passando para o estado de managed, objeto gerenciado pela JPA
+        cozinha = buscar(cozinha.getId());
+        // 3 -> Passando para o estado de removed
+        manager.remove(cozinha);
+    }
 }
 /*
  * Classe somente para exercício da JPA

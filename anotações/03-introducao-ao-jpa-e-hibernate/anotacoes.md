@@ -279,3 +279,38 @@ que eu desejo atualizar o registro.
 }
 ```
 
+## 3.12. Excluindo um objeto do banco de dados
+
+Basta acionar o EntityManager e chamar o método `.remove(Cozinha)` passando a instância da entidade.
+
+Obs: Sempre utilizar a anotação **@Transactional** para ser executado numa transação. 
+
+### Estados de uma entidade (Ciclo de vida)
+
+Uma entidade pode assumir alguns estados com relação ao `EntityManager`: 
+
+- **Novo (_new ou transient_)** -> Quando construimos um objeto usando o `new`
+- **Gerenciado (_managed_)** -> São os métodos `persist`, `merge` ou buscar uma entidade usando `EntityManager` 
+  - Aqui o objeto vai ser gerenciado pelo contexto de persistência da JPA. Ou seja, qualquer alteração nessa instância 
+    vai refletir no banco de dados
+  - Uma forma de ter uma instância nesse estádo de `Managed`, é fazer um `find, query, `
+- **Removido (_removed_)** -> Quando chamamos o método `remove`, 
+  - só é possível passar para o estado 'Removed', se o nosso Objeto estiver no contexto de `Managed` para que o 
+    contexto de persistência gerir a instância para depois remover ela. 
+- **Desanexado (_detached_)** -> quando é passada para o método detach. 
+  - A partir do estado de _managed_ podemos desanexar ele, aqui ele vai se transformar num estado não gerenciado pelo 
+    contexto de persistência,
+    
+Exemplo: 
+```java
+@Transactional
+public void remover(Cozinha cozinha) { // 1 - Estado de transient
+    // 2 -> Passando para o estado de managed, objeto gerenciado pela JPA
+    cozinha = buscar(cozinha.getId());
+    // 3 -> Passando para o estado de removed
+    manager.remove(cozinha);
+}
+```
+
+
+
