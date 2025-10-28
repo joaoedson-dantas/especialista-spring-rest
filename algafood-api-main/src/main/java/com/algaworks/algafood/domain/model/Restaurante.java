@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Objects;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
@@ -22,5 +21,6 @@ public class Restaurante {
     private BigDecimal taxaFrete;
 
     @ManyToOne // Muitos Restaurantes possui uma Cozinha
+    // @JoinColumn(name = "cozinha_id") por default já vem com esse nome
     private Cozinha cozinha;
 }

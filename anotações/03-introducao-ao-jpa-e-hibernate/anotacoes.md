@@ -436,4 +436,7 @@ No exemplo de relacionamento entre a entidade `Restaurante` e `Cozinha`. Ou seja
 
 Com essa anotação, o hibernate vai adicionar a coluna e adicionar um FOREIGN KEY (`cozinha_id`).
 
+## 3.18. A anotação @joinColumn
+
+Nos casos das colunas que tem mapeamento como as anotadas com `@ManyToOne` para modificar o nome da coluna é necessário adicionar a anotação `joinColumn(name = "cozinha_id")` -- Por padrão, o nome da coluna é dado pelo nome da propriedade_id
 
