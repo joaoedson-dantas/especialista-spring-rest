@@ -1,29 +1,25 @@
 package com.algaworks.algafood.domain.model;
 
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Restaurante {
+public class Cidade {
 
     @EqualsAndHashCode.Include
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
-    private BigDecimal taxaFrete;
-
+    @ManyToOne // Uma cidade só pode ter um Estado, mas um Estado pode ter muitas cidades.
     @JoinColumn(nullable = false)
-    @ManyToOne // Muitos Restaurantes possui uma Cozinha
-    // @JoinColumn(name = "cozinha_id") por default já vem com esse nome
-    private Cozinha cozinha;
+    private Estado estado;
 }

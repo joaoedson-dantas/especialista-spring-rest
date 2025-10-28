@@ -1,8 +1,10 @@
 package com.algaworks.algafood.jpa;
 
 import com.algaworks.algafood.AlgafoodApiApplication;
-import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import com.algaworks.algafood.domain.model.Cidade;
+import com.algaworks.algafood.domain.model.Estado;
+import com.algaworks.algafood.domain.repository.CidadeRepository;
+import com.algaworks.algafood.domain.repository.EstadoRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -14,11 +16,11 @@ public class ExclusaoCozinhaMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        CozinhaRepository cozinhaRepository = context.getBean(CozinhaRepository.class);
+        var repository = context.getBean(CidadeRepository.class);
 
-        Cozinha cozinha = new Cozinha();
-        cozinha.setId(1L);
+        Cidade cidade = new Cidade();
+        cidade.setId(1L);
 
-        cozinhaRepository.remover(cozinha);
+        repository.remover(cidade);
     }
 }

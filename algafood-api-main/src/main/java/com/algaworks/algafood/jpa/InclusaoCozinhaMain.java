@@ -1,11 +1,14 @@
 package com.algaworks.algafood.jpa;
 
 import com.algaworks.algafood.AlgafoodApiApplication;
-import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import com.algaworks.algafood.domain.model.*;
+import com.algaworks.algafood.domain.repository.*;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.data.domain.AbstractAggregateRoot;
+
+import java.util.Objects;
 
 public class InclusaoCozinhaMain {
 
@@ -14,19 +17,17 @@ public class InclusaoCozinhaMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        CozinhaRepository cozinhaRepository = context.getBean(CozinhaRepository.class);
+        var repository = context.getBean(CidadeRepository.class);
+        var repositoryEstado = context.getBean(EstadoRepository.class);
+        Estado estado = repositoryEstado.buscar(3L);
 
-        Cozinha cozinha1 = new Cozinha();
-        cozinha1.setNome("Brasileira");
+        Cidade cidade = new Cidade();
+        cidade.setNome("Paramoti");
+        cidade.setEstado(estado);
 
-        Cozinha cozinha2 = new Cozinha();
-        cozinha2.setNome("Japonesa");
+        cidade = repository.salvar(cidade);
 
-        cozinha1 = cozinhaRepository.salvar(cozinha1);
-        cozinha2 = cozinhaRepository.salvar(cozinha2);
-
-        System.out.printf("%d - %s\n", cozinha1.getId(), cozinha1.getNome());
-        System.out.printf("%d - %s\n", cozinha2.getId(), cozinha2.getNome());
+        System.out.printf("%d - %s\n", cidade.getId(), cidade.getNome());
     }
 
 }

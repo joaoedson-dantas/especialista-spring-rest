@@ -440,3 +440,28 @@ Com essa anotação, o hibernate vai adicionar a coluna e adicionar um FOREIGN K
 
 Nos casos das colunas que tem mapeamento como as anotadas com `@ManyToOne` para modificar o nome da coluna é necessário adicionar a anotação `joinColumn(name = "cozinha_id")` -- Por padrão, o nome da coluna é dado pelo nome da propriedade_id
 
+## 3.19. Propriedade nullable de @Column e @joinColumn
+
+De forma padrão, todas as colunas aceitam valores nulos, com exceção da chave primária.
+Colunas que são obrigatórios geralmente são `NOT NULL`
+
+Para criar as colunas com `NOT NULL` basta adicionar na anotação `@Column` a propriedade nullable = false;
+Exemplo: `@Column(nullable = false)` e `@JoinColumn(nullable = false)`
+
+> Não é só para criar a coluna com NOT NULL, mas também influência o tipo de JOIN.
+
+Caso a criação das tabelas (DDL) tenham sido criadas na mão, não é necessário esse mapeamento. Isso não tem nada a ver
+com validações, é só um detalhe físico da tabela, usado para criar tabela. 
+
+## 3.20 - Desafio 
+
+- Criar a entidade ok
+- Fazer o mapeamento  ok 
+- Criar os repositórios para cada <<Aggregate Root>> ok
+- importar dados no import.sql ok
+
+Entidades: 
+[x] FormaPagamento 
+[x] Permissao 
+[x] Estado 
+[x] Cidade.
