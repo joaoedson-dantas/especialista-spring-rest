@@ -3,10 +3,7 @@ package com.algaworks.algafood.domain.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -23,4 +20,7 @@ public class Restaurante {
     private String nome;
 
     private BigDecimal taxaFrete;
+
+    @ManyToOne // Muitos Restaurantes possui uma Cozinha
+    private Cozinha cozinha;
 }

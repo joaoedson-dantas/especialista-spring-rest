@@ -12,7 +12,7 @@ utiliza-se banco de dados para fazer a persistência de dados.
 [Código Java] -> [Driver JDBC] -> [MySQl]
 
 **Driver JDBC**: É um componente de ‘software’ que <u>**intermedia o acesso de uma aplicação Java com um banco de dados**.</u> 
-Cada banco de dados, tem ao menos uma implementação de JDBC. Basicamente, essa implementação vai saber se comunicar com o
+Cada banco de dados, **tem ao menos uma implementação de JDBC**. Basicamente, essa implementação vai saber se comunicar com o
 MySQL, pois o código Java 'Conversa' apenas com o Driver JDBC que ele faz a comunicação com o banco de dados MySQL.
 
 Exemplo de um possível método para fazer uma adição de pessoa usando um driverJDBC com implementação do MySQL:
@@ -49,8 +49,8 @@ O ORM é basicamente essa tabela de d-para.
 
 **Persistência com ORM**
 
-O código Java não vai mais 'falar' diretamente com o _Driver JDBC_, ele se comunica com a solução de ORM, e o ORM vai 
-transmitir as instruções para o JDBC que vai transmitir para banco de dados. 
+> O código Java não vai mais 'falar' diretamente com o _Driver JDBC_, ele se comunica com a solução de ORM, e o ORM vai 
+    transmitir as instruções para o JDBC que vai transmitir para banco de dados. 
 
 [Código Java] -> [ORM] -> [Driver JDBC] -> [MySQl]
 
@@ -423,3 +423,17 @@ Para utilizar, basta adicionar a dependência ao POM.XML
 ```
 
 Após isso é só realizar anotações nas classes, como `@Getter, @Setter, @Data etc.`
+
+## 3.17. Mapeando Relacionamento com @ManyToOne
+
+Relacionamento de muitos para um. Na classe, basta criar uma propriedade do tipo desejado. 
+No exemplo de relacionamento entre a entidade `Restaurante` e `Cozinha`. Ou seja, um Cozinha poderá ter vários restaurantes associados a ela.
+
+```java
+    @ManyToOne // Muitos Restaurantes possui uma Cozinha
+    private Cozinha cozinha;
+```
+
+Com essa anotação, o hibernate vai adicionar a coluna e adicionar um FOREIGN KEY (`cozinha_id`).
+
+
