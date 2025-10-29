@@ -81,5 +81,73 @@ religiosamente.
 **Purístas:** Defendem que REST APIs devem seguir fielmente os princípios rest sem exceções.
 **Pragmáticos:** Defendem uma abordagem mais prática, desenvolvem também seguindo as _constraints,_ mas estão abertos a exceções.
 
+## 4.5. Conhecendo o protocolo HTTP
 
+Trata-se de um protocolo REQUISIÇÃO/RESPOSTA.
 
+### Composição da requisição 
+
+[MÉTODO] [URI] HTTP/[VERSÃO]
+
+[Cabeçalhos]
+
+[CORPO/PAYLOAD]
+
+```
+POST /produtos HTTP/1.1 
+Content-Type: application/json
+Accept: application/json
+
+{
+    "nome": "Notebook i7",
+    "preco": 2100.0
+}
+```
+
+1. **[MÉTODO] **
+
+Ou verbos HTTP, é uma especificação que define um conjunto de métodos que podemos utilizar para fazer requisição http.
+Ou seja, o método informa a ação que deseja ser executada.
+
+Ex: `GET, POST, PUT, DELETE ...`
+
+2. **[URI] **
+
+É um caminho que identifica o que queremos dentro do servidor HTTP
+
+3. [Cabeçalhos]
+
+São informações sobre a requisição. Aqui são definidos nomes de chave e valor, que podem ser usados pelo servidor 
+para interpretar a requisição e executar a operação.
+
+**Cabeçalhos pŕedefinidos no protocolo Http**
+
+- Content-Type: application/json 
+  - Aqui será definido qual o tipo de conteúdo está a ser enviado no corpo da requisição.
+  - Nesse caso, estamos a informar que o corpo está a ir no formato JSON. 
+- Accept: application/json
+  - Define quais tipos de conteúdo são aceitos como uma resposta. 
+
+[CORPO/PAYLOAD]
+
+Ele não é obrigatório e depende do método HTTP utilizado. É no corpo da requisição que enviamos dados do cliente 
+para o servidor. 
+
+### Composição da rsposta
+
+[HTTP]/[VERSAO] [STATUS]
+[Cabeçalhos] 
+[CORPO]
+
+```
+HTTP/1.1  201 Created
+Content-Type: application/json
+
+{
+    "nome": "Notebook i7",
+    "preco": 2100.0
+}
+```
+
+[STATUS] -> Serve para descrever qual foi o resultado do processamento da requisição. O servidor deverá retornar 
+um status adequado para cada situação para que cliente ficar a saber o que aconteceu.
