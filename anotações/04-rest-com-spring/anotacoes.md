@@ -151,3 +151,13 @@ Content-Type: application/json
 
 [STATUS] -> Serve para descrever qual foi o resultado do processamento da requisição. O servidor deverá retornar 
 um status adequado para cada situação para que cliente ficar a saber o que aconteceu.
+
+## 4.8. Entendendo o que são Recursos REST
+
+**Resources** é qualquer coisa exposta na web, como um documento, uma página, um vídeo, uma imagem e até mesmo um processo de negócio. 
+É algo que tem importância o suficiente para ser referenciado como "Uma coisa no ‘software’"
+
+**Um único produto é um recurso** _Singleton Resource_ | Pense em um recurso com uma instãncia de um objeto de um 
+determinado tipo. 
+
+**Coleção de produtos é um recurso** _Collection Resource_ 
