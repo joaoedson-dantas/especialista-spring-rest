@@ -68,3 +68,10 @@ essa ‘interface’ religiosamente.
 afetar as respostas do servidor, o cliente não deve conhecer quantas camadas possui no meio. 
 
 5. **Código sob demanda**
+
+## 4.3. Diferença entre REST e RESTful
+
+É uma diferença conceitual e simples. REST é o estilo arquitetural que possuem as _constraints_, ou seja, é a especificação.
+Já o RESTful é uma API construida conforme as _constraints_, em teoria o uma RESTful API segue todas as constraints obrigatórias
+religiosamente.
+
