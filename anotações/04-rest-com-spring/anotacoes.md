@@ -75,3 +75,11 @@ afetar as respostas do servidor, o cliente não deve conhecer quantas camadas po
 Já o RESTful é uma API construida conforme as _constraints_, em teoria o uma RESTful API segue todas as constraints obrigatórias
 religiosamente.
 
+
+## 4.4. Desenvolvedores de REST APIs puristas e pragmáticas
+
+**Purístas:** Defendem que REST APIs devem seguir fielmente os princípios rest sem exceções.
+**Pragmáticos:** Defendem uma abordagem mais prática, desenvolvem também seguindo as _constraints,_ mas estão abertos a exceções.
+
+
+
