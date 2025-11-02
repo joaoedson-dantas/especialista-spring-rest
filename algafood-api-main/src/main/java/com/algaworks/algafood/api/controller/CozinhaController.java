@@ -16,7 +16,7 @@ public class CozinhaController {
     @Autowired
     private CozinhaRepository cozinhaRepository;
 
-    @GetMapping
+    @GetMapping // Significa que requisições com o verbo HTTP GET chegaram nesse método
     public List<Cozinha> listar() {
         return cozinhaRepository.listar();
     }
