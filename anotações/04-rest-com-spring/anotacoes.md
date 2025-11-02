@@ -189,4 +189,3 @@ Ou seja, não identificamos a ação na URI. A ação será variáda usando apen
 
 > OBS: O ideal é usar os nomes sempre no PLURAL, mesmo que sejá um recurso único.
 
-
