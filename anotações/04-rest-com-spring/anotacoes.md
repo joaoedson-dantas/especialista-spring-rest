@@ -161,3 +161,32 @@ um status adequado para cada situação para que cliente ficar a saber o que aco
 determinado tipo. 
 
 **Coleção de produtos é um recurso** _Collection Resource_ 
+
+## 4.9. Identificando recursos REST
+
+**Como identificar um recurso para referênciar ele na web?**
+
+**URI** _Uniform Resource Identifier_
+
+É um conjunto de caracteres cujo objetivo é dar uma espécie de "endereço" nos recursos, de forma não ambígua.
+
+> Quando modelamos os nossos recursos, temos que pensar em URIs para identificá-los.
+
+**URI vs URL**
+
+Uma URL é um tipo de URI. URL significa _"Uniform Resource Locale - Localizador de recurso uniforme."_  
+A URL informa a localização do recurso, onde o recurso está disponível e qual o recurso para chegar até ele.
+
+**Exemplo:**
+
+> `listarProdutos` -> Não é uma boa prática listar dessa forma. A URI deve se referênciar a alguma coisa, ou seja, 
+um substantivo e não um verbo ou uma ação. Porque coisas possuem propriedades e verbos não possuem.
+> `produtos` -> Seguindo as boas práticas, o ideal é identificar esse recurso como /produtos
+
+Ou seja, não identificamos a ação na URI. A ação será variáda usando apenas os métodos HTTP.
+
+**Exemplo de identificação de recurso único:** `/produtos/{codigo}` 
+
+> OBS: O ideal é usar os nomes sempre no PLURAL, mesmo que sejá um recurso único.
+
+
