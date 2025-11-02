@@ -189,3 +189,26 @@ Ou seja, não identificamos a ação na URI. A ação será variáda usando apen
 
 > OBS: O ideal é usar os nomes sempre no PLURAL, mesmo que sejá um recurso único.
 
+## 4.12. Representação de recursos e content negotiation
+
+**O que uma requisição feita numa URL de um recurso deve retornar?**
+
+Representações de recursos: É um código que descreve o estado atual do recurso.
+
+A representação de um recurso não é o próprio recurso:
+
+- JSON 
+- XML 
+- JPG
+
+O _cliente_ da API pode especificar na requisição qual formato consegue interpretar.
+Essa informação é adicionada no cabeçalho da requisição `Accept:`
+
+Requisição: 
+```txt
+GET /produtos HTTP/1.1
+Accept: application/json
+```
+
+Ou seja, essa indicação de qual formato de representação de um mesmo recurso deve ser retornado 
+é o que chamamos de `content negotiation`, porque o `client` estaria a negociar com o servidor.
