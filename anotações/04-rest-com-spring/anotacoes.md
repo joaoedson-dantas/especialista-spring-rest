@@ -212,3 +212,21 @@ Accept: application/json
 
 Ou seja, essa indicação de qual formato de representação de um mesmo recurso deve ser retornado 
 é o que chamamos de `content negotiation`, porque o `client` estaria a negociar com o servidor.
+
+## 4.13. Implementando content negotiation para retornar JSON ou XML 
+
+**Adicionando o suporte a XML**
+
+É necessário adicionar uma nova dependência, a FASTERXML
+
+```xml
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+```
+
+### @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+
+Informa que o método só produz um formato específico de conteúdo. 
+
