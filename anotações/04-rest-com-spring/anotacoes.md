@@ -230,3 +230,21 @@ Ou seja, essa indicação de qual formato de representação de um mesmo recurso
 
 Informa que o método só produz um formato específico de conteúdo. 
 
+## 4.14. Consultando Singleton Resource com GET e @PathVariable
+
+Buscando um recurso específico por ID. A ideia é que possamos passar na URI /{id} -> Isso significa que 
+estamos a buscar um único recurso.
+
+**Implementação**
+
+Para realizar uma consulta, usamos o método HTTP GET -> 
+
+```java
+    // {cozinhaId} é uma variável, chamada placeholder, onde será feito o binding com o parâmetro do método. 
+    // Para que esse mapeamento seja feito com sucesso, preciso especificar com o @PathVariable 
+    @GetMapping("/{cozinhaId}")
+    public Cozinha buscar(@PathVariable Long cozinhaId) {
+        return cozinhaRepository.buscar(cozinhaId);
+    }
+```
+
