@@ -343,3 +343,41 @@ primeira aplicação se altere.
   - As vezes o consumidor da API não está interessado no corpo da resposta (Testar se uma URI existe mesmo, se o Media Type é aceite e etc.)
 - **OPTIONS:** (OPTIONS /cozinha/11 HTTP/1.1) - Solicitar uma lista de métodos suportados por um recurso.
   - É útil para o cliente saber quais são os métodos disponíveis.
+
+## 4.18. Conhecendo os códigos de status HTTP
+
+https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Reference/Status
+
+Toda a resposta HTTP possui um **STATUS**, seria um tipo de resultado da requisição feita.
+
+### Nível 200 - Indica que a requisição foi bem sucedida
+
+- 200: ok - Requisições executadas com sucesso;
+- 201: criado - Requisição foi atendida e foi criado um recurso.
+- 204: Sem conteúdo - Processou a requisição com sucesso e não retorna nenhum corpo. Exclusão de um recurso.
+
+### Nível 300 - Indica status de redirecionamento
+
+- 301 - Movido permanentemente
+- 302 - Encontrado (O endereço existe, mas foi alterado temporariamente)
+
+### Nível 400 - Indica algum erro por parte do consumidor da API
+
+Quando um servidor recebe uma requisição e antes de executar o que foi solicitado, ele tem a hipótese de verificar 
+se todas as informações das requisições estão corretas, coerentes e se o cliente tem permissão de solicitar. 
+
+Caso tenha algo errado, o servidor responde com status do nível 400
+
+- 400: Requisição mal feita (erro de sintaxe, validação, etc.)
+- 401: Não autorizado (Requer que o client esteja autenticado)
+- 403: Proibido - Servidor entendeu a requisição, mas recusou a executá-la, pois o client não está autorizado.
+- 404: Não encontrado - O recurso solicitado não existe.
+- 405: Método não permitido - O verbo HTTP informado na requisição não é suportado para o recurso.
+- 406: Não aceito - O servidor não pode retornar representação do recurso usando a _MediaType_ informada no cabeçalho `Accept`.
+
+### Nível 500 - Indica algum erro no servidor
+
+- 500: Erro interno no servidor - Quando o desenvolvedor erra no tratamento de _exceptions_ (NullPointer)
+- 503: Serviço indisponível - Sobrecarregado
+
