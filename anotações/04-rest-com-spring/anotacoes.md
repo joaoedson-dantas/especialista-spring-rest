@@ -385,3 +385,28 @@ Caso tenha algo errado, o servidor responde com status do nível 400
 
 Por padrão o Spring devolve um código status 200 quando a nossa requisição é bem sucedida. 
 É possível modificar o stauts utilizando a anotação `@ResponseStatus(HttpStatus.OK)`
+
+## 4.20. Manipulando a resposta HTTP com ResponseEntity
+
+`ReponseEntity` serve para termos um controle mais fino da resposta HTTP, dando a possibilidade de adicionar 
+novos _headers_, mudar o status HTTP de uma forma mais progamática.
+
+Retornamos no controller um `ReponseEntity`, que representa uma reposta HTTP.
+
+```java 
+@GetMapping("/{cozinhaId}")
+public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
+    Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
+
+    // return ResponseEntity.status(HttpStatus.OK).body(cozinha);
+    // return ResponseEntity.ok(cozinha); // atalho para linha de código comentada acima.
+
+    // exemplo de FOUND -> Movido temporariamente para outra URI
+    HttpHeaders headers = new HttpHeaders();
+    headers.add(HttpHeaders.LOCATION, "http://localhost:8080/cozinhas"); // Informa no cabeçalho location qual a URI do novo lugar
+    return ResponseEntity
+            .status(HttpStatus.FOUND)
+            .headers(headers)
+            .build();
+}
+```
