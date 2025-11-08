@@ -410,3 +410,23 @@ public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
             .build();
 }
 ```
+
+## 4.21. Corrigindo o Status HTTP para resource inexistente
+
+Tratamento para quando um **resource** não existe. 
+Caso um recurso único não exista, ou seja, é chamado para um URI mapeada, deve ser tratado usando o protocolo HTTP.
+
+Deve retornar 404 - NOT FOUND
+
+```java
+@GetMapping("/{cozinhaId}")
+public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
+    Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
+
+    if (cozinha != null) {
+        return ResponseEntity.ok(cozinha);
+    }
+
+    return ResponseEntity.notFound().build();
+}
+```

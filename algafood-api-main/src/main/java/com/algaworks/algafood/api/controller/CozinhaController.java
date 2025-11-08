@@ -36,8 +36,14 @@ public class CozinhaController {
     public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
         Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
 
+        if (cozinha != null) {
+            return ResponseEntity.ok(cozinha);
+        }
+
+        return ResponseEntity.notFound().build();
+
         // return ResponseEntity.status(HttpStatus.OK).body(cozinha);
-        return ResponseEntity.ok(cozinha); // atalho para linha de código comentada acima.
+        // return ResponseEntity.ok(cozinha); // atalho para linha de código comentada acima.
 
         // exemplo de FOUND -> Movido temporariamente para outra URI
 //        HttpHeaders headers = new HttpHeaders();
