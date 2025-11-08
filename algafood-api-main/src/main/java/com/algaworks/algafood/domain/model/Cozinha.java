@@ -1,12 +1,16 @@
 package com.algaworks.algafood.domain.model;
 
 // javax.persistence -> Vem da especificação da JPA
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
 
+// @JsonRootName("gastronomia") // -> Nome da raiz que será retornada no XML.
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 // Essa classe cozinha vai representar uma tabela no banco de dados chamada cozinha
@@ -19,6 +23,9 @@ public class Cozinha {
     @Id // Informa que esse atributo vai representar o identificador da entidade (chave primária)
     private Long id;
 
+
+    // @JsonIgnore -> Remove da representação
+    // @JsonProperty("titulo") -> Altera o nome na representação
     // '@Column(name = "nom_cozinha", length = 30)
     @Column(nullable = false)
     private String nome;

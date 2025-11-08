@@ -248,3 +248,19 @@ Para realizar uma consulta, usamos o método HTTP GET ->
     }
 ```
 
+## 4.15. Customizando as represetações XML e JSON
+
+A classe de neǵocio, que representam as entidades da aplicação (model/entity), não deve ser utilizada como modelo 
+de representação de recurso, na perspectiva de uma REST_API.
+
+E as vezes é necessário customizar a representação.
+
+- @JsonProperty("titulo") -> Não mudamos nome da propriedade, mas apenas a representação. 
+
+Pode ocorrer situações onde temos propriedades no modelo de domínio, onde não queremos que apareça na representação do recurso. 
+
+- @JsonIgnore -> Ignora a propriedade anotada na hora da serialização (Gerar a representação)
+
+Customizar no XML o nome do elemento principal, exemplo, Cozinha 
+
+- @JsonRootName("cozinha") // -> Nome da raiz que será retornada no XML. 
