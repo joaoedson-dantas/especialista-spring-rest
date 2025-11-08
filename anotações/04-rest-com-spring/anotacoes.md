@@ -264,3 +264,37 @@ Pode ocorrer situações onde temos propriedades no modelo de domínio, onde nã
 Customizar no XML o nome do elemento principal, exemplo, Cozinha 
 
 - @JsonRootName("cozinha") // -> Nome da raiz que será retornada no XML. 
+
+## 4.16. Customizando a represetação em XML com Wrapper e anotações do jackson
+
+Por padrão, quando fazemos uma requisição para uma coleção de recurso, onde o seu tipo de Mídia é XML,
+ele retorna as tags como `LIST` e `ITEM`.
+
+Para customizar isso, podemos criar uma classe, e no recurso, ao invés de retornar uma lista, vamos retornar 
+essa nova classe, essa classe vai se comportar como um modelo da nossa representação, como se fosse um Wrapper. 
+
+`package -> api.model` -> Essa classe representa o modelo da representação de um recurso (camada externa).
+
+```java
+// A função dessa classe é empacotar (embrulhar) uma lista de Cozinhas
+// Esse JacksonXmlRootElement poderia ter usado @JsonRootElement("cozinhas"). Funcionaria também
+@JacksonXmlRootElement(localName = "cozinhas") // Específico para serialização XML
+@Data
+public class CozinhasXmlWrapper {
+
+    @NonNull // Do lombok, serve para dizer que essa propriedade não pode ser nula,
+            // e deve ser passada no construtor gerado a patir do @Data
+    @JacksonXmlProperty(localName = "cozinha") // Uma alternativa seria o JsonProperties, funcionaria também
+    @JacksonXmlElementWrapper(useWrapping = false) // desabilitando o embrulho.
+    private List<Cozinha> cozinhas;
+}
+```
+
+**Controller**
+```java
+// Esse método vai responder apenas quando o consumidor solicitar XML
+@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+public CozinhasXmlWrapper listarXml() {
+    return new CozinhasXmlWrapper(cozinhaRepository.listar());
+}
+```
