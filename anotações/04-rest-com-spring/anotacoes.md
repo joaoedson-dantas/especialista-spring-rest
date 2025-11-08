@@ -298,3 +298,48 @@ public CozinhasXmlWrapper listarXml() {
     return new CozinhasXmlWrapper(cozinhaRepository.listar());
 }
 ```
+
+## 4.17. Conhecendo os métodos HTTP
+
+Também conhecidos como verbos HTTP, ele possui uma semântica sobre uma operação efetuada sobre um determinado recurso.
+
+> Através do método, informamos ao Servidor qual o tipo de ação que queremos executar em determinado recurso.
+
+**Idempotência**
+
+Algo idempotente signifíca que tem a capacidade de poder ser aplicado mais de uma vez sem que o resultado da 
+primeira aplicação se altere. 
+
+> Exemplo: Imagine que você tem uma Maçã que custa 5$, independente de quantas vezes você perguntar o seu valor não muda. 
+
+É tipo quando você salva várias vezes mesmo arquivo, apertando várias vezes o 'CRTL + S'.
+
+**Principais métodos, HTTP**
+
+- **GET:** (GET /cozinhas HTTP/1.1) - Usado para obter a representação de um recurso.
+  - Não pode ser usado para modificar o recurso.
+  - É um método seguro (Safe Method), não gera efeito colateral e não modifica o recurso
+  - Método **idempotente**
+- **POST:** (POST /cozinhas HTTP/1.1) - É usado para criar um novo recurso dentro da coleção de recurso. 
+  - Envia um corpo na requisição como payload `{ "nome": "Portuguesa" }`
+  - Pode gerar efeito colateral caso tenha mesma requisições várias vezes no recurso. (Novas Cozinhas serão criadas)
+  - Não é **idempotente** 
+  - Não é seguro - Modifica recursos.
+- **PUT:** (PUT /cozinhas/11 HTTP/1.1) - Utilizado como forma de atualizar um determinado recurso.
+  - Envia um corpo na requisição como payload `{ "nome": "Portuguesa" }` os dados que devem ser atualizado
+  - PUT não pode ser usado para uma atualização parcial, deve ser atualizado por completo (O atributo não passado vai ser considerado como vazio ou nulo)
+  - É considerado **idempotente** 
+  - Não é seguro - Modifica recursos.
+- **PATCH:** (PATCH /cozinhas/11 HTTP/1.1) - Utilizado como forma de atualizar um determinado recurso de forma Parcial
+  - Envia um corpo na requisição como payload `{ "nome": "Portuguesa" }` os dados que devem ser atualizado apenas do que foi passado
+  - Não é seguro - Modifica recursos.
+  - É considerado **idempotente** 
+- **DELETE:** (DELETE /cozinha/11 HTTP/1.1) - Remove um determinado recurso.
+  - Não se passa corpo e não recebe corpo na requisição
+  - Não é seguro 
+  - É considerado **idempotente**
+- **HEAD:** (HEAD /cozinha/11 HTTP/1.1) - É igual ao GET, mas NUNCA retorna um corpo na resposta 
+  - Usado apenas para buscar um cabeçalho
+  - As vezes o consumidor da API não está interessado no corpo da resposta (Testar se uma URI existe mesmo, se o Media Type é aceite e etc.)
+- **OPTIONS:** (OPTIONS /cozinha/11 HTTP/1.1) - Solicitar uma lista de métodos suportados por um recurso.
+  - É útil para o cliente saber quais são os métodos disponíveis.
