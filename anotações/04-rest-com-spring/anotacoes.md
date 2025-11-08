@@ -430,3 +430,7 @@ public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
     return ResponseEntity.notFound().build();
 }
 ```
+
+## 4.22. Status HTTP para collection resource vazia: qual usar?
+
+A boa prática e o correto é deixar o status 200 retornando uma lista vazia. []
