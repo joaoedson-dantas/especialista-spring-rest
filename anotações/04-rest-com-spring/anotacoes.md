@@ -434,3 +434,27 @@ public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
 ## 4.22. Status HTTP para collection resource vazia: qual usar?
 
 A boa prática e o correto é deixar o status 200 retornando uma lista vazia. []
+
+## 4.23. Modelando e implementando a inclusão de recursos com POST
+
+POST /cozinhas HTTP/1.1 - Vamos fazer um post numa coleção. \
+Content-Type: application/json \
+{
+    "nome": "Brasileira"
+}
+
+**Código**
+
+Para ser possível receber o corpo da requisição, é necessário anotar no parâmetro com `@RequestBody` \
+O próprio Spring vai instânciar um Objeto e vai fazer o a viculação das propriedades JSON atribuindo para as \ 
+propriedades de cozinha.
+
+Quando criamos um recurso é interessante colocar o status 201 - created e retornar a representação do recurso criado no corpo da resposta.
+
+```java
+@ResponseStatus(HttpStatus.CREATED)
+@PostMapping
+public Cozinha adicionar(@RequestBody Cozinha cozinha) {
+    return cozinhaRepository.salvar(cozinha);
+}
+```
