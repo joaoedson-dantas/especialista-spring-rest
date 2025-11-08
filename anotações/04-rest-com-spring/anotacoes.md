@@ -381,3 +381,7 @@ Caso tenha algo errado, o servidor responde com status do nível 400
 - 500: Erro interno no servidor - Quando o desenvolvedor erra no tratamento de _exceptions_ (NullPointer)
 - 503: Serviço indisponível - Sobrecarregado
 
+## 4.19. Definindo o status da resposta HTTP com @ResponseStatus
+
+Por padrão o Spring devolve um código status 200 quando a nossa requisição é bem sucedida. 
+É possível modificar o stauts utilizando a anotação `@ResponseStatus(HttpStatus.OK)`
