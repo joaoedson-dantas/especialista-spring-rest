@@ -493,4 +493,20 @@ Exclusão de um recurso único.
 
 DELETE /cozinhas/{id} HTTP/1.1 \
 
+## 4.27. Implementando a camada de domain services (e a importância da linguagem ubíqua)
+
+No **DDD** existe um conceito chamado **Domain Service/ Serviço de domínio** é uma camada, uma operação sem 'estado' \
+que realiza uma tarefa específica do domínio (Tarefa de negócio).
+- Quando um processo de um domínio não é uma responsabilidade natural de uma entidade, cria-se um serviço de domínio.
+
+Não é interessante a camada de controller ter acesso direto ao repositório para fazer operações que modificam o 'ESTADO' \
+da aplicação. (Salvar | Excluir | Atualizar) - Algo que seria persistido no banco de dados.
+
+> **Modificação no estado aplicação (Processo de negócio)** o ideal é criar outra classe para fazer essa operação.
+
+**Ao criar a classe, é interessante pesar na linguagem usada pelas pessoas do negócio. 
+Essa linguagem comum, no DDD chamamos linguagem ubíqua** 
+
+**@Service** -> Anotação utilizada para informar que trata-se de uma Classe de serviço que vai ser um component Spring. 
+
 
