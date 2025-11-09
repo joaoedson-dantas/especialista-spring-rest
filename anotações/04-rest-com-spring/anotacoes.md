@@ -510,3 +510,4 @@ Essa linguagem comum, no DDD chamamos linguagem ubíqua**
 **@Service** -> Anotação utilizada para informar que trata-se de uma Classe de serviço que vai ser um component Spring. 
 
 
+
