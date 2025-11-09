@@ -439,9 +439,11 @@ A boa prática e o correto é deixar o status 200 retornando uma lista vazia. []
 
 POST /cozinhas HTTP/1.1 - Vamos fazer um post numa coleção. \
 Content-Type: application/json \
+```json
 {
     "nome": "Brasileira"
 }
+```
 
 **Código**
 
@@ -457,4 +459,18 @@ Quando criamos um recurso é interessante colocar o status 201 - created e retor
 public Cozinha adicionar(@RequestBody Cozinha cozinha) {
     return cozinhaRepository.salvar(cozinha);
 }
+```
+
+## 4.24. Negociando o media type do payload do POST com Content-Type
+
+É possível negociar o conteúdo sobre o que queremos enviar para a API. Podendo utilizar, além do JSON, o XML, por exemplo.
+Será informado no _header_ **Content-Type: application/xml**
+
+**Exemplo:**
+POST /cozinhas HTTP/1.1 - \
+Content-Type: application/xml \
+```xml
+<cozinha>
+    <nome>Brasileira</nome>
+</cozinha>
 ```
