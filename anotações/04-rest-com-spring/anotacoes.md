@@ -532,3 +532,35 @@ public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
     }
 }
 ```
+## 4.31. Desafio Modelando e implementando a atualização de recursos de restaurantes 
+
+```text
+===========
+REQUEST
+===========
+
+PUT /restaurantes/{id}
+{
+    "nome": "Bom Prato",
+    "taxaFrete": 5,
+    "cozinha": {
+        "id": 2
+    }
+}
+
+===========
+RESPONSE
+===========
+
+HTTP/1.1 200 OK 
+{ ... }
+
+----------------
+
+HTTP/1.1 400 Bad Request
+Descrição do problema 
+
+----------------
+
+HTTP/1.1 404 Not Found
+```
