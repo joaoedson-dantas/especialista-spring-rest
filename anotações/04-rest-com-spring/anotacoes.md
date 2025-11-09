@@ -510,4 +510,25 @@ Essa linguagem comum, no DDD chamamos linguagem ubíqua**
 **@Service** -> Anotação utilizada para informar que trata-se de uma Classe de serviço que vai ser um component Spring. 
 
 
+## 4.30. Modelando e implementando a inclusão de recursos de restaurantes
 
+```java
+@PostMapping
+public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
+    try {
+        restaurante = cadastroRestauranteService.salvar(restaurante);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(restaurante);
+    } catch (EntidadeNaoEncontradaException e) {
+        // Aqui não deve ser um 404 - Dar a entender que o recurso - POST /restaurantes não existe.
+        // Se a Cozinha não existe, não é um problema de 404 - NOT FOUND -
+        // É um problema de requisição inválida. - O ideal seria o 400 - BadRequest - (Algo informado está com problema)
+        // O ideal ao ter um badRequest é que se coloque no corpo uma mensagem que ajude o consumidor da API a resolver o problema.
+        return ResponseEntity
+                .badRequest()
+                .body(e.getMessage()); // De forma temporária.
+    }
+}
+```

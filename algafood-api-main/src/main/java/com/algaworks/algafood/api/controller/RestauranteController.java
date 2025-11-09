@@ -1,19 +1,22 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
+import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("restaurantes")
 public class RestauranteController {
+
+    @Autowired
+    private CadastroRestauranteService cadastroRestauranteService;
 
     @Autowired
     private RestauranteRepository restauranteRepository;
@@ -32,5 +35,24 @@ public class RestauranteController {
         }
 
         return ResponseEntity.ok(restaurante);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
+        try {
+            restaurante = cadastroRestauranteService.salvar(restaurante);
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(restaurante);
+        } catch (EntidadeNaoEncontradaException e) {
+            // Aqui não deve ser um 404 - Dar a entender que o recurso - POST /restaurantes não existe.
+            // Se a Cozinha não existe, não é um problema de 404 - NOT FOUND -
+            // É um problema de requisição inválida. - O ideal seria o 400 - BadRequest - (Algo informado está com problema)
+            // O ideal ao ter um badRequest é que se coloque no corpo uma mensagem que ajude o consumidor da API a resolver o problema.
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage()); // De forma temporária.
+        }
     }
 }
