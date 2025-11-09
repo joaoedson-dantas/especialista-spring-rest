@@ -474,3 +474,15 @@ Content-Type: application/xml \
     <nome>Brasileira</nome>
 </cozinha>
 ```
+
+## 4.25. Modelando e implementando a atualização de recursos com PUT
+
+Atualização de um recurso. O verbo HTTP utilizado para fazer uma atualização completa de um resource é PUT. 
+
+PUT /cozinha/{id} HTTP/1.1 \
+Content-Type: application/json \
+```json
+{
+  "nome": "Brasileira"
+}
+```
