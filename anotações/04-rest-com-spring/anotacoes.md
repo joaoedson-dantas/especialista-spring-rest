@@ -479,10 +479,18 @@ Content-Type: application/xml \
 
 Atualização de um recurso. O verbo HTTP utilizado para fazer uma atualização completa de um resource é PUT. 
 
-PUT /cozinha/{id} HTTP/1.1 \
+PUT /cozinhas/{id} HTTP/1.1 \
 Content-Type: application/json \
 ```json
 {
   "nome": "Brasileira"
 }
 ```
+
+## 4.26. Modelando e implementando a exclusão de recursos com DELETE
+
+Exclusão de um recurso único. 
+
+DELETE /cozinhas/{id} HTTP/1.1 \
+
+
