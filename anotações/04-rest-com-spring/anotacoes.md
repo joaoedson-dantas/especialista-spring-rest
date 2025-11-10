@@ -564,3 +564,5 @@ Descrição do problema
 
 HTTP/1.1 404 Not Found
 ```
+
+## 4.32. Desafio implementando serviços REST de cidades e estados.

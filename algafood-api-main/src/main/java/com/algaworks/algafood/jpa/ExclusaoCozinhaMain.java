@@ -18,9 +18,9 @@ public class ExclusaoCozinhaMain {
 
         var repository = context.getBean(CidadeRepository.class);
 
-        Cidade cidade = new Cidade();
-        cidade.setId(1L);
-
-        repository.remover(cidade);
+//        Cidade cidade = new Cidade();
+//        cidade.setId(1L);
+//
+//        repository.remover(cidade);
     }
 }

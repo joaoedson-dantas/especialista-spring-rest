@@ -36,7 +36,6 @@ public class CadastroCozinhaService {
             throw new EntidadeEmUsoException(
                     String.format("Cozinha de código %d não pode ser removida, pois está em uso", id)
             );
-
         }
     }
 }
