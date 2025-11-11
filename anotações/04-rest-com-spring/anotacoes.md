@@ -565,4 +565,67 @@ Descrição do problema
 HTTP/1.1 404 Not Found
 ```
 
-## 4.32. Desafio implementando serviços REST de cidades e estados.
+## 4.33. Analisando solução para atualização parcial de recursos com PATCH
+
+Se chamarmos o método atual mapeado com `PUT` no projeto, ele vai atualizar por um todo o recurso, e caso não passe 
+na requisição os campos que deseja atualizar, por padrão ele pode salvar como nulo. 
+
+Para fazer atualização parcial, usando o verbo HTTP `PATCH` e, no corpo, enviamos apenas as propriedades que desejamos 
+alterar. 
+
+Quando recebemos um objeto de uma classe Java, existe uma dificuldade muito grande, onde não conseguimos saber quais 
+as propriedades devem ser considerados no `PATCH`.
+
+**Qual a solução?**
+
+A solução é não receber no corpo da requisição um objeto do tipo Restaurante, mas sim colocar um Mapa com os campos 
+necessários para atualização.
+
+### 4.34 Finalizando a atualização parcial com a API de Reflections do Spring
+
+**Reflections** É a capacidade de inspecionar objetos Java em tempo de execução, podendo alterar, chamar métodos, alterar \
+valor de atributos, tudo isso em tempo de execução de forma dinâmica.
+
+- Bastante usando quando não sabemos os nomes dos métodos, nomes das propriedades, etc.
+
+```java
+@PatchMapping("/{restauranteId}")
+public ResponseEntity<?> atualizarParcial(@PathVariable Long restauranteId,
+                                          @RequestBody Map<String, Object> campos) {
+    Restaurante restauranteAtual = restauranteRepository.buscar(restauranteId);
+
+    if (restauranteAtual == null) {
+        return ResponseEntity
+                .notFound()
+                .build();
+    }
+
+    // Atribuir cada valor ao restaurante atual, é preciso fazer um merge. Pegar o que tem dentro do Mapa e atribuir
+    // dentro do restaurante atual
+    merge(campos, restauranteAtual);
+
+    return atualizar(restauranteId, restauranteAtual);
+}
+
+private void merge(Map<String, Object> dadosOrigem, Restaurante restauranteDestino) {
+    // Criando uma instância de ObjectMapper | Responsável por converter (serializer - converter objetos Java em JSON e vise versa)
+    ObjectMapper objectMapper = new ObjectMapper();
+    // ObjectMapper cria pra mim uma instância do tipo restaurante usando como base, esse mapa com os dadosOrigem.
+    Restaurante restauranteOrigem = objectMapper.convertValue(dadosOrigem, Restaurante.class);
+
+
+    dadosOrigem.forEach((nomePropriedade, valorPropriedade) -> {
+        // Fild (Java Lang - API de reflections do Java)
+        // Busca a instância do campo - Essa variável vai representar um atributo da classe Restaurante (Classe que queremos modificar)
+        Field field = ReflectionUtils.findField(Restaurante.class, nomePropriedade); // Busca pra mim um campo uma variável dessa classe Restaurante chamada (NomeDaPropriedade) | Aqui teremos um campo representando uma propriedade da classe.
+        field.setAccessible(true); // Tornará a variável acessível, mesmo que ela seja privada. QUEBRA O ACESSO
+
+        // Esse novo valor já vai está convertido, pois foi utilizado um ObjectMapper
+        // Caso não se converter antes, daria algumas exceções
+        Object novoValor = ReflectionUtils.getField(field, restauranteOrigem);
+
+        // Utiliza a instância do campo - Atribuindo o campo, no objeto destino o valor da propriedade.
+        ReflectionUtils.setField(field, restauranteDestino, novoValor);
+    });
+}
+```
