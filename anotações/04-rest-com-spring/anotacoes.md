@@ -629,3 +629,70 @@ private void merge(Map<String, Object> dadosOrigem, Restaurante restauranteDesti
     });
 }
 ```
+
+## 4.35. Introdução ao Modelo de Maturidade de Richardson (RMM)
+
+_Roy fielding,_ criador do REST, deixou claro que para uma API ser considerada REST, deveria seguir todas as **CONSTRAINTS** \
+obrigatórias, na prática, não é o que 100% do mercado segue.
+
+- **Desenvolvedores Puristas:** Seguem a risca todas as _constraints_ obrigatórias
+  - Eles não consideram APIS que não seguem as regras como REST, apenas um API transportando dados com o protocolo HTTP
+- **Desenvolvedores Pragmáticos:** Consideram que é REST, pois não se sentem na obrigação de aplicar 100% das regras.
+
+### Padrões de maturidade
+
+Richardson identificou alguns padrões de maturidade e fez um mapeamento. Ele separa as APIS em 4 níveis conforme a sua maturidade. 
+
+- **Nível 0: POX**
+- **Nível 1: Recursos**
+- **Nível 2: Verbos HTTP**
+- **Nível 3: HATEOS**
+
+### 4.36. Conhecendo o nível 0 do RMM
+
+**Nível 0 - POX (Plain Old XML)**
+
+APIs dentro desse nível não é considerado como REST, utiliza-se o protocolo HTTP apenas como mecânismo de transporte de dados.
+
+Ou seja, não usa os verbos e nem os status HTTP de forma correta.
+
+- Tem apenas um endpoint que vai servir para tudo
+- Semântica dos verbos HTTP não é levado em consideração (USA POST PARA TUDO)
+- Dentro do XML ou JSON informamos o que queremos fazer, como cadastrar, consultar ou atualizar
+- Se der erro, vai retornar o status HTTP 200 ok, com o erro dentro do XML.
+
+### 4.37. Conhecendo o nível 1 do RMM
+
+**Nível 1 - Recursos**
+
+É quando começamos para URI's que identificam recursos. A partir desse nível não temos um único endpoint
+
+- Não se usa corretamente os verbos e nem os códigos de status
+- O corpo das requisições e respostas são parecidos com o nível 0. (Tipo de procedimento definido no corpo)
+- Tem URI's que identificam os recursos
+
+### 4.38. Conhecendo o nível 2 do RMM
+
+**Nível 2 - Verbos HTTP**
+
+Introduz o uso de verbos HTTP conforme a semântica de cada um e conforme o protocolo HTTP, também usa o código de 
+status http corretamente.
+
+- Nível que a maioria das RESt API's se encontram hoje
+- Requisições para um recurso correto
+- Utiliza-se de forma correta o POST, PUT, DELETE 
+
+O mercado no geral já considera esse nível como REST
+
+### 4.39. Conhecendo o nível 3 do RMM
+
+**Nível 3 - HATEOAS** - Hypertext As The Engine Of Application State
+
+É informar o que podemos fazer como próximo passo após uma requisição de um recurso e qual a URI desse passo.
+
+É como se fosse uma navegação em páginas web.
+Os códigos que o servidor enviou para o cliente guia o usuário na utilização;
+
+> **HATEOAS** - A ideia é justamente ajudar os consumidores da API a descobrirem as funcionalidades e o fluxo de navegação.
+
+`Root Entry Ponint` - GUIA PARA -> `/produtos` -> `/produto/{id}` -> `/fornecedor/{id}`
