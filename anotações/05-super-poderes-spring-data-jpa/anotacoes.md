@@ -1,0 +1,1 @@
+# Super poderes do Spring Data JPA

@@ -29,8 +29,8 @@ Esse modelo representa o problema que será resolvido durante o curso.
 | **01** | Introdução                         | ✅ Concluído |
 | **02** | Spring e Injeção de Dependências   | ✅ Concluído |
 | **03** | Introdução ao JPA e Hibernate      | ✅ Concluído |
-| **04** | REST com Spring                    | Em Progresso |
-| **05** | Super Poderes do Spring Data JPA   | ⏳ Pendente |
+| **04** | REST com Spring                    | ✅ Concluído |
+| **05** | Super Poderes do Spring Data JPA   | Em Progresso |
 | **06** | Explorando mais do JPA e Hibernate | ⏳ Pendente |
 | **07** | Pool de conexões e Flyway          | ⏳ Pendente |
 
@@ -40,4 +40,5 @@ ___
 * [Módulo 02: Spring e Injeção de Dependências ](./anotações/02-spring-e-injecao-de-dependencia/anotacoes.md)
 * [Módulo 03: Introdução ao JPA e Hibernate ](./anotações/03-introducao-ao-jpa-e-hibernate/anotacoes.md)
 * [Módulo 04: REST com Spring ](./anotações/04-rest-com-spring/anotacoes.md)
+* [Módulo 05: Super Poderes do Spring Data JPA ](./anotações/05-super-poderes-spring-data-jpa/anotacoes.md)
 
