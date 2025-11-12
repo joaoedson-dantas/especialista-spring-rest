@@ -61,3 +61,29 @@ Quando queremos um novo método de consulta que ele não fornece, basta declarar
 > essa implementação.
 
 Não perdemos o controle sobre a consulta, ser for necessário podemos métodos com a nossa implementação. 
+
+## 5.3. Criando um repositório com Spring Data JPA (SDJ)
+
+Adicionar o projeto do Spring Data JPA: 
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+
+```
+
+Após isso, deve-se criar uma interface e anotar ela como @Repository e, em seguida, herdar o JpaRepository passando \
+o tipo da classe (Entidade JPA) e tipo da chave primária (Id = Long) 
+
+```java
+@Repository // Registrar que é um componente do tipo Repository
+public interface CozinhaRepository extends JpaRepository<Cozinha, Long> {
+    // List<Cozinha> consultarPorNome(String nome);
+}
+```
+
+Em tempo de execução, o Spring Data JPA instância uma implementação com vários métodos: findAll, save, delete, count, etc.
+
+
