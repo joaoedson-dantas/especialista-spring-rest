@@ -94,3 +94,33 @@ Em tempo de execução, o Spring Data JPA instância uma implementação com vá
 - **existsById** -> Verifica se existe | Retorna um boolean
 - **save** -> Salva 
 - **deleteById** -> Deleta pelo id | quando o id buscado não existe no momento realizar a deleção com o deleteById(), ele simplesmente não deleta e não avisa sobre o fato de não existir.
+
+## 5.6. Criando consultas com query methods
+
+Implementando uma consulta que busca por um nome: 
+
+Quando definimos um método na ‘interface’ do repositório, o Spring Data Jpa vai tentar criar uma implementação 
+para esse método, a JPA vai fazer isso conforme as propriedades da entidade. 
+
+```java
+@Repository
+public interface CozinhaRepository extends JpaRepository<Cozinha, Long> {
+    // List<Cozinha> consultarPorNome(String nome);
+    List<Cozinha> nome(String nome);
+}
+```
+
+> O hibernate vai fazer uma pesquisa exata pela propriedade mapeada no método.
+> Ex: Hibernate: select cozinha0_.id as id1_1_, cozinha0_.nome as nome2_1_ from cozinha cozinha0_ where cozinha0_.nome=?
+
+Ou seja, não precisamos ter implementação nenhuma, apenas declarar a assinatura do método, já vai fazer uma consulta
+usando o critério, no caso do nome. 
+
+**Buscando através do prefixo** + **critérios By** \
+
+> Obs: A partir do 'By' começa os critérios, `findByNome` -> vai buscar pelo nome
+
+- **find:** buscar por 
+
+> Obs: Entre o find e o By podemos adicionar qualquer coisa, com exceção das palavras-chave da JPA - `findQualquerCoisaByNome(String nome)` -
+> É uma descrição que serve para nomear o method.
