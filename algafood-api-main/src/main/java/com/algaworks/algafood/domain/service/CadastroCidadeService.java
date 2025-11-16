@@ -8,7 +8,6 @@ import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,26 +21,24 @@ public class CadastroCidadeService {
 
     public Cidade salvar(Cidade cidade) {
         Long estadoId = cidade.getEstado().getId();
-        Estado estado = estadoRepository.buscar(estadoId);
-
-        if (estado == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe cadastro de Estado com o código %d", estadoId)
-            );
-        }
+        Estado estado = estadoRepository.findById(estadoId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe cadastro de Estado com o código %d", estadoId)
+                ));
 
         cidade.setEstado(estado);
-
-        return cidadeRepository.salvar(cidade);
+        return cidadeRepository.save(cidade);
     }
 
     public void excluir(Long cidadeId) {
         try {
-            cidadeRepository.remover(cidadeId);
-        } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe um cadastro de cidade com o código %d", cidadeId)
-            );
+            if (!cidadeRepository.existsById(cidadeId)) {
+                throw new EntidadeNaoEncontradaException(
+                        String.format("Não existe um cadastro de cidade com o código %d", cidadeId)
+                );
+            }
+
+            cidadeRepository.deleteById(cidadeId);
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
                     String.format("Cidade de código %d não pode ser removido, pois está em uso", cidadeId)

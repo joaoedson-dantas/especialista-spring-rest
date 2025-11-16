@@ -1,8 +1,5 @@
 package com.algaworks.algafood.domain.model;
 
-// javax.persistence -> Vem da especificação da JPA
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

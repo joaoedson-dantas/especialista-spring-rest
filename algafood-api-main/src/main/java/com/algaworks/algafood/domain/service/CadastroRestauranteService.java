@@ -6,9 +6,8 @@ import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class CadastroRestauranteService {
@@ -27,6 +26,15 @@ public class CadastroRestauranteService {
                 ));
 
         restaurante.setCozinha(cozinha);
-        return restauranteRepository.salvar(restaurante);
+        return restauranteRepository.save(restaurante);
+    }
+
+    public void excluir(Long restauranteId) {
+        if (!restauranteRepository.existsById(restauranteId)) {
+            throw new EntidadeNaoEncontradaException(
+                    String.format("Não existe um cadastro de Restaurante com código %d", restauranteId));
+        }
+
+        restauranteRepository.deleteById(restauranteId);
     }
 }
