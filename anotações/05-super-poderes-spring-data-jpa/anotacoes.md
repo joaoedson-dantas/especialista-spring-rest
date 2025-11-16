@@ -42,7 +42,7 @@ public List<Cozinha> consultarPorNome(String nomeCozinha) {
 ## 5.2. Conhecendo o projeto Spring Data JPA (SDJ)
 
 O Spring Data JPA fornece um repositório de forma genérica, trazendo as ações mais comuns realizadas na camada de dados, \
-o objeto é reduzir os códigos "boilerplate". 
+o objetivo é reduzir os códigos "boilerplate". 
 
 É uma classe que implementa funcionalidades comuns, como salvar, excluir, listar, etc.
 
@@ -87,3 +87,10 @@ public interface CozinhaRepository extends JpaRepository<Cozinha, Long> {
 Em tempo de execução, o Spring Data JPA instância uma implementação com vários métodos: findAll, save, delete, count, etc.
 
 
+## 5.4. Refatorando o código do projeto para usar o repositório do SDJ
+
+- **findAll** -> Busca todos os objetos salvos no banco, retorna uma lista.
+- **findById** -> Retorno um Optional do objeto buscado. | Usa esse padrão para não retornar null.
+- **existsById** -> Verifica se existe | Retorna um boolean
+- **save** -> Salva 
+- **deleteById** -> Deleta pelo id | quando o id buscado não existe no momento realizar a deleção com o deleteById(), ele simplesmente não deleta e não avisa sobre o fato de não existir.

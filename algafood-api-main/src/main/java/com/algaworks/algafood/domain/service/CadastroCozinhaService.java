@@ -6,7 +6,6 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service // Informa que vai ser um componente Spring - Semântica
@@ -19,23 +18,29 @@ public class CadastroCozinhaService {
     public Cozinha salvar(Cozinha cozinha) {
         // Aqui colocaria outras regras de negócio.
         // ex: Só podera cadastrar uma nova cozinha de segunda a sexta.
-        return cozinhaRepository.salvar(cozinha);
+        return cozinhaRepository.save(cozinha);
     }
 
-    public void excluir(Long id) {
+    public void excluir(Long cozinhaId) {
         try {
-            cozinhaRepository.remover(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe um cadastro de cozinha com o código %d", id)
-            );
+            if (!cozinhaRepository.existsById(cozinhaId)) {
+                throw new EntidadeNaoEncontradaException(
+                        String.format("Não existe um cadastro de cozinha com código %d", cozinhaId));
+            }
 
+            cozinhaRepository.deleteById(cozinhaId);
         } catch (DataIntegrityViolationException e) {
-            // Como é uma exceção de infra, podemos fazer a tradução dessa exceção, lançando uma nova.
-            // Nesse caso, será lançado uma exceção de negócio.
             throw new EntidadeEmUsoException(
-                    String.format("Cozinha de código %d não pode ser removida, pois está em uso", id)
-            );
+                    String.format("Cozinha de código %d não pode ser removida, pois está em uso", cozinhaId));
         }
     }
 }
+
+// Sobre o EmptyResultDataAccessException
+
+/*
+
+*Devido a atualização de versão, o JPA não lança mais EmptyResultDataAccessException quando o id buscado não existe no momento realizar a deleção com o deleteById(),
+* ele simplesmente não deleta e não avisa sobre o fato de não existir, por tanto, para que possamos manter o mesmo comportamento demonstrado na aula,
+* vamos alterar o método excluir() para o seguinte:
+* */
