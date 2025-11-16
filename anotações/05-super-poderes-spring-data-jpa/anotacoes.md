@@ -124,3 +124,50 @@ usando o critério, no caso do nome.
 
 > Obs: Entre o find e o By podemos adicionar qualquer coisa, com exceção das palavras-chave da JPA - `findQualquerCoisaByNome(String nome)` -
 > É uma descrição que serve para nomear o method.
+
+## 5.7. Usando as keywords para definir critérios de query methods
+
+O Spring Data Jpa possui algumas _keywords_, palavras-chave que podemos colocar na assinatura do método para indicar \
+alguma coisa. 
+
+- `Containing` -> Adiciona o Like. É tipo que contenha na propriedade.
+  - Ex: `List<Cozinha> findTodasCozinhaByNomeContaining(String nome);`
+  - Hibernate: select cozinha0_.id as id1_1_, cozinha0_.nome as nome2_1_ from cozinha cozinha0_ where cozinha0_.nome like ? escape ?
+ 
+Link da documentação para saber mais sobre as keywords: \
+https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html
+
+- `Between` - Vai buscar entre dois valores
+  - List<Restaurante> findByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
+- `And` - Adiciona outra palavra-chave na expressão -> essa outra, é um nome de propriedade ou entidade.
+  -  `List<Restaurante> findByContainingAndCozinhaId(String nome, Long cozinhaId);`
+  - `Hibernate: select restaurant0_.id as id1_5_, restaurant0_.cozinha_id as cozinha_4_5_, restaurant0_.nome as nome2_5_, restaurant0_.taxa_frete as taxa_fre3_5_ from restaurante restaurant0_ left outer join cozinha cozinha1_ on restaurant0_.cozinha_id=cozinha1_.id where (restaurant0_.nome like ? escape ?) and cozinha1_.id=?`
+
+> O único 'problema' é que os métodos, quando começam a ficar muito grandes, eles acabam por expondo demais as \
+> propriedades da entidade e talvez nomes grandes dificulta um pouco a leitura do código.
+
+
+## 5.8. Conhecendo os prefixos de query methods
+
+Todos têm funcionamento igual. 
+
+- find
+- read
+- get
+- query
+- stream
+
+Entre o prefixo e o By podemos colocar um flag. Onde seria um prefixo, uma palavra-chave do Spring Data Jpa.
+
+- First -> Implementa uma consulta filtrando somente o primeiro resultado
+  - `Optional<Restaurante> findFirstQualquerCoisaByNomeContaining(String nome);`
+  - Hibernate: select restaurant0_.id as id1_5_, restaurant0_.cozinha_id as cozinha_4_5_, restaurant0_.nome as nome2_5_, restaurant0_.taxa_frete as taxa_fre3_5_ from restaurante restaurant0_ where restaurant0_.nome like ? escape ? limit ?
+
+Observe que ele usa o `Limit` para retornar apenas um. 
+
+- Top -> Traz a quantidade que deseja, utilizando o `top2`
+  - `List<Restaurante> findTop2ByNomeContaining(String nome);` 
+- exists -> Verifica se existe, retorna um boolean
+  - `boolean existsByNome(String nome);`
+- count -> Conta quantos registros tem e retorna um número com a quantidade de registros. 
+  - int countByCozinhaId(Long cozinhaId);
