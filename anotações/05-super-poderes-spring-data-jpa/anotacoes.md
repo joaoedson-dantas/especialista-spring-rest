@@ -171,3 +171,43 @@ Observe que ele usa o `Limit` para retornar apenas um.
   - `boolean existsByNome(String nome);`
 - count -> Conta quantos registros tem e retorna um número com a quantidade de registros. 
   - int countByCozinhaId(Long cozinhaId);
+
+## 5.9. Usando queries JPQL customizadas com @Query
+
+Os _query methods_ são bastantes úteis, mas vão ocorrer momentos onde precisamos de consulta mais complexas \,
+além disso, quanto mais complexo vão ficando os 'critérios' o método vai ficar com o nome muito confuso e difícil de manter \
+e ainda acaba por expor muito a entidade no método.
+
+Vamos refatorar esse método: 
+
+```java
+    List<Restaurante> findByNomeContainingAndCozinhaId(String nome, Long cozinhaId);
+```
+
+Para funcionar, **é preciso anotar o método com a anotação @Query**
+
+@Query -> Como propriedade dessa anotação, podemos passar uma consulta JPQL 
+
+**Obs:** Para passar os parêmtros recebidos no método, utilizamos os :nomeParametro, conforme exemplo abaixo. 
+
+```java
+import org.springframework.data.jpa.repository.Query;
+
+@Query("from Restaurante where nome like %:nome%")
+List<Restaurante> consultarPorNome(String nome);
+```
+
+Um ponto importante, caso o nome que vem no parâmetro, seja o mesmo utilizado na consulta \
+o bind vai funcionar sem configuração adicional, caso contrário, é necessário adicionar uma anotação \
+@Param("id"), passando como argumento o nome do parâmetro que queremos fazer o bind.
+
+Ex: 
+
+```java
+import org.springframework.data.jpa.repository.Query;
+
+@Query("from Restaurante " +
+        " where nome like %:nome% and cozinha.id = :id")
+List<Restaurante> consultarPorNome(String nome, @Param("id") Long cozinhaId);
+```
+
