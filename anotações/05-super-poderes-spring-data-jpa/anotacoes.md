@@ -211,3 +211,98 @@ import org.springframework.data.jpa.repository.Query;
 List<Restaurante> consultarPorNome(String nome, @Param("id") Long cozinhaId);
 ```
 
+## 5.11. Implementando um repositório SDJ customizado
+
+As vezes é necessário na consulta adicionar código Java, para consultas muito dinâmicas, executar alguma lógica para \
+essa consulta acontecer. Nem sempre será possível apenas utilizando JPA fornece.
+
+**O Spring Data JPA permite criar um repositório customizado, apenas para os métodos necessários**
+
+**Onde criar?**
+
+-- infrastructure -- repository
+
+exemplo: 
+
+```java
+public class RestauranteRepositoryImpl { }
+```
+
+Essa classe, servirá para implementar um repositório customization de Restaurante. \ 
+Deveremos criar um repositório customizado, adicionando o sufixo Impl.
+
+**OBS:** O Sufixo "Impl" é importante para identificar que será uma implementação customizada do Repository
+
+@PersistenceContext -> Serve para fazer a injeção do contexto de persistência, no caso, serve para injetar um EntityManager \
+gerenciado pelo container (Spring/Jakarta EE) dentro da sua classe, isso irá **permitir que você**
+
+**O que é o Persistence Context?**
+
+é como uma “sessão” onde o JPA:
+
+- Gerencia entidades em memória
+- Controla o ciclo de vida das entidades (managed, detached, removed)
+- Faz dirty checking (detecta mudanças automaticamente)
+- Sincroniza o estado das entidades com o banco (flush)
+- 
+O `EntityManager` é a porta de entrada para esse contexto.
+
+Exemplo: 
+
+```java
+@Repository
+public class RestauranteRepositoryImpl {
+
+    @PersistenceContext // Serve para fazer a injeção do contexto de persistência
+    private EntityManager manager;
+
+    // Nome do método não tem relevância, pode ser qualquer nome
+    public List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
+
+        var jpql = "from Restaurante where nome like :nome " +
+                "and taxaFrete between :taxaFreteInicial and :taxaFreteFinal";
+
+        return manager.createQuery(jpql, Restaurante.class) // Aqui vai criar a query, passando a consulta em JPQL e o seu tipo de retorno
+                .setParameter("nome", "%" + nome + "%") // adicionando os parâmetros da consulta
+                .setParameter("taxaFreteInicial", taxaFreteInicial)
+                .setParameter("taxaFreteFinal" ,taxaFreteFinal)
+                .getResultList(); // Busca o resultado.
+    }
+}
+```
+
+**IMPORTANTE ENTENDER**
+
+Para ser possível utilizar esse método via repositorio original, será necessário criar a assinatura na interface \
+Logo, o Spring Data Jpa, vai identificar a assinatura e vai verificar que existe uma implementação customizada, vai \
+verficar que dentro dessa implementação customizada, existe um método com a mesma assinatura do método da interface
+
+Dessa forma, vai realizar o vínculo com o método da implementação customizada.
+
+Para isso acontecer é necessário ter o nome do repositório com o sufixo "Impl"
+
+A vantagem que dentro desse método é código Java, podendo ser feito qualquer lógica.
+
+**PROBLEMA**
+
+Caso, mude o nome da assinatura do método, no repositório original ou no Impl, não vai ocorrer erro \
+de compilação, logo para evitar isso, é necessário criar uma interface, essa interface deverá está no pacote de 
+domínio.
+
+E, no repositório original, apagamos a assinatura e herdamos do RestauranteRepositoryQueries, que será 
+a interface que tem o método find.
+
+Agora, caso mudar o nome, dará um erro de compilação e em tempo de execução.
+
+Exemplo: 
+
+```java
+public interface RestauranteRepositoryQueries {
+    List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal);
+}
+
+// uso
+
+@Repository
+public interface RestauranteRepository extends JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries {
+```

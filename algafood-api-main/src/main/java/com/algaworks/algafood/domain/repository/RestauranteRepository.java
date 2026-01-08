@@ -12,7 +12,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface RestauranteRepository extends JpaRepository<Restaurante, Long> {
+public interface RestauranteRepository extends JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries {
     // query methods
     List<Restaurante> findByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
     List<Restaurante> findByNomeContainingAndCozinhaId(String nome, Long cozinhaId);
@@ -24,4 +24,8 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
     @Query("from Restaurante " +
             " where nome like %:nome% and cozinha.id = :id")
     List<Restaurante> consultarPorNome(String nome, @Param("id") Long cozinhaId);
+
+//    Adicionando o método do repositório customizado
+//      Pode ser apagado, pois será herdado do RestauranteRepositoryQueries
+//    List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal);
 }
