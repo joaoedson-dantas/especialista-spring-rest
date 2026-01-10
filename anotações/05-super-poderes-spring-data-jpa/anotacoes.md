@@ -234,7 +234,7 @@ Deveremos criar um repositório customizado, adicionando o sufixo Impl.
 **OBS:** O Sufixo "Impl" é importante para identificar que será uma implementação customizada do Repository
 
 @PersistenceContext -> Serve para fazer a injeção do contexto de persistência, no caso, serve para injetar um EntityManager \
-gerenciado pelo container (Spring/Jakarta EE) dentro da sua classe, isso irá **permitir que você**
+gerenciado pelo container (Spring/Jakarta EE) dentro da sua classe.
 
 **O que é o Persistence Context?**
 
@@ -286,7 +286,7 @@ A vantagem que dentro desse método é código Java, podendo ser feito qualquer 
 **PROBLEMA**
 
 Caso, mude o nome da assinatura do método, no repositório original ou no Impl, não vai ocorrer erro \
-de compilação, logo para evitar isso, é necessário criar uma interface, essa interface deverá está no pacote de 
+de compilação, logo, para evitar isso, é necessário criar uma interface, essa interface deverá está no pacote de 
 domínio.
 
 E, no repositório original, apagamos a assinatura e herdamos do RestauranteRepositoryQueries, que será 
@@ -304,5 +304,49 @@ public interface RestauranteRepositoryQueries {
 // uso
 
 @Repository
-public interface RestauranteRepository extends JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries {
+public interface RestauranteRepository extends JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries {}
 ```
+## 5.12. Implementando uma consulta dinâmica com JPQL
+
+Quando queremos implementar consultas dinâmicas com JPQL, precisamos trabalhar com concatenação de strings utilizando
+o **StringBuilder** e, para setar os parâmetros, utilizamos uma 
+estratégia de HashMap
+
+Exemplo: 
+
+```java
+    @Override
+public List<Restaurante> findDinamico(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
+  StringBuilder jpql = new StringBuilder();
+  jpql.append("from Restaurante where 1 = 1 ");
+
+  var parametros = new HashMap<String, Object>();
+
+  if (StringUtils.hasLength(nome)) {
+    jpql.append(" and nome like :nome");
+    parametros.put("nome", "%" + nome + "%");
+  }
+
+  if (taxaFreteInicial != null) {
+    jpql.append(" and taxaFrete >= :taxaFreteInicial");
+    parametros.put("taxaFreteInicial", taxaFreteInicial);
+  }
+
+  if (taxaFreteFinal != null) {
+    jpql.append(" and taxaFrete <= :taxaFreteFinal");
+    parametros.put("taxaFreteFinal", taxaFreteFinal);
+  }
+
+  // Ele cria uma instância de uma consulta tipada
+  TypedQuery<Restaurante> query = manager
+          .createQuery(jpql.toString(), Restaurante.class);
+
+  parametros.forEach((chave, valor) -> query.setParameter(chave, valor));
+  // parametros.forEach(query::setParameter);
+
+  return query.getResultList();
+}
+```
+
+hasLength -> Verifica se não está nullo e se não está vazio.
+
