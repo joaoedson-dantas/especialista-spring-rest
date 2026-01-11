@@ -10,6 +10,8 @@ import org.springframework.util.StringUtils;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +64,28 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
         parametros.forEach((chave, valor) -> query.setParameter(chave, valor));
         // parametros.forEach(query::setParameter);
 
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Restaurante> findComCriteria(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
+        /*
+         *  É a "fábrica". Você o usa para criar a query em si e para construir
+         *  as cláusulas (filtros como equal, like, greaterThan).
+         * */
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+
+        /*
+         *  Representa a estrutura da sua consulta (o que você quer selecionar, como quer ordenar, etc.).
+         * */
+        CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);
+        criteria.from(Restaurante.class);
+
+
+        // Cria uma instância de uma consulta tipada
+        TypedQuery<Restaurante> query = manager.createQuery(criteria);
+
+        // Retorna uma lista de restaurante, é o tipo do TypedQuery
         return query.getResultList();
     }
 }

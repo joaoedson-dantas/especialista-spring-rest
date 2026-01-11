@@ -350,3 +350,71 @@ public List<Restaurante> findDinamico(String nome, BigDecimal taxaFreteInicial, 
 
 hasLength -> Verifica se não está nullo e se não está vazio.
 
+## 5.13. Implementando uma consulta simples com Critéria API
+
+**Critéria API** 
+
+É uma API do JPA muito poderosa para criação de queries de forma progamática.
+
+Serve para quando precisamos de consultas complexas e dinâmicas, que com JPQL seria muito 
+difícil chegar nesse resultado.
+
+Essa API permite montar uma consulta usando código Java e no final um query SQL é gerada e
+executada no banco de dados. 
+
+Obs: Para consultas muito simples, não vale o esforço o critéria API
+
+**Como usar?** 
+
+O método tem uma sobrecarga que recebe o **CriteriaQuery<T>**`manager.createQuery(CriteriaQuery<T>, Restaurante.class)` 
+e vamos usar essa sobrecarga. 
+
+**O que é uma CriteriaQuery?** 
+
+É uma interface, é resposável por montar a estrutra de uma query, a composição das cláusulas. 
+
+O tipo CriteriaQuery tem vários métodos úteis, como `select`, `from` , `where`, isso nos faz entender que, o criteria query
+vai ser responsável por compor as cláusulas.
+
+**Como obter uma instância de uma CriteriaQuery?**
+
+Precismos de uma instância de um outro tipo, chamado **CriteriaBuilder**.
+
+Esse builder é uma interface que funciona como uma fábrica, serve para construir elementos que precisamos para fazer consultas \
+como os critérios da consulta e a própria _CriteriaQuery_.
+
+A partir do builder, utilizamos o método **builder.createQuery** passando como argumento a classe para o qual queremos
+criar uma criteriaQuery.
+
+// Diz assim: Oh Fábrica (CriteriaBuilder), me dar um construtor de cláusulas para model Restaurante.
+Ex: `CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);` 
+
+**De onde buscar um builder?**
+
+Obtemos um builder a partir do EntityManager;
+Ex: `CriteriaBuilder builder = manager.getCriteriaBuilder();` 
+
+Exemplo de uso: 
+
+```java
+public List<Restaurante> findComCriteria(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
+    /*
+     *  É a "fábrica". Você o usa para criar a query em si e para construir
+     *  as cláusulas (filtros como equal, like, greaterThan).
+     * */
+    CriteriaBuilder builder = manager.getCriteriaBuilder();
+
+    /*
+     *  Representa a estrutura da sua consulta (o que você quer selecionar, como quer ordenar, etc.).
+     * */
+    CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);
+    criteria.from(Restaurante.class);
+
+
+    // Cria uma instância de uma consulta tipada
+    TypedQuery<Restaurante> query = manager.createQuery(criteria);
+
+    // Retorna uma lista de restaurante, é o tipo do TypedQuery
+    return query.getResultList();
+}
+```

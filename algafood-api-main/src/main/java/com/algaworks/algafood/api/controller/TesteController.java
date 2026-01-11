@@ -54,6 +54,6 @@ public class TesteController {
     public List<Restaurante> restaurantesPorNomeEFrete(String nome,
                                                        BigDecimal taxaFreteInicial,
                                                        BigDecimal taxaFreteFinal) {
-        return restauranteRepository.findDinamico(nome, taxaFreteInicial, taxaFreteFinal);
+        return restauranteRepository.findComCriteria(nome, taxaFreteInicial, taxaFreteFinal);
     }
 }
