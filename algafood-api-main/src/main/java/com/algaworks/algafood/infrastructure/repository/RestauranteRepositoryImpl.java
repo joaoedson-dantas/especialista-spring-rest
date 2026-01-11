@@ -12,6 +12,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -70,17 +72,35 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
     @Override
     public List<Restaurante> findComCriteria(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
         /*
-         *  É a "fábrica". Você o usa para criar a query em si e para construir
+         *  CriteriaBuilder - É a "fábrica". Você o usa para criar a query em si e para construir
          *  as cláusulas (filtros como equal, like, greaterThan).
          * */
         CriteriaBuilder builder = manager.getCriteriaBuilder();
 
         /*
-         *  Representa a estrutura da sua consulta (o que você quer selecionar, como quer ordenar, etc.).
+         *  CriteriaQuery - Representa a estrutura da sua consulta (o que você quer selecionar, como quer ordenar, etc.).
          * */
         CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);
-        criteria.from(Restaurante.class);
 
+        /*
+        *  Root - É a origem dos dados. Pense nele como o FROM do SQL. Ele define sobre qual entidade você está pesquisando.
+        * */
+        Root<Restaurante> root = criteria.from(Restaurante.class);
+
+        // Predicado é um critério, como um filtro.
+        Predicate nomePredicate = builder.like(root.get("nome"), "%" + nome + "%");
+
+        // greaterThanOrEqualTo = Maior ou igual a = >=
+        Predicate taxaInicialPredicate = builder
+                .greaterThanOrEqualTo(root.get("taxaFrete"), taxaFreteInicial);
+
+        // lessThanOrEqualTo -> Menor ou igual
+        Predicate taxaFreteFinalPredicate = builder
+                .lessThanOrEqualTo(root.get("taxaFrete"), taxaFreteFinal);
+
+        // Passando os predicados, as restrições para o wehre.
+        // Quando passamos 3 predicados, ele vai fazer um "AND"
+        criteria.where(nomePredicate, taxaInicialPredicate, taxaFreteFinalPredicate);
 
         // Cria uma instância de uma consulta tipada
         TypedQuery<Restaurante> query = manager.createQuery(criteria);

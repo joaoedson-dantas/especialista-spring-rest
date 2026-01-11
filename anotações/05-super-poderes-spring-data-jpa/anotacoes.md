@@ -418,3 +418,87 @@ public List<Restaurante> findComCriteria(String nome, BigDecimal taxaFreteInicia
     return query.getResultList();
 }
 ```
+## 5.14. Adicionando restrições na clásula where com Critéria API
+
+Adicionamos a clásula where utilizando um método do **CriteriaQuery**, o método where(); \
+`criteria.where(Predicate... restrictions);` esse método, recebe um varArgs (um array de predicados).
+
+### O que é um predicado?
+
+Predicado é um critério, como um filtro. 
+
+**Como conseguimos uma instância desse Predicate?**
+
+Utilizamos o builder, do CriteriaBuilder, ele é uma fábrica que vai nos dar o que for necessário 
+para construção de uma consulta utilizando o criteria. 
+
+Nos métodos de cláusulas, passamos como argumento no primeiro parâmetro a propriedade e o segundo parâmetro o valor. 
+
+**propriedade** -> De qual entidade vem essa propriedade? Lembre-se, é a propriedade em sí da entidade.
+
+Para pegar essa propriedades, buscamos ela a partir do root do tipo Restaurante. 
+
+### **O que é Root?**
+/*
+*  Root - É a origem dos dados. Pense nele como o FROM do SQL. Ele define sobre qual entidade você está pesquisando.
+* */
+`Root<Restaurante> root = criteria.from(Restaurante.class);`
+
+A partir desse root, podemos pegar o atributo, que vai ser uma String. 
+`Predicate nomePredicate = builder.like(root.get("nome"), )` -> Aqui é como se fosse: Restaurante.nome 
+
+*root.get("nome")** -> Isso é a representação da propriedade nome, dentro do root<Restaurante>
+
+### Segundo parâmetro, **valor**:
+
+Colocamos exatamente o valor que queremos filtrar, geralmente o que recebemos como parametro da consulta.
+
+`Predicate nomePredicate = builder.like(root.get("nome"), nome);`
+
+Exemplo: 
+
+```java
+public List<Restaurante> findComCriteria(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
+    /*
+     *  CriteriaBuilder - É a "fábrica". Você o usa para criar a query em si e para construir
+     *  as cláusulas (filtros como equal, like, greaterThan).
+     * */
+    CriteriaBuilder builder = manager.getCriteriaBuilder();
+
+    /*
+     *  CriteriaQuery - Representa a estrutura da sua consulta (o que você quer selecionar, como quer ordenar, etc.).
+     * */
+    CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);
+
+    /*
+    *  Root - É a origem dos dados. Pense nele como o FROM do SQL. Ele define sobre qual entidade você está pesquisando.
+    * */
+    Root<Restaurante> root = criteria.from(Restaurante.class);
+
+    // Predicado é um critério, como um filtro.
+    Predicate nomePredicate = builder.like(root.get("nome"), "%" + nome + "%");
+
+    // greaterThanOrEqualTo = Maior ou igual a = >=
+    Predicate taxaInicialPredicate = builder
+            .greaterThanOrEqualTo(root.get("taxaFrete"), taxaFreteInicial);
+
+    // lessThanOrEqualTo -> Menor ou igual
+    Predicate taxaFreteFinalPredicate = builder
+            .lessThanOrEqualTo(root.get("taxaFrete"), taxaFreteFinal);
+
+    // Passando os predicados, as restrições para o wehre.
+    // Quando passamos 3 predicados, ele vai fazer um "AND"
+    criteria.where(nomePredicate, taxaInicialPredicate, taxaFreteFinalPredicate);
+
+    // Cria uma instância de uma consulta tipada
+    TypedQuery<Restaurante> query = manager.createQuery(criteria);
+
+    // Retorna uma lista de restaurante, é o tipo do TypedQuery
+    return query.getResultList();
+}
+
+```
+
+**lessThanOrEqualTo -> Menor ou igual = <=**
+**greaterThanOrEqualTo = Maior ou igual a = >=**
+
