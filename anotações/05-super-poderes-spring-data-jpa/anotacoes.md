@@ -533,3 +533,35 @@ if (taxaFreteFinal != null) {
 criteria.where(predicates.toArray(new Predicate[0]));
 ```
 
+## 5.16. Conhecendo o uso do padrão Specifications (DDD) com SDJ
+
+É um padrão de projeto, que faz parte do DDD, e o Spring Data JPA implementou esse conceito a
+sua API, para ter suporte a mais uma forma de criar consultas dinâmicas.
+
+**Um Specification encapsula uma restrição**, ou seja, um filtro, que pode ser combinado com 
+outras specifications e assim se forma uma combinação de restrições.
+
+O objetivo é deixar o código mais fluído e elegante, criando as restrições.
+
+**O Specification Pattern** serve para _**encapsular regras de negócio**_ (ou critérios) \
+ em objetos reutilizáveis, combináveis e testáveis.
+
+Em vez de espalhar regras em ifs, queries ou serviços, você cria especificações que respondem à pergunta:
+
+“Esse objeto satisfaz essa regra?”
+
+**Definição formal (Eric Evans)**
+
+| A Specification **afirma um _predicado_ sobre um objeto**. Ela pode ser combinada com outras Specifications e **pode ser usada para validação, seleção ou criação de objetos**.
+
+
+```java
+// Aqui teria uma classe que representa uma restrição, um filtro.
+// Dentro dessa classe, teria o código que faríamos a restrição (criando o seu predicado)
+var comFreteGratis = new RestauranteComFreteGratisSpecification();
+var comNomeSemelhante = new ComNomeSemelhanteSpec(nome);
+
+// para fazer a consulta, chamaria o findAll com as resitrições.
+return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
+````
+

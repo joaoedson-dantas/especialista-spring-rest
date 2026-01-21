@@ -56,4 +56,16 @@ public class TesteController {
                                                        BigDecimal taxaFreteFinal) {
         return restauranteRepository.findComCriteria(nome, taxaFreteInicial, taxaFreteFinal);
     }
+
+    // Exemplo de como usaríamos um Specification
+    @GetMapping("/restaurantes/com-frete-gratis")
+    public List<Restaurante> restaurantesComFreteGratis(String nome) {
+        // Aqui teria uma classe que representa uma restrição, um filtro.
+        // Dentro dessa classe, teria o código que faríamos a restrição (criando o seu predicado)
+        var comFreteGratis = new RestauranteComFreteGratisSpecification();
+        var comNomeSemelhante = new ComNomeSemelhanteSpec(nome);
+
+        // para fazer a consulta, chamaria o findAll com as resitrições.
+        return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
+    }
 }
