@@ -433,9 +433,9 @@ para construção de uma consulta utilizando o criteria.
 
 Nos métodos de cláusulas, passamos como argumento no primeiro parâmetro a propriedade e o segundo parâmetro o valor. 
 
-**propriedade** -> De qual entidade vem essa propriedade? Lembre-se, é a propriedade em sí da entidade.
+**Propriedade** -> De qual entidade vem essa propriedade? Lembre-se, é a propriedade em sí da entidade.
 
-Para pegar essa propriedades, buscamos ela a partir do root do tipo Restaurante. 
+Para pegar essa propriedade, buscamos ela a partir do root do tipo Restaurante. 
 
 ### **O que é Root?**
 /*
@@ -459,7 +459,7 @@ Exemplo:
 ```java
 public List<Restaurante> findComCriteria(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
     /*
-     *  CriteriaBuilder - É a "fábrica". Você o usa para criar a query em si e para construir
+     *  CriteriaBuilder - É a "fábrica". Você usa-o para criar a query em si e para construir
      *  as cláusulas (filtros como equal, like, greaterThan).
      * */
     CriteriaBuilder builder = manager.getCriteriaBuilder();
@@ -564,4 +564,71 @@ var comNomeSemelhante = new ComNomeSemelhanteSpec(nome);
 // para fazer a consulta, chamaria o findAll com as resitrições.
 return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
 ````
+
+## 5.17. Implementando Specifications com SDJ
+
+A criação dos specifications devem está no pacote _infra_ -> _repository_ -> spec.
+
+Consideremos como infra, pois tem código se comunicando diretamente com a JPA. 
+
+Para utilizar, precisamos criar uma classe implementando a ‘interface’ Specification<T> e
+implementar o método `toPredicate`, ou seja, é um método que vai criar um `predicate`.
+
+### Criando um Specificação
+
+```java
+/*
+ *  Essa é a especificação do domínio Restaurante, é uma regra de negócio e
+ *  toda a vez que precisar mudar, mudaríamos somente a especificação.
+ *
+ *  Ela vai representar um filtro, onde taxaFrete é zero.
+ * */
+public class RestauranteComFreteGratisSpec implements Specification<Restaurante> {
+
+  /*
+   *  Método responsável por criar um predicate.
+   *  Predicate: Predicado é um critério, como um filtro.
+   *
+   *  Esse método, já recebe o root, criteriaQuery e Builder
+   *
+   *  root: É a origem dos dados. Pense nele como o FROM do SQL. Ele define sobre qual entidade você está pesquisando.
+   *   A partir desse root, podemos pegar o atributo, que vai ser uma String.
+   *
+   *  CriteriaQuery - Representa a estrutura da sua consulta (o que você quer selecionar, como quer ordenar, etc.).
+   *
+   *  CriteriaBuilder -> É a "fábrica". Você usa-o para criar a query em si e para construir as cláusulas (filtros como equal, like, greaterThan).
+   * */
+  @Override
+  public Predicate toPredicate(Root<Restaurante> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+    // Aqui, vou ter que criar a condição da especificação, que representa um filtro onde taxaFrete é zero.
+    return criteriaBuilder.equal(root.get("taxaFrete"), BigDecimal.ZERO);
+  }
+}
+```
+
+### Utilizando as Specs
+
+```java
+@GetMapping("/restaurantes/com-frete-gratis")
+public List<Restaurante> restaurantesComFreteGratis(String nome) {
+    
+    // Specifications
+    var comFreteGratisSpec = new RestauranteComFreteGratisSpec();
+    var comNomeSemelhanteSpec = new RestauranteComNomeSemelhanteSpec(nome);
+
+    
+    // Fazendo a consulta, chamando o findAll com as restrições 
+    return restauranteRepository.findAll(comFreteGratisSpec.and(comNomeSemelhanteSpec));
+}
+````
+
+**OBS** Para funcionar, é necessário o repositório está preparado para receber um Specification
+
+### Preparando o repostório para receber um spec 
+
+O Repositório terá que herdar a interface `JpaSpecificationExecutor<T>`.
+
+Essa interface possui métodos que recebe como parâmetro um Specification. 
+
+Obs: Cada Specification, cria um predicate do JPA.
 

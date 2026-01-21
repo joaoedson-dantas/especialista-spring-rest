@@ -4,6 +4,8 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
+import com.algaworks.algafood.infrastructure.repository.spec.RestauranteComFreteGratisSpec;
+import com.algaworks.algafood.infrastructure.repository.spec.RestauranteComNomeSemelhanteSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,10 +64,14 @@ public class TesteController {
     public List<Restaurante> restaurantesComFreteGratis(String nome) {
         // Aqui teria uma classe que representa uma restrição, um filtro.
         // Dentro dessa classe, teria o código que faríamos a restrição (criando o seu predicado)
-        var comFreteGratis = new RestauranteComFreteGratisSpecification();
-        var comNomeSemelhante = new ComNomeSemelhanteSpec(nome);
+        // var comFreteGratis = new RestauranteComFreteGratisSpecification();
+        // var comNomeSemelhante = new ComNomeSemelhanteSpec(nome);
 
         // para fazer a consulta, chamaria o findAll com as resitrições.
-        return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
+        // eturn restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
+
+        var comFreteGratisSpec = new RestauranteComFreteGratisSpec();
+        var comNomeSemelhanteSpec = new RestauranteComNomeSemelhanteSpec(nome);
+        return restauranteRepository.findAll(comFreteGratisSpec.and(comNomeSemelhanteSpec));
     }
 }
