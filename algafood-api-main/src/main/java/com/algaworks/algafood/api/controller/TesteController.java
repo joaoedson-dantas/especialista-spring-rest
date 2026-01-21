@@ -76,8 +76,6 @@ public class TesteController {
 //        return restauranteRepository.findAll(comFreteGratisSpec.and(comNomeSemelhanteSpec));
 
         // Usando a fábrica de Specification
-        return restauranteRepository.findAll(
-                comFreteGratis().and(comNomeSemelhante(nome))
-        );
+        return restauranteRepository.findComFreteGratis(nome);
     }
 }

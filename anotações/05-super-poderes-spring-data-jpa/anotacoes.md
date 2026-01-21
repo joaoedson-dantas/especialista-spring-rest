@@ -693,3 +693,78 @@ public class RestauranteSpecs {
 }
 ```
 
+## 5.19. Injetando o próprio repositório na implementação customizada e a anotação @Lazy
+
+Quando utilizamos as Specifications, trazemos a responsabilidade de adicionar os filtros por parte \
+de quem está usando o repositório e não pelo repositório em sí.
+
+- Pode gerar duplicidade de código
+
+Podemos continuar a usar o padrão Specification, mas deve-se criar um método no
+repositorio como um ponto central para fazer a busca e esse método do repositório que vai usar o Specification
+
+O local adequado para criação desse método é criando a definição na interface `RestauranteRepositoryQueries` \ 
+e implementando no Impl.
+
+Ex: 
+
+```java
+public interface RestauranteRepositoryQueries {
+    List<Restaurante> findComFreteGratis(String nome);
+}
+```
+
+**Implementação**
+
+```java
+@Repository
+public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
+    @Override
+    public List<Restaurante> findComFreteGratis(String nome) {
+        return manager.findAll(
+                comFreteGratis().and(comNomeSemelhante(nome)));
+    }
+}
+```
+
+Contudo, como estamos dentro `RestauranteRepositoryImpl` não temos acesso ao método `findAll` que recebe \
+como argumentos as Specifications. Nesse caso, na classe de implementação (`RestauranteRepositoryImpl`),
+precisamos injetar o `RestauranteRepository`, mas, caso tentarmos inicializar a aplicação vai ocorrer a seguinte exceção:
+
+`Relying upon circular references is discouraged and they are prohibited by default.`
+
+Uma referência circular ocorre quando o Bean A depende do Bean B,
+e o Bean B depende do Bean A, formando um ciclo de dependências.
+
+Nesse cenário, o Spring não consegue concluir o ciclo de criação
+dos beans, pois cada um precisa do outro para ser instanciado
+ou inicializado, o que torna a resolução das dependências impossível
+(pincipalmente no caso de injeção via construtor).
+
+Para solucionar esse problema podemos usar a anotação `@Lazy` na propriedade injetada.
+Ou seja, estamos falando para o Spring só instânciar a dependência no momento que for preciso. 
+Ocorre uma iniciação de forma preguiçosa.
+
+```Java
+import org.springframework.context.annotation.Lazy;
+
+@Repository
+public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
+
+  @Autowired
+  @Lazy
+  private RestauranteRepository restauranteRepository;
+
+  @Override
+  @Lazy
+  public List<Restaurante> findComFreteGratis(String nome) {
+    return restauranteRepository.findAll(
+            comFreteGratis().and(comNomeSemelhante(nome)));
+  }
+}
+```
+
+Agora, a reponsabilidade está no repository e o controller só precisa chamar essa implementacão.
+
+`return restauranteRepository.findComFreteGratis(nome);`
+
