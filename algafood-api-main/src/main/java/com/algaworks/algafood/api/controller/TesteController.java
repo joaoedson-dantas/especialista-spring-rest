@@ -78,4 +78,9 @@ public class TesteController {
         // Usando a fábrica de Specification
         return restauranteRepository.findComFreteGratis(nome);
     }
+
+    @GetMapping("/restautantes/primeiro")
+    public Optional<Restaurante> restaurantesPrimeiro() {
+        return restauranteRepository.buscarPrimeiro();
+    }
 }

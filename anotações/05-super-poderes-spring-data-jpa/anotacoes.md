@@ -768,3 +768,71 @@ Agora, a reponsabilidade está no repository e o controller só precisa chamar e
 
 `return restauranteRepository.findComFreteGratis(nome);`
 
+## 5.20. Estendendo o JpaRepository para customizar o repositório base
+
+Da forma que está hoje, sempre que precisarmos de uma nova consulta, será necessário customizar 
+a interface do repositorio e talvez também implementar o método.
+
+Para fazer isso, é necessário criar um interface, essa interface vai herdar JpaRepository (A mesma herdada no repostiorio original)
+
+Exemplo: 
+
+
+```java
+// Informamos para o Spring que não deve ser levando em conta para fim de instanciação
+// de um repositório pelo Spring Data Jpa, ou seja,
+// o Spring Data Jpa não deve instânciar uma implementação para essa interface, deve ignorar.
+@NoRepositoryBean
+public interface CustomJpaRepository<T, ID> extends JpaRepository<T, ID> {
+
+    Optional<T> buscarPrimeiro(String nome);
+
+}
+
+/*
+*  CustomJpaRepository<T, ID> -> Quando eu herdar essa interface é necessário especificar os parâmetros de tipo.
+*  Para informar o tipo da Entidade e o tipo do ID da entidade
+*  extends JpaRepository<T, ID> -> Após isso, repasamos o que estamos recebendo via generic para o interface repository
+* */
+```
+
+Agora, no `RestauranteRepository` ao invés de herdar `JpaRepository`, vou herdar o `CustomJpaRepository` que por sua vez 
+já herda o `JpaRepository` mantendo assim os mesmos métodos. 
+
+Para funcionar precisamos criar a implementação do método declarado no `CustomJpaRepository`
+
+```java
+public class CustomJpaRepositoryImpl<T, D> extends SimpleJpaRepository<T, D> implements CustomJpaRepository<T, D> {
+
+    private EntityManager entityManager;
+
+    public CustomJpaRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
+        super(entityInformation, entityManager);
+    }
+
+    @Override
+    public Optional<T> buscarPrimeiro(String nome) {
+        var jpql = "from " + getDomainClass().getName();
+        T entity = entityManager
+                .createQuery(jpql, getDomainClass()) // Para pegar a entidade TIPADA (T)
+                .setMaxResults(1) // vai gerar uma consulta SQL usando o LIMIT de apenas uma linha
+                .getSingleResult();
+
+        // ofNullable - Retornando um optional (pode ter um valor nulo dentro desse retorno)
+        return Optional.ofNullable(entity);
+    }
+}
+
+// getDomainClass().getName() => Pegando o nome da classe para qual esse repositório exige = T
+```
+
+Após isso será necessário ativar o repositório customizado, para mostrar ao Spring Data Jpa que temos 
+um outro repositorio base customizado.
+
+Adicionamos a anotação na classe SpringBootApplication:
+
+`@EnableJpaRepositories@EnableJpaRepositories(repositoryBaseClass = CustomJpaRepositoryImpl.class)`
+
+Dessa forma substituimos a implementação do repositório base.
+
+

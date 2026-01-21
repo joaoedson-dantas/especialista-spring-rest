@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface RestauranteRepository extends
-        JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries, JpaSpecificationExecutor<Restaurante> {
+        CustomJpaRepository<Restaurante, Long>, RestauranteRepositoryQueries, JpaSpecificationExecutor<Restaurante> {
     // query methods
     List<Restaurante> findByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
     List<Restaurante> findByNomeContainingAndCozinhaId(String nome, Long cozinhaId);
@@ -30,4 +30,6 @@ public interface RestauranteRepository extends
 //    Adicionando o método do repositório customizado
 //      Pode ser apagado, pois será herdado do RestauranteRepositoryQueries
 //    List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal);
+
+
 }
