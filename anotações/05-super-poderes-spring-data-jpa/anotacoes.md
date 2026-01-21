@@ -632,3 +632,64 @@ Essa interface possui métodos que recebe como parâmetro um Specification.
 
 Obs: Cada Specification, cria um predicate do JPA.
 
+## 5.18. Criando uma fábrica de Specifications
+
+Ao invés de instânciar cada classe de Specification, será criado outra classe, onde cada
+método dessa classe será uma fábrica de um Specification específico.
+
+Para chamar o método no seu repostório, pode se utilizar da importação estática. 
+
+```java
+
+/*
+ * Importação de forma estática (static import)
+ *  é um recurso que permite acessar membros static (atributos ou métodos) de uma 
+ *  classe sem precisar referenciar o nome da classe toda a vez.
+ * 
+ *  Ela foi introduzida no Java 5 e o objetivo principal é reduzir verbosidade e melhorar a legibilidade 
+ *  quando você usa muitos membros estáticos da mesma classe.
+ * */ 
+import static com.algaworks.algafood.infrastructure.repository.spec.RestauranteSpecs.comFreteGratis;
+
+@RestController
+@RequestMapping("/teste")
+public class TesteController {
+    @GetMapping("/restaurantes/com-frete-gratis")
+    public List<Restaurante> restaurantesComFreteGratis(String nome) {
+        return restauranteRepository.findAll(comFreteGratis());
+    }
+}
+```
+
+### Fabrica de Specifications
+
+```java
+
+public class RestauranteSpecs {
+
+    public static Specification<Restaurante> comFreteGratis() {
+        /*
+         * A interface Specification define apenas um método abstrato: toPredicate.
+         *
+         * Esse método recebe três parâmetros:
+         * - Root<T>
+         * - CriteriaQuery<?>
+         * - CriteriaBuilder
+         *
+         * Como Specification é uma interface funcional,
+         * ela pode ser implementada utilizando expressão lambda.
+         *
+         * Portanto, a lambda abaixo representa a implementação
+         * do método toPredicate.
+         */
+        return (root, criteriaQuery, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("taxaFrete"), BigDecimal.ZERO);
+
+    }
+
+    public static Specification<Restaurante> comNomeSemelhante(String nome) {
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("nome"), "%" + nome + "%");
+    }
+}
+```
+
