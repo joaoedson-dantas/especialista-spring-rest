@@ -359,7 +359,7 @@ hasLength -> Verifica se não está nullo e se não está vazio.
 Serve para quando precisamos de consultas complexas e dinâmicas, que com JPQL seria muito 
 difícil chegar nesse resultado.
 
-Essa API permite montar uma consulta usando código Java e no final um query SQL é gerada e
+Essa API permite montar uma consulta usando código Java e no final uma query SQL é gerada e
 executada no banco de dados. 
 
 Obs: Para consultas muito simples, não vale o esforço o critéria API
@@ -409,8 +409,7 @@ public List<Restaurante> findComCriteria(String nome, BigDecimal taxaFreteInicia
      * */
     CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);
     criteria.from(Restaurante.class);
-
-
+    
     // Cria uma instância de uma consulta tipada
     TypedQuery<Restaurante> query = manager.createQuery(criteria);
 
@@ -501,4 +500,36 @@ public List<Restaurante> findComCriteria(String nome, BigDecimal taxaFreteInicia
 
 **lessThanOrEqualTo -> Menor ou igual = <=**
 **greaterThanOrEqualTo = Maior ou igual a = >=**
+
+## 5.15. Tornando a consulta com Criteria API com filtros dinâmicos
+
+Colocando os "ifs" para colocar a consulta de forma dinâmica. 
+
+-> Precisamos continuar instânciado os predicados, mas adicionar eles numa lista, para, no final adicionar a lista \
+na clásula where.
+
+```java
+var predicates = new ArrayList<Predicate>();
+
+if (StringUtils.hasLength(nome)) {
+  // Predicado é um critério, como um filtro.
+  predicates.add(builder.like(root.get("nome"), "%" + nome + "%"));
+}
+
+if (taxaFreteInicial != null) {
+  // greaterThanOrEqualTo = Maior ou igual a = >=
+  predicates.add(
+  builder.greaterThanOrEqualTo(root.get("taxaFrete"), taxaFreteInicial)
+  );
+}
+
+if (taxaFreteFinal != null) {
+  // lessThanOrEqualTo -> Menor ou igual
+  predicates.add(
+        builder.lessThanOrEqualTo(root.get("taxaFrete"), taxaFreteFinal)
+  );
+}
+
+criteria.where(predicates.toArray(new Predicate[0]));
+```
 

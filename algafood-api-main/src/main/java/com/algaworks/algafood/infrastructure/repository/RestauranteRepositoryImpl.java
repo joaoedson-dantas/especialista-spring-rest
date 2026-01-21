@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
     @Override
     public List<Restaurante> findComCriteria(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
         /*
-         *  CriteriaBuilder - É a "fábrica". Você o usa para criar a query em si e para construir
+         *  CriteriaBuilder - É a "fábrica". Você usa-o para criar a query em si e para construir
          *  as cláusulas (filtros como equal, like, greaterThan).
          * */
         CriteriaBuilder builder = manager.getCriteriaBuilder();
@@ -83,24 +84,42 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
         CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);
 
         /*
-        *  Root - É a origem dos dados. Pense nele como o FROM do SQL. Ele define sobre qual entidade você está pesquisando.
+        *  Root - É a origem dos dados. Pense nele como o FROM do SQL. Ele define sobre qual entidade você está a pesquisar.
         * */
         Root<Restaurante> root = criteria.from(Restaurante.class);
 
-        // Predicado é um critério, como um filtro.
-        Predicate nomePredicate = builder.like(root.get("nome"), "%" + nome + "%");
+        /**
+         *  Criando uma lista para adicionar os predicados de forma dinâmica.
+         */
+        var predicates = new ArrayList<Predicate>();
 
-        // greaterThanOrEqualTo = Maior ou igual a = >=
-        Predicate taxaInicialPredicate = builder
-                .greaterThanOrEqualTo(root.get("taxaFrete"), taxaFreteInicial);
+        if (StringUtils.hasLength(nome)) {
+            // Predicado é um critério, como um filtro.
+            predicates.add(builder.like(root.get("nome"), "%" + nome + "%"));
+        }
 
-        // lessThanOrEqualTo -> Menor ou igual
-        Predicate taxaFreteFinalPredicate = builder
-                .lessThanOrEqualTo(root.get("taxaFrete"), taxaFreteFinal);
+        if (taxaFreteInicial != null) {
+            // greaterThanOrEqualTo = Maior ou igual a = >=
+            predicates.add(
+                    builder.greaterThanOrEqualTo(root.get("taxaFrete"), taxaFreteInicial)
+            );
+        }
 
-        // Passando os predicados, as restrições para o wehre.
+        if (taxaFreteFinal != null) {
+            // lessThanOrEqualTo -> Menor ou igual
+            predicates.add(
+                    builder.lessThanOrEqualTo(root.get("taxaFrete"), taxaFreteFinal)
+            );
+        }
+
+        // Passando os predicados, as restrições para o where.
         // Quando passamos 3 predicados, ele vai fazer um "AND"
-        criteria.where(nomePredicate, taxaInicialPredicate, taxaFreteFinalPredicate);
+        // criteria.where(nomePredicate, taxaInicialPredicate, taxaFreteFinalPredicate);
+
+        // Adicionando uma lista de predicados.
+        // É necessário converter ArrayList em um Array, ele vai retornar uma instância de um Array preenchido
+        // com todos os predicates da lista
+        criteria.where(predicates.toArray(new Predicate[0]));
 
         // Cria uma instância de uma consulta tipada
         TypedQuery<Restaurante> query = manager.createQuery(criteria);
