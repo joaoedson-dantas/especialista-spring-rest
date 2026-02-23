@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -32,6 +33,7 @@ public class Restaurante {
     /*
     *  Criando relacionamento @ManyToMany
     * */
+    @JsonIgnore
     @ManyToMany // Muitos restaurantes possuem muitas formas de pagamento.
     @JoinTable( // Ajuda a costumizar como ficará o nome da tabela intermediaria, assim como as colunas
             name = "restaurante_forma_pagamento", // nome da tabela

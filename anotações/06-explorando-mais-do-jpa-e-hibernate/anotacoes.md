@@ -62,3 +62,16 @@ Para isso, criamos uma tabela pivô, será uma tabela intermediária `restaurant
 )
 private List<FormaPagamento> formasPagamento = new ArrayList<>();
 ```
+
+## 6.3. Analisando o impacto do relacionamento muitos-para-muitos na REST API
+
+Trazer o relacionamento numa coleção de recursos pode deixar o payload bem grande, a depender da quantidade de informações solicitada. Por exemplo, 
+para cada restaurante, iria trazer várias formas de pagamento. 
+
+Mas, seria uma boa se estivesse se tratando de um recurso único.
+
+**Obs:** Para cada relacionamento a mais, o hibernate realiza um nova consulta.
+
+Vários recuros: Representação mais enxuta 
+ùnico recurso: Representação mais completa.
+
