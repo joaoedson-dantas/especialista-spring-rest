@@ -34,4 +34,31 @@ uma Cozinha ...
 
 Isso gerara uma dependência circular. Pois o Jackson vai tentar serializar para Json. 
 
-É necessário realizar um tratamento na hora da serialização. Podemos simplemente pedir para ignorar, utilizando a anotação @JsonIgnore 
+É necessário realizar um tratamento na hora da serialização. Podemos simplemente pedir para ignorar, utilizando a anotação @JsonIgnore.
+
+**@JsonIgnore**: Quando o Spring for serializar, deve ignorar a propriedade anotada.
+
+**OBS** Esse mapeamento não significa que foi feito para alterar a representação do recurso.
+Muitas vezes, esse mapeammento servirá na lógica de negócio.
+
+##  6.2 - Mapeando relacionamento muitos-para-muitos com @ManyToMany
+
+Nesse caso, a ideia seria, muitos restaurantes possuem muitas formas
+de pagamentos. Muitos para muitos. Geramente isso vem de uma configuração 
+global da aplicação.
+
+Para isso, criamos uma tabela pivô, será uma tabela intermediária `restaurante_forma_pagamento` vai existir para ser possível criar essa relação de muitos para muitos. 
+
+```java
+@ManyToMany // Muitos restaurantes possuem muitas formas de pagamento.
+@JoinTable( // Ajuda a costumizar como ficará o nome da tabela intermediaria, assim como as colunas
+        name = "restaurante_forma_pagamento", // nome da tabela
+        joinColumns = { // Vai definir qual o nome da coluna, da tabela intermediária, que associa a restaurante.
+            @JoinColumn(name = "restaurante_id")  // O JoinColumn -> Define o nome da coluna que faz referência a própria classe que estamos mapeando, no caso restaurante
+        },
+        inverseJoinColumns = {
+                @JoinColumn(name = "forma_pagamento_id")
+        }
+)
+private List<FormaPagamento> formasPagamento = new ArrayList<>();
+```
