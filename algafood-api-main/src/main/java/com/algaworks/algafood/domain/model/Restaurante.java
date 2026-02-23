@@ -30,6 +30,9 @@ public class Restaurante {
     // @JoinColumn(name = "cozinha_id") por default já vem com esse nome
     private Cozinha cozinha;
 
+    @Embedded // Indica que essa propriedade é uma classe do tipo incorporado. Ou seja, é uma parte da entidade Restaurante.
+    private Endereco endereco;
+
     /*
     *  Criando relacionamento @ManyToMany
     * */

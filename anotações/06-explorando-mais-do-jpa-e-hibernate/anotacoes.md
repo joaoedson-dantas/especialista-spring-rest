@@ -75,3 +75,17 @@ Mas, seria uma boa se estivesse se tratando de um recurso único.
 Vários recuros: Representação mais enxuta 
 ùnico recurso: Representação mais completa.
 
+## 6.4. Mapeando classes incorporáveis com @Embedded e @Embeddable
+
+Em algumas situações é necessário componentizar as entidades, ou seja, separar
+duas ou mais classes que representam alguma coisa no modelo de domínio.
+
+- Endereço, cep, longradouro. 
+
+**Objetos imputidos** São componentes de uma entidade cujas propriedades são copiadas para tabela da entidade.  
+
+**@Embeddable:** Apesar de ser uma classe, não vai ser uma entidade, ela vai ser uma classe incorporável, vai ter a capacidade de ser incorporada em uma entidade. 
+
+Todas as propriedades dessa classe são refletidos na tabela da entidade que incorpora essa classe. 
+
+**@Embedded** // Indica que essa propriedade é uma classe do tipo incorporado. Ou seja, é uma parte da entidade Restaurante.
