@@ -11,9 +11,9 @@ insert into cidade (id, nome, estado_id) values (3, 'São Paulo', 2);
 insert into cidade (id, nome, estado_id) values (4, 'Campinas', 2);
 insert into cidade (id, nome, estado_id) values (5, 'Fortaleza', 3);
 
-insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro) values ('Divina Comidas', 0, 1, 3, '6051195', 'Rua Teodoro de Castro', '766', 'AP. 01','Granja Portugal');
-insert into restaurante (nome, taxa_frete, cozinha_id) values ('Grand Cheff', 15, 1);
-insert into restaurante (nome, taxa_frete, cozinha_id) values ('Carneiro do Ordones', 25, 2);
+insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro, data_cadastro, data_atualizacao) values ('Divina Comidas', 0, 1, 3, '6051195', 'Rua Teodoro de Castro', '766', 'AP. 01','Granja Portugal', utc_timestamp(), utc_timestamp());
+insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values ('Grand Cheff', 15, 1, utc_timestamp(), utc_timestamp());
+insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values ('Carneiro do Ordones', 25, 2, utc_timestamp(), utc_timestamp());
 
 insert into forma_pagamento (descricao) values ('DINHEIRO');
 insert into forma_pagamento (descricao) values ('CARTÃO DE CRÉDITO');

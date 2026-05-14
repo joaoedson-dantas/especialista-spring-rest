@@ -101,3 +101,25 @@ Na collection resource (Lista) não compensa retornar os objetos incorporáveis,
 Temos que pensar no consumir da API, sempre que ele fizer uma request, solicitando essa lista, ele vai querer o endereço tbm? 
 
 Podemos tirar da representação usando a anotação @JsonIgnore.
+
+## 6.6. Mapeando propriedades com @CreationTimestamp e @UpdateTimestamp
+
+**@CreationTimestamp:** A propriedade anotada deve ser atribuído como data e hora atual no momento que ela for salva pela primeira vez
+**@UpdateTimestamp:** A propriedade anotada deve ser atribuído como data e hora atual sempre que a entidade for atualizada
+
+
+OBS: Essa anotação são da implementação do hibernate, não é do JPA, isso significa que ficamos 'presos' ao hibernate. \
+se quiser mudar a implementação teremos que ajustar a anotação.
+
+```java
+@CreationTimestamp
+@Column(nullable = false, columnDefinition = "datetime")
+private LocalDateTime dataCadastro; // LocalDateTime: Representa uma data e hora sem fuso horário, sem timestamp
+
+@UpdateTimestamp
+@Column(nullable = false, columnDefinition = "datetime")
+private LocalDateTime dataAtualizacao;
+```
+
+**columnDefinition = "datetime(2)":** Cria uma coluna dataTime sem a precisão dos segundos, 
+mas é possível passar por parâmetros a precisão desejada.
