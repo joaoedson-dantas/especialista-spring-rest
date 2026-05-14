@@ -34,7 +34,7 @@ uma Cozinha ...
 
 Isso gerara uma dependência circular. Pois o Jackson vai tentar serializar para Json. 
 
-É necessário realizar um tratamento na hora da serialização. Podemos simplemente pedir para ignorar, utilizando a anotação @JsonIgnore.
+É necessário realizar um tratamento na hora da serialização. Podemos simplesmente pedir para ignorar, utilizando a anotação @JsonIgnore.
 
 **@JsonIgnore**: Quando o Spring for serializar, deve ignorar a propriedade anotada.
 
@@ -80,12 +80,24 @@ Vários recuros: Representação mais enxuta
 Em algumas situações é necessário componentizar as entidades, ou seja, separar
 duas ou mais classes que representam alguma coisa no modelo de domínio.
 
+Ex: A classe Restaurante tem um endereço. Geralmente, as classes **embeddable** são componentes reutilizados no projeto. 
+Exemplo, um cliente e um fornecedor tem um endereço.
+
 - Endereço, cep, longradouro. 
 
-**Objetos imputidos** São componentes de uma entidade cujas propriedades são copiadas para tabela da entidade.  
+**Objetos imbutidos ou incorporáveis:** São componentes de uma entidade cujas propriedades são copiadas para tabela da entidade.  
 
-**@Embeddable:** Apesar de ser uma classe, não vai ser uma entidade, ela vai ser uma classe incorporável, vai ter a capacidade de ser incorporada em uma entidade. 
+**@Embeddable:** apesar de ser uma classe, não vai ser uma entidade, ela vai ser uma classe incorporável, vai ter a capacidade de ser incorporada numa entidade. 
+É uma parte de uma entidade e não uma entidade em sí.
 
 Todas as propriedades dessa classe são refletidos na tabela da entidade que incorpora essa classe. 
 
 **@Embedded** // Indica que essa propriedade é uma classe do tipo incorporado. Ou seja, é uma parte da entidade Restaurante.
+
+## 6.5. Testando e analisando o impacto da incorporação de classe na REST APIs
+
+Na collection resource (Lista) não compensa retornar os objetos incorporáveis, talvez é escusado. 
+
+Temos que pensar no consumir da API, sempre que ele fizer uma request, solicitando essa lista, ele vai querer o endereço tbm? 
+
+Podemos tirar da representação usando a anotação @JsonIgnore.

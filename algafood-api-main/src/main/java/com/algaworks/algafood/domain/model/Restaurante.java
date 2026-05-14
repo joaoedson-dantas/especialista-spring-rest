@@ -30,11 +30,14 @@ public class Restaurante {
     // @JoinColumn(name = "cozinha_id") por default já vem com esse nome
     private Cozinha cozinha;
 
+    @JsonIgnore
     @Embedded // Indica que essa propriedade é uma classe do tipo incorporado. Ou seja, é uma parte da entidade Restaurante.
     private Endereco endereco;
 
     /*
-    *  Criando relacionamento @ManyToMany
+    *  Criando relacionamento @ManyToMany: Muitos restaurantes possuem muitas formas de pagamentos
+    *  Para isso funcionar, precisamos criar uma tabela pivô, será intermediária `restaurante_forma_pagamento` vai existir
+    *  para ser possível criar essa relação de muitos para muitos.
     * */
     @JsonIgnore
     @ManyToMany // Muitos restaurantes possuem muitas formas de pagamento.

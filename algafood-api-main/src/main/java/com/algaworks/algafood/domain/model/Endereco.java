@@ -4,9 +4,11 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Data
-@Embeddable // Classe incorporável
+@Embeddable // Classe incorporável | Tem a capacidade de ser incorporável numa entidade.
 public class Endereco {
 
     @Column(name = "endereco_cep")
@@ -24,6 +26,7 @@ public class Endereco {
     @Column(name = "endereco_bairro")
     private String bairro;
 
-    @Column(name = "endereco_cidade")
-    private String cidade;
+    @ManyToOne
+    @JoinColumn(name = "endereco_cidade_id")
+    private Cidade cidade;
 }

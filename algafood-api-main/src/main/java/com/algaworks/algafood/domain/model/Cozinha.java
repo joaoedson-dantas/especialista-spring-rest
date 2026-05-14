@@ -29,7 +29,13 @@ public class Cozinha {
     @Column(nullable = false)
     private String nome;
 
+    /*
+    *  JsonIgnore: Quando buscar uma Cozinha, dentro dela vai ter um restaurante e dentro do restaurante vai ter uma Cozinha
+    *  Isso gerara uma dependência circular. Pois o Jackson vai tentar serializar para Json.
+    *  É necessário realizar um tratamento na hora da serialização. Podemos simplesmente pedir para ignorar, utilizando a anotação @JsonIgnore.
+    * */
     @JsonIgnore
+    // Mapeamento de um para muitos | mappedBy -> servirá para indicar qual que é o nome da propriedade inversa
     @OneToMany(mappedBy = "cozinha") // Uma Cozinha tem muitos restaurantes 1 - N | Bizu: Many: Indica que a propriedade é uma coleção
     private List<Restaurante> restaurantes = new ArrayList<>(); // Pode ser bom para evitar Null
 }
