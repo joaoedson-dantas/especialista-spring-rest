@@ -44,7 +44,7 @@ Muitas vezes, esse mapeammento servirá na lógica de negócio.
 ##  6.2 - Mapeando relacionamento muitos-para-muitos com @ManyToMany
 
 Nesse caso, a ideia seria, muitos restaurantes possuem muitas formas
-de pagamentos. Muitos para muitos. Geramente isso vem de uma configuração 
+de pagamentos. Muitos para muitos. Geralmente isso vem de uma configuração 
 global da aplicação.
 
 Para isso, criamos uma tabela pivô, será uma tabela intermediária `restaurante_forma_pagamento` vai existir para ser possível criar essa relação de muitos para muitos. 
