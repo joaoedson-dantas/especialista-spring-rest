@@ -47,6 +47,10 @@ public class Restaurante {
     @Column(nullable = false, columnDefinition = "datetime")
     private LocalDateTime dataAtualizacao;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "restaurante")
+    private List<Produto> produtos;
+
     /*
     *  Criando relacionamento @ManyToMany: Muitos restaurantes possuem muitas formas de pagamentos
     *  Para isso funcionar, precisamos criar uma tabela pivô, será intermediária `restaurante_forma_pagamento` vai existir
