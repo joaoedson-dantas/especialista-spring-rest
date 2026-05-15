@@ -28,6 +28,7 @@ public class Restaurante {
     @Column(nullable = false)
     private BigDecimal taxaFrete;
 
+    @JsonIgnore
     @JoinColumn(nullable = false)
     @ManyToOne // Muitos Restaurantes possui uma Cozinha
     // @JoinColumn(name = "cozinha_id") por default já vem com esse nome

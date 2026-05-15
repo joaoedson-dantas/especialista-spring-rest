@@ -123,3 +123,41 @@ private LocalDateTime dataAtualizacao;
 
 **columnDefinition = "datetime(2)":** Cria uma coluna dataTime sem a precisão dos segundos, 
 mas é possível passar por parâmetros a precisão desejada.
+
+## 6.10. Entendendo o Eager Loading
+
+Em muitos casos, quando realizamos uma operação de consulta utilizando o hibernante, dependendo do mapeamento, pode ser
+realizado mais de uma consulta. 
+
+**Eager Loading:** Mesmo que você não esteja a usar algumas propriedades, ou até mesmo utilizando o JsonIgnore para não trazer
+a propriedade na representação essa consulta será feita justamente por conta do Eager Loading.
+
+| Por padrão, todas as associações ToOne (ManyToOne, OneToOne) usa por padrão a estratégia Eager Loading.
+
+Eager-> Em tradução livre seria "Ansioso", ao contexto seria "Um carregamento ansioso ou antecipado".
+
+Nesse, sentido, toda a vez que uma instância de _Restaurante_ é carregada a partir do banco de dados, ele vai carregar 
+as associações a partir do eager loading.
+
+Para uma lista de Restaurante, para cada item o JPA vai buscar a Cozinha relacionada a esse Restaurante, porque é um carregamento ansioso.
+
+Eager quer dizer que no momento que carrega a entidade Restaurante vai carregar junto (Cozinha e Cidade)
+**junto** -> Significa apenas que vai carregar junto, independente como, o como fica a parte da implementação. 
+
+Obs: Não estamos falando que o SELECT vai ser um só ou que vão ser mais de um SELECT.
+
+------
+
+Por que o INNER e o LEFT? O hibernate vai usar o inner quando a propriedade tem a definição de (nullable = false)
+
+```java
+@JsonIgnore
+@JoinColumn(nullable = false) // Aqui o restaurante não existe sem a Cozinha, logo deverá ser um inner 
+@ManyToOne
+private Cozinha cozinha;
+
+@JsonIgnore
+@Embedded // Indica que essa propriedade é uma classe do tipo incorporado. Ou seja, é uma parte da entidade Restaurante.
+private Endereco endereco; // Como não temos o nullable, ele deve fazer um Left para ver se tem ou não
+```
+
