@@ -32,4 +32,6 @@ public interface RestauranteRepository extends
 //    List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal);
 
 
+    @Query("from Restaurante r join fetch r.cozinha left join fetch r.formasPagamento") // busca os restaurantes fazendo o join em Cozinha, aqui vai ser feito um inner join em Cozinha
+    List<Restaurante> findAll();
 }

@@ -205,3 +205,92 @@ da JPA.
 )
 private List<FormaPagamento> formasPagamento = new ArrayList<>();
 ```
+
+## 6.13. Resolvendo o problema do N+1 com fetch join na JPQL
+
+O problema acontece quando a aplicação executa:
+
+- Uma consulta principal 
+  - N consultas adicionais para carregar relacionamentos de cada registro retornando
+
+Obs: Isso geralmente ocorre devido ao carregamento `LAZY` de entidades relacionadas.
+
+Devemos sempre analisar e entender se é prejudicial ou não. 
+
+**Exemplo:** 
+
+Imagine duas entidades:
+
+```java
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+public class Pedido {
+
+    @Id
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Cliente cliente;
+}
+
+@Entity
+public class Cliente {
+    @Id
+    private Long id;
+    private String nome;
+}
+```
+
+Resultado:
+
+- 1 query para pedidos
+    - 100 queries para clientes
+
+Total:
+101 queries
+
+Daí vem o nome **(N+1)** -> 1 consulta inicial + **N** consultas adicionais
+
+### Por que isso é ruim?
+
+Porque degrada MUITO a performance 
+
+- Mais acesso ao banco 
+- mais latência 
+- maior uso de conexão 
+- pior escalabilidade
+
+
+### Como resolver? 
+
+Uma das formas de resolver é escrever uma consulta JPQL.
+
+```java
+@Query("from Restaurante r join r.cozinha") // busca os restaurantes fazendo o join em Cozinha, aqui vai ser feito um inner join em Cozinha
+List<Restaurante> findAll();
+```
+O pulo do gato é esse `join`. Agora o Hibernate faz uma única query. Podemos utilizar também para duas propriedades usando o fetch.
+
+```java
+@Query("from Restaurante r join r.cozinha join fetch r.formasPagamento") // busca os restaurantes fazendo o join em Cozinha, aqui vai ser feito um inner join em Cozinha e formas pagamento
+List<Restaurante> findAll();
+```
+
+**OBS:** Se um restaurante não tiver nenhuma forma de pagamento associada a ele, esse restaurante não será retornado.
+Para resolver isso, temos que usar LEFT JOIN FETCH, no lugar do JOIN FETCH.
+
+```java
+@Query("from Restaurante r join r.cozinha LEFT JOIN FETCH r.formasPagamento") // busca os restaurantes fazendo o join em Cozinha, aqui vai ser feito um inner join em Cozinha
+List<Restaurante> findAll();
+```
+
+**Mas pq precisa do fetch?**
+
+Uma associação **ManyToOne** a JPA faz o `FETCH` automáticamente quando fazemos o JOIN com **ManyToMany** ele não faz 
+o fetch automaticamente. Lembre-se que ele precisa ir na tabela intermediária criada por conta do muito para muitos. 
+
+É boa prática colocar o `FETCH` até onde não é necessário, para deixar explícito.
