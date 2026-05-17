@@ -1,3 +1,45 @@
 # Pool de conexões e Flyway
 
 ## 7.1. Entendendo o funcionamento de um pool de conexões
+
+### Aplicação web **SEM** pool de conexões. 
+
+[Requsição 1] -> [api] -> [Banco de Dados]
+
+Qualquer interação que essa aplicação precisar fazer ao banco de dados ela vai criar uma conexão. Após a API conseguir 
+o que queria a conexão é encerrada, já que a requisição foi atendida. 
+
+**A cada requisição cria-se uma conexão com o banco de dados.** Isso vai acontecer com várias requisições em ms.
+
+Imagine que a API receba 6 requisições ao mesmo tempo, no exato ms. Vai ser necessário criar seis conexões ao banco de dados.
+
+### Aplicação web **COM** pool de conexões. 
+
+**Pool de conexões** é um componente de ‘software’ que mantém um conjunto de conexões com o banco de dados para reutilização
+numa aplicação.
+
+Ou seja, uma mesma conexão que esteja nesse grupo, será usada diversas vezes em momentos diferentes do dia. **Isso reduz 
+o tempo gasto na abertura e fechamento das conexões.** 
+
+A idea é criar um Pool de conexão (Conjunto), onde essas requisições serão reutilizadas em todas as requisições que aplicação web receber.
+
+| Configuramos assim: informamos o quanto de conexão ativa queremos que a aplicação inicie.
+
+**Idle:** (Ocioso) Estado em que a conexão fica quando não está sendo usada. 
+  - Ter conexão ociosa é bom pq a qualquer momento podemos precisar delas.
+
+
+**Imagina que bate 10 requisições a mesmo tempo**
+
+O Pool vai usar as 6 conexões Idle que ele tinha, ele vai ver que não é o suficiente, se o pool estiver configurado 
+para criar no máximo 8 conexões (Porque tem o mínimo(4) e a máxima(8)), ele vai atender as 8 requisições ao mesmo tempo, e
+duas requisições vai ficar na fila, aguardando a conexão liberar.
+
+| Obs: Não é a requisição que vai ficar na fila, é um processo dentro da aplicação web que na hora de pegar a requisição 9, o pool vai
+informar que só pode atender 8, pede para aguardar alguém liberar a conexão. 
+
+| Obs: Geralmente, após as requisições serem atendidas, o Pool não fecha as conexões, existe uma configuração de um tempo máximo que as
+| conexões ociosas excedentes devem ser mantidas no Pool. 
+
+
+O principal benefício é que reduzira o tempo em que o usuário e o consumidor da API terá para ser respondido numa requisição.
