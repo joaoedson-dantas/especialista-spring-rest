@@ -186,4 +186,22 @@ Analisando essa associação:
 private List<FormaPagamento> formasPagamento = new ArrayList<>();
 ```
 
+## 6.12. Alterando a estratégia de fetching para Eager Loading
 
+Alterando a estratégia de fetching para um carregamento ansioso. Para isso, passamos um parâmetro para anotação de mapeamento
+da JPA. 
+
+```java
+@JsonIgnore
+@ManyToMany(fetch = FetchType.EAGER) // Muitos restaurantes possuem muitas formas de pagamento.
+@JoinTable( // Ajuda a costumizar como ficará o nome da tabela intermediaria, assim como as colunas
+        name = "restaurante_forma_pagamento", // nome da tabela
+        joinColumns = { // Vai definir qual o nome da coluna, da tabela intermediária, que associa a restaurante.
+                @JoinColumn(name = "restaurante_id")  // O JoinColumn -> Define o nome da coluna que faz referência a própria classe que estamos mapeando, no caso restaurante
+        },
+        inverseJoinColumns = {
+                @JoinColumn(name = "forma_pagamento_id")
+        }
+)
+private List<FormaPagamento> formasPagamento = new ArrayList<>();
+```
