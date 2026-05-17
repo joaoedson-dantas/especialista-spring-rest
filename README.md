@@ -24,16 +24,21 @@ Esse modelo representa o problema que será resolvido durante o curso.
 ---
 
 ### Conteúdo do Curso e Progresso
- Módulo | Título                                 | Status |
-|--------|----------------------------------------|---|
-| **01** | Introdução                             | ✅ Concluído |
-| **02** | Spring e Injeção de Dependências       | ✅ Concluído |
-| **03** | Introdução ao JPA e Hibernate          | ✅ Concluído |
-| **04** | REST com Spring                        | ✅ Concluído |
-| **05** | Super Poderes do Spring Data JPA       | ✅ Concluído |
-| **06** | Explorando mais do JPA e Hibernate     | Em Progresso |
-| **07** | Pool de conexões e Flyway              | ⏳ Pendente |
-| **08** | Tratamento e modelagem de erros da API | ⏳ Pendente |
+ Módulo | Título                                         | Status |
+|--------|------------------------------------------------|---|
+| **01** | Introdução                                     | ✅ Concluído |
+| **02** | Spring e Injeção de Dependências               | ✅ Concluído |
+| **03** | Introdução ao JPA e Hibernate                  | ✅ Concluído |
+| **04** | REST com Spring                                | ✅ Concluído |
+| **05** | Super Poderes do Spring Data JPA               | ✅ Concluído |
+| **06** | Explorando mais do JPA e Hibernate             | ✅ Concluído |
+| **07** | Pool de conexões e Flyway                      | Em Progresso|
+| **08** | Tratamento e modelagem de erros da API         | ⏳ Pendente |
+| **09** | Validações com Bean Validation                 | ⏳ Pendente |
+| **10** | Testes de integração                           | ⏳ Pendente |
+| **11** | Boas práticas e técnicas para APIs             | ⏳ Pendente |
+| **12** | Modelagem avançada e implementação da API      | ⏳ Pendente |
+| **13** | Modelagem de projeções, pesquisas e relatórios | ⏳ Pendente |
 
 
 ___
@@ -43,5 +48,6 @@ ___
 * [Módulo 03: Introdução ao JPA e Hibernate ](./anotações/03-introducao-ao-jpa-e-hibernate/anotacoes.md)
 * [Módulo 04: REST com Spring ](./anotações/04-rest-com-spring/anotacoes.md)
 * [Módulo 05: Super Poderes do Spring Data JPA ](./anotações/05-super-poderes-spring-data-jpa/anotacoes.md)
-* [Módulo 06: Explorando mais do JPA e Hibernate ](./anotações/06-explorando-mais-do-jpa-e-hibernate.md)
+* [Módulo 06: Explorando mais do JPA e Hibernate ](./anotações/06-explorando-mais-do-jpa-e-hibernate/anotacoes.md)
+* [Módulo 07: Pool de conexões e Flyway ](./anotações/07-pool-de-conexoes-e-flyway/anotacoes.md)
 
