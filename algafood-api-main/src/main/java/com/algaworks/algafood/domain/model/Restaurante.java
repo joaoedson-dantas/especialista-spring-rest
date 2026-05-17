@@ -58,7 +58,7 @@ public class Restaurante {
     *  para ser possível criar essa relação de muitos para muitos.
     * */
     @JsonIgnore
-    @ManyToMany // Muitos restaurantes possuem muitas formas de pagamento.
+    @ManyToMany // Muitos restaurantes possuem muitas formas de pagamento. | Toda associação que termina com ToMany é LazyLoanding
     @JoinTable( // Ajuda a costumizar como ficará o nome da tabela intermediaria, assim como as colunas
             name = "restaurante_forma_pagamento", // nome da tabela
             joinColumns = { // Vai definir qual o nome da coluna, da tabela intermediária, que associa a restaurante.

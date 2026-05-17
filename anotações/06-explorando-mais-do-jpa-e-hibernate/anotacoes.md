@@ -161,3 +161,29 @@ private Cozinha cozinha;
 private Endereco endereco; // Como não temos o nullable, ele deve fazer um Left para ver se tem ou não
 ```
 
+## 6.11. Entendendo o Lazy Loading
+
+**Lazy** Significa "PREGUIÇOSO" é um carregamento que só vai acontencer quando realmente for necessário, quando estivermos 
+a usar aquela **propriedade da associação**. Se não usar, ele simplesmente **não vai fazer o carregamento.** 
+
+_Toda a propriedade que anotação terminar com **"ToMany"**_ como OneToMany ou ManyToMany usa a estratégia por padrão LAZY.
+
+O Lazy é um carregamento por demanda. 
+
+Analisando essa associação:
+```java
+@JsonIgnore
+@ManyToMany // Muitos restaurantes possuem muitas formas de pagamento.
+@JoinTable( // Ajuda a costumizar como ficará o nome da tabela intermediaria, assim como as colunas
+        name = "restaurante_forma_pagamento", // nome da tabela
+        joinColumns = { // Vai definir qual o nome da coluna, da tabela intermediária, que associa a restaurante.
+                @JoinColumn(name = "restaurante_id")  // O JoinColumn -> Define o nome da coluna que faz referência a própria classe que estamos mapeando, no caso restaurante
+        },
+        inverseJoinColumns = {
+                @JoinColumn(name = "forma_pagamento_id")
+        }
+)
+private List<FormaPagamento> formasPagamento = new ArrayList<>();
+```
+
+
