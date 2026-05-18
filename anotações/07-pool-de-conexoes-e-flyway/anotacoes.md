@@ -62,3 +62,29 @@ Após instalado, utilize o comando:
 ```bash
     ab -n 2000 -c 50 localhost:8080/restaurantes
 ```
+
+## 7.3. Configurando o pool de conexões do Hikari
+
+O HikariCP é o pool de conexões JDBC padrão do Spring Boot quando você usa Spring Data JPA.
+Ele é responsável por gerenciar conexões com o banco de dados de forma eficiente.
+
+O Hikari fica entre o Hibernate/JPA e o banco.
+
+### Configurando um número diferente de conexões
+
+**Configurando um número máximo de conexões:**
+
+```properties
+spring.datasource.hikari.maximum-pool-size=5
+spring.datasource.hikari.minimum-idle=3
+```
+
+| Só você colocar apenas o valor máximo, o mínimo será atribuído o valor do máximo.
+
+**Configurando o tempo de conexão excedente ociosas: Um tempo limite de ociosidade**
+
+```properties
+spring.datasource.hikari.idle-timeout=10000
+```
+
+| O mínimo é 10s mesmo. 
