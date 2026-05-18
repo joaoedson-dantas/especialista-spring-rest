@@ -43,3 +43,22 @@ informar que só pode atender 8, pede para aguardar alguém liberar a conexão.
 
 
 O principal benefício é que reduzira o tempo em que o usuário e o consumidor da API terá para ser respondido numa requisição.
+
+## 7.2. Conhecendo o Hikari a solução padrão de pool de conexões no Spring Boot
+
+No Spring já existe um Pool de conexão previamente criado, inicialmente ele cria de cara 10 conexões para serem reutilizadas; 
+
+**O próprio Spring Boot já configurou um Pool** - No pom.xml, temos o start-data-jpa que traz consigo o `HikariCP` - CP significa Connection Pool
+
+**Hikari** é a solução do Pool de conexões que Spring adiciona por padrão. 
+
+Para fazer o teste com várias conexões, podemos usar uma ferramenta da ApacheHttpServer, do servidor Apache.
+
+A ferramenta ab (Apache Benchmark) é usada para fazer testes de carga simples em aplicações HTTP.
+Ela é muito útil para testar APIs feitas com Java/Spring Boot, por exemplo.
+
+Após instalado, utilize o comando: 
+
+```bash
+    ab -n 2000 -c 50 localhost:8080/restaurantes
+```
