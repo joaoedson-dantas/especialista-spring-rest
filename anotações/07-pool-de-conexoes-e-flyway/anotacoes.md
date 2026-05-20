@@ -88,3 +88,35 @@ spring.datasource.hikari.idle-timeout=10000
 ```
 
 | O mínimo é 10s mesmo. 
+
+## 7.5. Flyway ferramenta de versionamento de schemas de banco de dados 
+
+O Flyway é uma ferramenta de versionamento e migração de banco de dados.
+
+Ele resolve um problema muito comum: **como garantir que o banco de dados esteja sincronizado com o código da aplicação.**
+
+Enquanto você desenvolve o sistema, toda a alteração no banco de dados será gerado uma nova versão do db.
+
+**O que temos que fazer quando o Schema de produção inicía vazio?**
+
+Se quisermos usar a versão 1 em prd, bastariamos executar o script de versão 1 em prd. 
+
+| Obs: A evolução do banco de dados é incremental, se eu estiver a iniciar um db do zero e já estiver 100 versões do db
+| para eu chegar na versão 100, eu preciso rodar os 100 scripts de forma incremental, se estiver na 98, não precisa rodar tudo novamente, somente a 99 e 100
+
+
+**OBS:** NUNCA devemos adicionar uma nova tabela, coluna, nunca renomeia uma tabela, nunca faz nada no banco de dados sem criar um script de migração.
+
+O Flyway transforma alterações de banco em:
+
+- arquivos versionados
+- rastreáveis
+- automáticos
+- reproduzíveis
+
+Quando a aplicação sobe:
+
+1. O Flyway verifica quais scripts já foram executados
+2. Executa apenas os novos
+3. Salva histórico no banco
+
