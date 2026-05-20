@@ -8,7 +8,7 @@ CREATE TABLE estado (
 ) engine=InnoDB default charset=utf8mb4;
 
 -- 2 - Transferir dados da tabela cidade para tabela estado - O resultado do SELECT iremos jogar para dentro do insert
-                                                                             INSERT INTO estado (nome)
+INSERT INTO estado (nome)
 SELECT DISTINCT c.nome_estado
 FROM cidade c;
 

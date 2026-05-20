@@ -209,3 +209,17 @@ ALTER TABLE cidade DROP COLUMN nome_estado;
 ## 7 - Renomear a coluna nome_cidade
 ALTER TABLE cidade CHANGE cidade nome VARCHAR(80) NOT NULL;
 ````
+
+## 7.9. Criando migrações a partir de DDL gerado por schema generation
+
+Para ter essa "facilidade" no `application.properties` devemos adicionar duas propriedades.
+O objetivo é gerar o script via hibernate, mas sem executar ele.
+Vamos usar o recurso de criar o DDL a partir do mapeamento do objeto relacional
+
+````properties
+spring.jpa.properties.javax.persistence.schema-generation.scripts.action=create
+spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target=src/main/resources/ddl.sql
+````
+
+Obs: Comente ou remova essas duas propriedades logo após a criação do DDL. Só precisamos disso para 
+criar o arquivo uma única vez.
