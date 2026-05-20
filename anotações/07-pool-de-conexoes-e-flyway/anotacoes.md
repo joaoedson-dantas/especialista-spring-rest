@@ -120,3 +120,35 @@ Quando a aplicação sobe:
 2. Executa apenas os novos
 3. Salva histórico no banco
 
+## 7.6. Adicionando o Flyway no projeto e criando a primeira migração 
+
+**OBS 1:** Lembre-se, antes de habilitar o Flyway, é necessário desabilitar o schema generetion do hibernate.
+
+```properties
+# Se estiver usando, geralmente são esses:
+# spring.jpa.generate-ddl=true
+# spring.jpa.hibernate.ddl-auto=create
+```
+
+**OBS 2:** É necessário excluir todas as tabelas já geradas no banco. Desde do início do projeto, o ideal é que usamos o Flyway.
+
+Após isso, devemos adicionar a dependência do Flyway ao projeto.
+
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-flyway</artifactId>
+</dependency>
+```
+
+Após isso, é necessário criar uma pasta `db/migration` no projeto. 
+
+O nome do arquivo que ficará dentro dessa pasta deverá ter um padrão. O padrão é: (V001) após isso separa por 2 underline + descrição + .sql
+ex: `V001_criacao-inicial.sql`. **IMPORTANTE** a partir do momento que essa migration foi executada, não devemos mais mudar nada no arquivo. 
+Ele fica intocável.
+
+Por padrão, o Flyway cria uma tabela chamada `flyway_schema_history` é uma tabela de controle onde ele vai gerir as migrações.
+
+| **Não é uma boa prática adicionar inserts (DML)** instruções de manipulação de dados, deve evitar criar em migrations.
+
+Toda a evolução do db será aplicada em prd, lembre-se.
