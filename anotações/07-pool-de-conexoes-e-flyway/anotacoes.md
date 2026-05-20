@@ -152,3 +152,15 @@ Por padrão, o Flyway cria uma tabela chamada `flyway_schema_history` é uma tab
 | **Não é uma boa prática adicionar inserts (DML)** instruções de manipulação de dados, deve evitar criar em migrations.
 
 Toda a evolução do db será aplicada em prd, lembre-se.
+
+## 7.7. Evoluindo o banco de dados com novas migrações
+
+Devemos ir a aplicar as migrações a medida que vamos a precisar das tabelas. 
+
+| Cuidado ao criar um arquivo de migration rodando a aplicação com DevTools. Dessa forma o Flyway vai executar a migration
+antes mesmo do script ser adicionado. 
+
+Caso isos aconteça não será possível alterar o arquivo. Vai dar um erro de `validate Falid: Migration checksum mismatch for migration version V002`
+
+O Flyway cria uma coluna chamada `checksum`, ele vai pegar o conteúdo do arquivo de migração e vai gerar um número aleatório.
+Esse número serve para verficar a integridade do arquivo. 
