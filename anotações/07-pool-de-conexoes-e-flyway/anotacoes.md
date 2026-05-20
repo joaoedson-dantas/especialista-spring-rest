@@ -223,3 +223,47 @@ spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target=
 
 Obs: Comente ou remova essas duas propriedades logo após a criação do DDL. Só precisamos disso para 
 criar o arquivo uma única vez.
+
+## 7.10. Adicionando dados de testes com callback do Flyway
+
+Para criar uma massa inicial (Muito útil em desenvolvimento e para teste) esse arquivo vai ser chamado em um 
+callback do Flyway. 
+
+Quando o Flyway roda existem várias fases que ele vai passando e uma das fases se chama **afterMigrate** que será acionado
+após a finalização da execução de todos os scripts de migração.
+
+| Utilize o **insert ignore** do MySQL para ele não ficar a tentar adicionar novamente a cada reload da aplicação.
+
+Ex: 
+
+```sql
+insert ignore into cozinha (id, nome) values (4, 'Brasileira');
+```
+
+Outra opção é **deletando os dados de todas as tabelas** antes de fazer o insert:
+
+1. Desabilita a checagem de foreign key do mysql 
+   1.1 `set foreign_key_checks = 0`
+2. Após isso, deleta todos os dados das tabelas
+   2.1 `delete from cidade`
+3. Habilita novamente a checagem de foreign key do mysql
+   1.1 `set foreign_key_checks = 1`
+4. Altera as tabelas para zerar o auto-incremento 
+   4.1 `alter table cidade auto_increment = 1`
+5. Realizar os inserts
+
+| **Existe um problema** na hora de colocar em produção o afterMigrate será executado em todos os ambientes `prd, hom, des`
+
+Devemos criar dentro da pasta `db` vamos criar uma pasta chamada `testData` aqui ficará a massa de dados para que seja 
+possível testar a aplicação.
+
+Após isso, adicionamos uma nova propriedade ao `application.properties`.
+
+````properties
+# Indica para o flyway onde vão ficar as migrações e o script de callback
+spring.flyway.locations=classpath:db/migration,classpath:db/testdata
+````
+
+| Feito isso, a criação de `application.properties` é de acordo com o profiles, pode ter um de **prd, hom e des**
+Basicamente em produção eu poderia apenas remover a propriedade ou até mesmo não referenciar no locations.
+

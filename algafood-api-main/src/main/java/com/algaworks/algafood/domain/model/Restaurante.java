@@ -56,7 +56,7 @@ public class Restaurante {
     *  Para isso funcionar, precisamos criar uma tabela pivô, será intermediária `restaurante_forma_pagamento` vai existir
     *  para ser possível criar essa relação de muitos para muitos.
     * */
-    // @JsonIgnore
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER) // Muitos restaurantes possuem muitas formas de pagamento. | Toda associação que termina com ToMany é LazyLoanding
     @JoinTable( // Ajuda a costumizar como ficará o nome da tabela intermediaria, assim como as colunas
             name = "restaurante_forma_pagamento", // nome da tabela
