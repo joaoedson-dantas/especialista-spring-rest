@@ -267,3 +267,40 @@ spring.flyway.locations=classpath:db/migration,classpath:db/testdata
 | Feito isso, a criação de `application.properties` é de acordo com o profiles, pode ter um de **prd, hom e des**
 Basicamente em produção eu poderia apenas remover a propriedade ou até mesmo não referenciar no locations.
 
+## 7.11. Reparando migrações com erros
+
+Quando uma migração falha, é necessário intervir de alguma forma no Flyway, para dizer que vou rodar novamente. 
+O que podemos fazer seria um DELETE da linha com falha da tabela ``flyway_schema_history``.
+
+**Importante:** Se possuir uma migração com muitas instruções e ocorre uma falha no meio do proceso, esse reparo não é 
+só excluir a versão e rodar novamente. É necessário analisar até onde foi executado, desfazer o que foi feito e só então 
+excluimos a migração com falha e roda novamente a corrida. 
+
+| Por isso, é sempre bom fazer um backup do banco antes de modificar ou fazer algum script.sql antes. 
+
+### Usando o Maven para reparar. 
+
+Via terminal e o maven, podemos pedir para o Flyway realizar o reparo.
+
+````bash
+./mvnw flyway:repair
+````
+
+Vai falhar pq estamos a usar diretamente a ferramenta Flyway, e o ela não tem nada haver com o Spring. Por conta disso
+é necessário se autenticar ao banco de dados.
+
+**Criar arquivo de propriedades do Flyway**
+
+````properties
+flyway.url=jdbc:mysql://localhost:3306/algafood?createDatabaseIfNotExist=true&serverTimezone=UTC
+flyway.user=root
+flyway.password=mysql
+````
+
+Agora podemos chamar novamente, passando as propriedades de configuração.
+
+````bash
+./mvnw flyway:repair -Dflyway.configFiles=src/main/resources/flyway
+````
+
+Ele vai fazer o repair.
