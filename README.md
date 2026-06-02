@@ -32,8 +32,8 @@ Esse modelo representa o problema que será resolvido durante o curso.
 | **04** | REST com Spring                                | ✅ Concluído |
 | **05** | Super Poderes do Spring Data JPA               | ✅ Concluído |
 | **06** | Explorando mais do JPA e Hibernate             | ✅ Concluído |
-| **07** | Pool de conexões e Flyway                      | Em Progresso|
-| **08** | Tratamento e modelagem de erros da API         | ⏳ Pendente |
+| **07** | Pool de conexões e Flyway                      | ✅ Concluído|
+| **08** | Tratamento e modelagem de erros da API         | Em Progresso |
 | **09** | Validações com Bean Validation                 | ⏳ Pendente |
 | **10** | Testes de integração                           | ⏳ Pendente |
 | **11** | Boas práticas e técnicas para APIs             | ⏳ Pendente |
@@ -50,4 +50,5 @@ ___
 * [Módulo 05: Super Poderes do Spring Data JPA ](./anotações/05-super-poderes-spring-data-jpa/anotacoes.md)
 * [Módulo 06: Explorando mais do JPA e Hibernate ](./anotações/06-explorando-mais-do-jpa-e-hibernate/anotacoes.md)
 * [Módulo 07: Pool de conexões e Flyway ](./anotações/07-pool-de-conexoes-e-flyway/anotacoes.md)
+* [Módulo 08: Tratamento e modelagem de erros da API ](./anotações/08-tratamento-e-modelagem-de-erros-da-api/anotacoes.md)
 
