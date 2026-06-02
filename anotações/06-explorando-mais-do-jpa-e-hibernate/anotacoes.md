@@ -136,7 +136,7 @@ a propriedade na representação essa consulta será feita justamente por conta 
 
 Eager-> Em tradução livre seria "Ansioso", ao contexto seria "Um carregamento ansioso ou antecipado".
 
-Nesse, sentido, toda a vez que uma instância de _Restaurante_ é carregada a partir do banco de dados, ele vai carregar 
+Nesse, sentido, toda a vez que uma instância de _Restaurante_art é carregada a pir do banco de dados, ele vai carregar 
 as associações a partir do eager loading.
 
 Para uma lista de Restaurante, para cada item o JPA vai buscar a Cozinha relacionada a esse Restaurante, porque é um carregamento ansioso.

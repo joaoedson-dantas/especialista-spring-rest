@@ -37,7 +37,6 @@ public class Usuario {
     /*
     *  Relação Many to Many de usuário com grupo
     * */
-
     @ManyToMany
     @JoinTable(
             name = "usuario_grupo",
